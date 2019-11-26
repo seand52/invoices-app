@@ -1,0 +1,13 @@
+@import '../../../styles/variables';
+
+.form_wrapper {
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  padding: 50px;
+}
+
+.submit_button {
+  margin-top: 10px;
+}

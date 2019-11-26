@@ -2,22 +2,21 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 
-import styles from './AuthenticationForm.module.scss';
-import { LoginFormErrors } from 'components/Login/Login';
+import styles from './LoginForm.module.scss';
 
-interface FormProps {
+interface Props {
   onSubmit: (data: { userName: string; password: string }) => void;
   register: any;
   handleSubmit: any;
-  errors: LoginFormErrors;
+  errors: any;
 }
 
-export default function AuthenticationForm({
+export default function LoginForm({
   onSubmit,
   handleSubmit,
   errors,
   register,
-}: FormProps) {
+}: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form_wrapper}>
       <h1>Log in to your account</h1>
