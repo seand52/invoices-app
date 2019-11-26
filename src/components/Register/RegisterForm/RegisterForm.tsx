@@ -6,7 +6,7 @@ import styles from './RegisterForm.module.scss';
 
 interface Props {
   onSubmit: (data: {
-    userName: string;
+    username: string;
     password: string;
     confirmPassword: string;
   }) => void;
@@ -25,11 +25,11 @@ export default function RegisterForm({
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form_wrapper}>
       <h1>Register your account</h1>
       <TextField
-        error={errors['userName'] ? true : false}
-        helperText={errors['userName'] ? errors['userName'].message : null}
+        error={errors['username'] ? true : false}
+        helperText={errors['username'] ? errors['username'].message : null}
         inputRef={register}
-        name='userName'
-        label='Username'
+        name='username'
+        label='username'
         margin='normal'
         variant='outlined'
       />

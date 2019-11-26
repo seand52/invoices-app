@@ -1,14 +1,18 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
+import ButtonWithSpinner from 'components/ButtonWithSpinner';
 
 import styles from './LoginForm.module.scss';
+import { UserState } from 'store/reducers/userReducer';
+import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
 
 interface Props {
-  onSubmit: (data: { userName: string; password: string }) => void;
+  onSubmit: (data: { username: string; password: string }) => void;
   register: any;
   handleSubmit: any;
   errors: any;
+  user: UserState;
+  apiError: null | string;
 }
 
 export default function LoginForm({
@@ -16,16 +20,18 @@ export default function LoginForm({
   handleSubmit,
   errors,
   register,
+  user,
+  apiError,
 }: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form_wrapper}>
       <h1>Log in to your account</h1>
       <TextField
-        error={errors['userName'] ? true : false}
-        helperText={errors['userName'] ? errors['userName'].message : null}
+        error={errors['username'] ? true : false}
+        helperText={errors['username'] ? errors['username'].message : null}
         inputRef={register}
-        name='userName'
-        label='Username'
+        name='username'
+        label='username'
         margin='normal'
         variant='outlined'
       />
@@ -39,15 +45,13 @@ export default function LoginForm({
         margin='normal'
         variant='outlined'
       />
-      <Button
+      <ButtonWithSpinner
+        loading={user.loading}
+        success={user.isLoggedIn}
         type='submit'
-        style={{ marginTop: '20px' }}
-        variant='contained'
-        color='primary'
-        className={styles.submit_button}
-      >
-        Log in
-      </Button>
+        text='Log in'
+      />
+      <p>{apiError && <ErrorMessage>{apiError}</ErrorMessage>}</p>
     </form>
   );
 }

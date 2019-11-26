@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const loginValidationFields = {
-  userName: yup.string().required(),
+  username: yup.string().required(),
   password: yup
     .string()
     .required()
