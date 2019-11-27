@@ -7,6 +7,7 @@ import * as clients from 'store/reducers/clientsReducer';
 import sagas from './sagas/index';
 
 const rootReducer = combineReducers({
+  //@ts-ignore
   [users.key]: users.reducer,
   [clients.key]: clients.reducer,
 });

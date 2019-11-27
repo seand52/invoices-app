@@ -16,7 +16,6 @@ export default function ButtonWithSpinner({
   success,
   text,
 }: Props) {
-  console.log(success);
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>

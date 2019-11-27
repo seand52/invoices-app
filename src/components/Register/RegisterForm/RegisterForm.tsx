@@ -1,8 +1,12 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { Button } from '@material-ui/core';
+
+import ButtonWithSpinner from 'components/ButtonWithSpinner/ButtonWithSpinner';
+import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
+import { UserState } from 'store/reducers/userReducer';
 
 import styles from './RegisterForm.module.scss';
+import { Link } from '@reach/router';
 
 interface Props {
   onSubmit: (data: {
@@ -13,6 +17,8 @@ interface Props {
   register: any;
   handleSubmit: any;
   errors: any;
+  user: UserState;
+  apiError: null | string;
 }
 
 export default function RegisterForm({
@@ -20,6 +26,8 @@ export default function RegisterForm({
   handleSubmit,
   errors,
   register,
+  user,
+  apiError,
 }: Props) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form_wrapper}>
@@ -50,20 +58,21 @@ export default function RegisterForm({
           errors['confirmPassword'] ? errors['confirmPassword'].message : null
         }
         name='confirmPassword'
-        label='Password'
+        label='Confirm Password'
         type='password'
         margin='normal'
         variant='outlined'
       />
-      <Button
+      <ButtonWithSpinner
+        loading={user.loading}
+        success={user.isLoggedIn}
         type='submit'
-        style={{ marginTop: '20px' }}
-        variant='contained'
-        color='primary'
-        className={styles.submit_button}
-      >
+        text='Log in'
+      />
+      <Link className={styles.login_link} to='/login'>
         Log in
-      </Button>
+      </Link>
+      {apiError && <ErrorMessage>{apiError}</ErrorMessage>}
     </form>
   );
 }

@@ -4,12 +4,15 @@ const client = axios.create({
   baseURL: 'http://localhost:3000/api',
 });
 
+const _token = window.sessionStorage.getItem('token');
+
 interface Options<T> {
   url: string;
-  method: 'get' | 'POST' | 'patch' | 'delete' | 'put';
+  method: 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'PUT';
   data?: T;
+  headers?: { Authorization: string };
 }
-const request = function(options: Options<any>) {
+const request = function(options: Options<any>, headers: { auth: boolean }) {
   const onSuccess = function(response) {
     console.debug('Request Successful!', response);
     return response.data;
@@ -32,6 +35,14 @@ const request = function(options: Options<any>) {
 
     return Promise.reject(error.response || error.message);
   };
+  options = headers.auth
+    ? {
+        ...options,
+        headers: {
+          Authorization: `Bearer ${_token}`,
+        },
+      }
+    : options;
   return client(options)
     .then(onSuccess)
     .catch(onError);

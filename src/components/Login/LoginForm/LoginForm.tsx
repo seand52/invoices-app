@@ -5,6 +5,7 @@ import ButtonWithSpinner from 'components/ButtonWithSpinner';
 import styles from './LoginForm.module.scss';
 import { UserState } from 'store/reducers/userReducer';
 import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
+import { Link } from '@reach/router';
 
 interface Props {
   onSubmit: (data: { username: string; password: string }) => void;
@@ -51,7 +52,10 @@ export default function LoginForm({
         type='submit'
         text='Log in'
       />
-      <p>{apiError && <ErrorMessage>{apiError}</ErrorMessage>}</p>
+      <Link className={styles.register_link} to='/register'>
+        Sign up
+      </Link>
+      {apiError && <ErrorMessage>{apiError}</ErrorMessage>}
     </form>
   );
 }
