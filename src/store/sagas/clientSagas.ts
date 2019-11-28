@@ -1,5 +1,5 @@
 function* sagas() {
-  return null;
+  return yield null;
 }
 
 export default sagas;

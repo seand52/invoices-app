@@ -3,14 +3,21 @@ import { Router } from '@reach/router';
 import 'App.scss';
 import LoginContainer from 'components/Login/LoginContainer';
 import RegisterContainer from 'components/Register/RegisterContainer';
+import PrivateRoute from 'components/PrivateRoute/PrivateRoute';
+import Clients from 'components/Clients/Clients';
+import PublicRoute from 'components/PublicRoute/PublicRoute';
 
 const App: React.FC = () => {
   return (
     <div className='App'>
       <Router>
-        <LoginContainer path='/' />
+        <PublicRoute component={LoginContainer} path='/' />
+        <PublicRoute component={LoginContainer} path='/login' />
+        <PublicRoute component={RegisterContainer} path='/register' />
+        {/* <LoginContainer path='/' />
         <LoginContainer path='/login' />
-        <RegisterContainer path='/register' />
+        <RegisterContainer path='/register' /> */}
+        <PrivateRoute path='/clients' component={Clients} />
       </Router>
     </div>
   );

@@ -10,6 +10,7 @@ import { login } from 'store/actions/userActions';
 import { connect } from 'react-redux';
 import { getUserState } from 'selectors/userSelectors';
 import { UserState } from 'store/reducers/userReducer';
+import { navigate } from '@reach/router';
 
 interface Props {
   path: string;
@@ -24,6 +25,10 @@ const LoginContainer = ({ path, login, user }: Props) => {
   const onSubmit = (data: ILoginFields) => {
     login(data);
   };
+
+  if (user.token) {
+    navigate('/clients');
+  }
 
   return (
     <div className={styles.form_wrapper}>

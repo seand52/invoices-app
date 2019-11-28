@@ -1,8 +1,6 @@
 import { all, takeLatest, put } from '@redux-saga/core/effects';
 import * as UserActions from 'store/actions/userActions';
 import * as api from 'api/user';
-import { IBusinessInfo } from 'forms/formValidations/business-info';
-import { navigate } from '@reach/router';
 import { BusinessInfoAPI } from 'api/responses/businessInfo.type';
 
 function* tryLogin({ payload }: any) {
