@@ -7,7 +7,9 @@ function* tryLogin({ payload }: any) {
   try {
     const res = yield api.authenticateUser(payload);
     yield put(UserActions.loginOk(res.token));
+    debugger;
     window.sessionStorage.setItem('token', res.token);
+    debugger;
   } catch (err) {
     if (err.data.statusCode === 401) {
       yield put(UserActions.loginFailed('Wrong credentials'));

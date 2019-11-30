@@ -1,0 +1,16 @@
+.list {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  list-style: none;
+  align-items: center;
+}
+
+.search {
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.textField {
+  width: 15rem;
+}

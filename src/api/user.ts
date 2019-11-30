@@ -15,6 +15,7 @@ export const authenticateUser = (
   return request(
     {
       method: 'POST',
+      useBaseUrl: true,
       url: '/users/login',
       data,
     },
@@ -30,6 +31,7 @@ export const registerUser = (
   return request(
     {
       method: 'POST',
+      useBaseUrl: true,
       url: '/users/register',
       data,
     },
@@ -45,6 +47,7 @@ export const saveBusinessInfo = (
   return request(
     {
       method: 'POST',
+      useBaseUrl: true,
       url: '/business-info',
       data,
     },

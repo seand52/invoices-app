@@ -1,13 +1,18 @@
 import axios from 'axios';
 
-const client = axios.create({
+const clientWithBaseUrl = axios.create({
   baseURL: 'http://localhost:3000/api',
+});
+
+const clientWithoutBaseUrl = axios.create({
+  baseURL: '',
 });
 
 const _token = window.sessionStorage.getItem('token');
 
 interface Options<T> {
   url: string;
+  useBaseUrl?: boolean;
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE' | 'PUT';
   data?: T;
   headers?: { Authorization: string };
@@ -43,9 +48,13 @@ const request = function(options: Options<any>, headers: { auth: boolean }) {
         },
       }
     : options;
-  return client(options)
-    .then(onSuccess)
-    .catch(onError);
+  return options.useBaseUrl
+    ? clientWithBaseUrl(options)
+        .then(onSuccess)
+        .catch(onError)
+    : clientWithoutBaseUrl(options)
+        .then(onSuccess)
+        .catch(onError);
 };
 
 export default request;
