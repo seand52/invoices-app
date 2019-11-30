@@ -17,7 +17,6 @@ export default function OverviewHeader({
   return (
     <div className={styles.overview_header}>
       <ul className={styles.list}>
-        <h1>{title}</h1>
         <li className={styles.search}>
           <form onSubmit={onSubmitSearch}>
             <TextField

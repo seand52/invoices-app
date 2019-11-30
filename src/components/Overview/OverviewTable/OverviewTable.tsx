@@ -1,227 +1,293 @@
-import React, { useState, useReducer } from 'react';
-import { ClientsPaginated } from 'api/responses/clients.type';
+import React, { useState } from 'react';
+import clsx from 'clsx';
 import {
-  IconButton,
-  useTheme,
-  Paper,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableFooter,
-  TablePagination,
-  TableHead,
+  createStyles,
+  lighten,
+  makeStyles,
   Theme,
-} from '@material-ui/core';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import { ThemeProvider, withStyles, createStyles } from '@material-ui/styles';
-import styles from './OverviewTable.module.scss';
-import { searchAll, searchAllOk } from 'store/actions/clientActions';
+} from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import DeleteIcon from '@material-ui/icons/Delete';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import { ClientsPaginated } from 'api/responses/clients.type';
+import { HeadCell } from 'components/Clients/Clients';
 import { connect } from 'react-redux';
-import { searchClients } from 'api/clients';
+import { searchAll, searchAllOk } from 'store/actions/clientActions';
 
-interface TablePaginationActionsProps {
-  count: number;
-  page: number;
-  rowsPerPage: number;
-  onChangePage: (
-    event: React.MouseEvent<HTMLButtonElement>,
-    newPage: number,
+interface EnhancedTableProps {
+  numSelected: number;
+  onSelectAllClick: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean,
   ) => void;
+  rowCount: number;
+  headCells: HeadCell[];
 }
 
-function TablePaginationActions(props: TablePaginationActionsProps) {
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
-
-  const handleFirstPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    onChangePage(event, 1);
-  };
-
-  const handleBackButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    onChangePage(event, page - 1);
-    // console.log('handle back page button click');
-  };
-
-  const handleNextButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    console.log('handle next page button click');
-    onChangePage(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    console.log('handle last page button click');
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
+function EnhancedTableHead(props: EnhancedTableProps) {
+  const { onSelectAllClick, numSelected, rowCount } = props;
   return (
-    <div style={{ flexShrink: 0, marginLeft: theme.spacing(2.5) }}>
-      <ThemeProvider theme={theme}>
-        <IconButton
-          onClick={handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label='first page'
-        >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-        </IconButton>
-        <IconButton
-          onClick={handleBackButtonClick}
-          disabled={page === 0}
-          aria-label='previous page'
-        >
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowRight />
-          ) : (
-            <KeyboardArrowLeft />
-          )}
-        </IconButton>
-        <IconButton
-          onClick={handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label='next page'
-        >
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
-          )}
-        </IconButton>
-        <IconButton
-          onClick={handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label='last page'
-        >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-        </IconButton>
-      </ThemeProvider>
-    </div>
+    <TableHead>
+      <TableRow>
+        <TableCell padding='checkbox'>
+          <Checkbox
+            indeterminate={numSelected > 0 && numSelected < rowCount}
+            checked={numSelected === rowCount}
+            onChange={onSelectAllClick}
+            inputProps={{ 'aria-label': 'select all desserts' }}
+          />
+        </TableCell>
+        {props.headCells.map(headCell => (
+          <TableCell
+            key={headCell.id}
+            align='left'
+            padding={headCell.disablePadding ? 'none' : 'default'}
+          >
+            {headCell.label}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
   );
 }
 
+const useToolbarStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(1),
+    },
+    highlight:
+      theme.palette.type === 'light'
+        ? {
+            color: theme.palette.secondary.main,
+            backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+          }
+        : {
+            color: theme.palette.text.primary,
+            backgroundColor: theme.palette.secondary.dark,
+          },
+    title: {
+      flex: '1 1 100%',
+    },
+  }),
+);
+
+interface EnhancedTableToolbarProps {
+  numSelected: number;
+  deleteItem: (ids: string[]) => void;
+}
+
+const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
+  const classes = useToolbarStyles();
+  const { numSelected } = props;
+
+  return (
+    <Toolbar
+      className={clsx(classes.root, {
+        [classes.highlight]: numSelected > 0,
+      })}
+    >
+      {numSelected > 0 ? (
+        <Typography
+          className={classes.title}
+          color='inherit'
+          variant='subtitle1'
+        >
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography className={classes.title} variant='h4' id='tableTitle'>
+          Clients
+        </Typography>
+      )}
+      {numSelected > 0 ? (
+        //@ts-ignore
+        <Tooltip onClick={props.deleteItem} title='Delete'>
+          <IconButton aria-label='delete'>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title='Filter list'>
+          <IconButton aria-label='filter list'>
+            <FilterListIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Toolbar>
+  );
+};
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+      marginTop: theme.spacing(3),
+    },
+    paper: {
+      width: '100%',
+      marginBottom: theme.spacing(2),
+    },
+    table: {
+      minWidth: 750,
+    },
+    tableWrapper: {
+      overflowX: 'auto',
+    },
+    visuallyHidden: {
+      border: 0,
+      clip: 'rect(0 0 0 0)',
+      height: 1,
+      margin: -1,
+      overflow: 'hidden',
+      padding: 0,
+      position: 'absolute',
+      top: 20,
+      width: 1,
+    },
+  }),
+);
+
 interface Props {
+  tableHeader: HeadCell[];
   tableData: ClientsPaginated;
-  clientsTableHeader: string[];
-  searchAllOk: (clients) => void;
+  searchAll: ({ url: string }) => void;
+  onNextPage: (newPage: number) => void;
+  deleteItem: (ids: string[]) => void;
 }
 
-const initialState = { page: 0 };
-
-function reducer(state, action) {
-  switch (action.type) {
-    case 'increment':
-      return { ...state, page: action.payload };
-    default:
-      return {
-        ...state,
-      };
-  }
-}
 const OverviewTable = ({
+  tableHeader,
   tableData,
-  clientsTableHeader,
-  searchAllOk,
+  searchAll,
+  onNextPage,
+  deleteItem,
 }: Props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  // const [page, setPage] = useState(0);
+  const classes = useStyles();
+  const [selected, setSelected] = useState<string[]>([]);
+  const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(3);
 
-  // const emptyRows =
-  //   rowsPerPage -
-  //   Math.min(rowsPerPage, tableData.items.length - state.page * rowsPerPage);
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // if (event.target.checked) {
+    //   const newSelecteds = rows.map(n => n.name);
+    //   setSelected(newSelecteds);
+    //   return;
+    // }
+    // setSelected([]);
+  };
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    if (newPage === tableData.pageCount - 1) {
-      tableData.next = `http://localhost:3000/api/clients?page=${newPage +
-        1}&limit=3`;
+  const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected: string[] = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
     }
-    if (newPage === 1) {
-      tableData.next = `http://localhost:3000/api/clients?page=&limit=3`;
-    }
-    searchClients(
-      newPage > state.page ? tableData.next : tableData.previous,
-    ).then(res => {
-      searchAllOk(res);
-      dispatch({ type: 'increment', payload: newPage });
-    });
-    // searchAll({ url: tableData.next });
-    // dispatch({ type: 'increment', payload: newPage });
-    // setPage()
+
+    setSelected(newSelected);
+  };
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    /* need to send newPage + 1 because the pagination component is 0 indexed 
+    whereas the API starts at page = 1
+    */
+    onNextPage(newPage + 1);
   };
 
   const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    // here i have to send a request to api with asking for x amount of rows
-    // setRowsPerPage(parseInt(event.target.value, 10));
+    setRowsPerPage(parseInt(event.target.value, 10));
     // setPage(0);
   };
-  console.log(state.page);
+
+  const isSelected = (id: string) => selected.indexOf(id) !== -1;
+
   return (
-    <Paper style={{ width: '100%', marginTop: '20px' }}>
-      <div style={{ overflowX: 'auto' }}>
-        <Table style={{ minWidth: 500 }} aria-label='custom pagination table'>
-          <TableHead>
-            <TableRow>
-              {clientsTableHeader.map((item, index) => (
-                <TableCell align='center' key={index}>
-                  {item}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableData.items.map(row => (
-              <TableRow key={row.name}>
-                <TableCell component='th' scope='row'>
-                  {row.name}
-                </TableCell>
-                <TableCell align='right'>{row.email}</TableCell>
-                <TableCell align='right'>{row.telephone1}</TableCell>
-                <TableCell align='right'>{row.telephone2}</TableCell>
-                <TableCell align='right'>{row.address}</TableCell>
-                <TableCell align='right'>{row.city}</TableCell>
-              </TableRow>
-            ))}
-            {/* {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )} */}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                colSpan={3}
-                count={tableData.totalItems}
-                rowsPerPage={rowsPerPage}
-                page={state.page}
-                SelectProps={{
-                  inputProps: { 'aria-label': 'rows per page' },
-                  native: true,
-                }}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </div>
-    </Paper>
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <EnhancedTableToolbar
+          deleteItem={() => deleteItem(selected)}
+          numSelected={selected.length}
+        />
+        <div className={classes.tableWrapper}>
+          <Table
+            className={classes.table}
+            aria-labelledby='tableTitle'
+            size={dense ? 'small' : 'medium'}
+            aria-label='enhanced table'
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              onSelectAllClick={handleSelectAllClick}
+              rowCount={tableData.totalItems}
+              headCells={tableHeader}
+            />
+            <TableBody>
+              {tableData.items.map((row, index) => {
+                const isItemSelected = isSelected(row.id.toString());
+                const labelId = `enhanced-table-checkbox-${index}`;
+
+                return (
+                  <TableRow
+                    hover
+                    onClick={event => handleClick(event, row.id.toString())}
+                    role='checkbox'
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                  >
+                    <TableCell padding='checkbox'>
+                      <Checkbox
+                        checked={isItemSelected}
+                        inputProps={{ 'aria-labelledby': labelId }}
+                      />
+                    </TableCell>
+                    {tableHeader.map(item => (
+                      <TableCell padding='none' align='left'>
+                        {row[item.id]}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </div>
+        <TablePagination
+          rowsPerPageOptions={[3, 6, 10]}
+          component='div'
+          count={tableData.totalItems}
+          rowsPerPage={rowsPerPage}
+          page={tableData.currentPage - 1}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </div>
   );
 };
 

@@ -1,16 +1,24 @@
+@import '../../../styles/variables';
+
 .list {
   display: flex;
   flex-direction: row;
   padding: 10px;
   list-style: none;
   align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid $border;
 }
 
 .search {
-  margin-left: auto;
   margin-right: 20px;
+  margin-left: 20px;
 }
 
 .textField {
   width: 15rem;
+}
+
+.add_new {
+  margin-right: 20px;
 }

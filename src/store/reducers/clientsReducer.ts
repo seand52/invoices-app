@@ -14,7 +14,10 @@ export type ClientState = typeof initialState;
 type Actions =
   | ClientActions.SearchAll
   | ClientActions.SearchAllOk
-  | ClientActions.SearchAllFailed;
+  | ClientActions.SearchAllFailed
+  | ClientActions.DeleteClient
+  | ClientActions.DeleteClientOk
+  | ClientActions.DeleteClientFailed;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -33,6 +36,21 @@ export const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         error: action.payload,
+        loading: false,
+      };
+    case ClientActions.DELETE:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ClientActions.DELETE_OK:
+      return {
+        ...state,
+        loading: false,
+      };
+    case ClientActions.DELETE_FAILED:
+      return {
+        ...state,
         loading: false,
       };
     default:

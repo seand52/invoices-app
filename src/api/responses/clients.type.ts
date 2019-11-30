@@ -1,4 +1,5 @@
 export interface Client {
+  id: number;
   name: string;
   shopName: string;
   address: string;
@@ -22,4 +23,5 @@ export interface ClientsPaginated {
   pageCount: number;
   next: string;
   previous: string;
+  currentPage: number;
 }

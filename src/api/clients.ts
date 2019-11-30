@@ -13,3 +13,16 @@ export const searchClients = (url): Promise<ClientsPaginated> => {
     return res;
   });
 };
+
+export const deleteClient = (id): Promise<ClientsPaginated> => {
+  return request(
+    {
+      method: 'DELETE',
+      useBaseUrl: true,
+      url: `/clients/${id}`,
+    },
+    { auth: true },
+  ).then(res => {
+    return res;
+  });
+};
