@@ -1,16 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer, useCallback } from 'react';
 import { connect } from 'react-redux';
 import Layout from 'components/Layout/Layout';
-import { searchAll, deleteClient } from 'store/actions/clientActions';
+import {
+  searchAll,
+  deleteClient,
+  resetSuccess,
+} from 'store/actions/clientActions';
 import { InitialState } from 'store';
 import { getClientsState } from 'selectors/clients';
 import { ClientState } from 'store/reducers/clientsReducer';
 import Overview from 'components/Overview/Overview';
+import SimpleModal from 'components/SimpleModal/SimpleModal';
+import ClientDetailsForm from './ClientDetailsForm/ClientDetailsForm';
+import Swal from 'sweetalert2';
+import { alertProp } from 'utils/swal';
+import { initialState, reducer } from './localReducer';
 
 interface Props {
   path: string;
   searchAll: ({ url: string }) => void;
   deleteClient: (id: string) => void;
+  resetSuccess: () => void;
   clientState: ClientState;
 }
 
@@ -21,6 +31,7 @@ interface Data {
   telephone2: string;
   address: string;
   city: string;
+  actions: 'actions';
 }
 
 export interface HeadCell {
@@ -52,15 +63,18 @@ const headCells: HeadCell[] = [
   },
   { id: 'address', numeric: false, disablePadding: true, label: 'Address' },
   { id: 'city', numeric: false, disablePadding: true, label: 'City' },
+  { id: 'actions', numeric: false, disablePadding: true, label: '' },
 ];
 
 const Clients = ({
   path,
   searchAll,
   clientState,
+  resetSuccess,
   deleteClient: deleteClientAction,
 }: Props) => {
   const [search, setSearch] = useState('');
+  const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     searchAll({ url: 'http://localhost:3000/api/clients?page=1&limit=3' });
   }, []);
@@ -75,10 +89,16 @@ const Clients = ({
 
   const onAddNewClient = e => {
     e.preventDefault();
+    localDispatch({ type: 'ADD_CLIENT' });
   };
 
   const deleteClient = (ids: string[]) => {
     deleteClientAction(ids[0]);
+    localDispatch({ type: 'DELETE_CLIENT' });
+  };
+
+  const editClient = (id: string) => {
+    localDispatch({ type: 'EDIT_CLIENT', payload: id });
   };
 
   const onNextPage = newPage => {
@@ -86,6 +106,21 @@ const Clients = ({
       url: `http://localhost:3000/api/clients?page=${newPage}&limit=3`,
     });
   };
+
+  useEffect(() => {
+    if (clientState.success) {
+      localDispatch({ type: 'CLOSE_MODAL' });
+      Swal.fire(
+        alertProp({
+          type: 'success',
+          title: 'Success!',
+          text: `Client ${localState.action} correctly`,
+        }),
+      );
+      resetSuccess();
+    }
+  }, [clientState.success]);
+
   return (
     <div>
       <Layout
@@ -94,6 +129,7 @@ const Clients = ({
             <p>Loading... </p>
           ) : (
             <Overview
+              editItem={editClient}
               deleteItem={deleteClient}
               tableHeader={headCells}
               tableData={clientState.clients}
@@ -105,6 +141,12 @@ const Clients = ({
           )
         }
       />
+      <SimpleModal
+        open={localState.showModal}
+        closeModal={() => localDispatch({ type: 'TOGGLE_MODAL' })}
+      >
+        <ClientDetailsForm selectedClient={localState.selectedClientId} />
+      </SimpleModal>
     </div>
   );
 };
@@ -119,6 +161,7 @@ const mapDispatchToProps = dispatch => {
   return {
     searchAll: ({ url }) => dispatch(searchAll({ url })),
     deleteClient: id => dispatch(deleteClient(id)),
+    resetSuccess: () => dispatch(resetSuccess()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Clients);

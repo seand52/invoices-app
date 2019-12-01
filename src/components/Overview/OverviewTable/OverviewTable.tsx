@@ -24,19 +24,20 @@ import { ClientsPaginated } from 'api/responses/clients.type';
 import { HeadCell } from 'components/Clients/Clients';
 import { connect } from 'react-redux';
 import { searchAll, searchAllOk } from 'store/actions/clientActions';
+import { FormControl, Select, MenuItem } from '@material-ui/core';
 
 interface EnhancedTableProps {
   numSelected: number;
-  onSelectAllClick: (
-    event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-  ) => void;
+  // onSelectAllClick: (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  //   checked: boolean,
+  // ) => void;
   rowCount: number;
   headCells: HeadCell[];
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const { onSelectAllClick, numSelected, rowCount } = props;
+  const { numSelected, rowCount } = props;
   return (
     <TableHead>
       <TableRow>
@@ -44,7 +45,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
+            // onChange={onSelectAllClick}
             inputProps={{ 'aria-label': 'select all desserts' }}
           />
         </TableCell>
@@ -166,6 +167,7 @@ interface Props {
   searchAll: ({ url: string }) => void;
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
+  editItem: (id: string) => void;
 }
 
 const OverviewTable = ({
@@ -174,20 +176,16 @@ const OverviewTable = ({
   searchAll,
   onNextPage,
   deleteItem,
+  editItem,
 }: Props) => {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(3);
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // if (event.target.checked) {
-    //   const newSelecteds = rows.map(n => n.name);
-    //   setSelected(newSelecteds);
-    //   return;
-    // }
-    // setSelected([]);
-  };
+  // const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //WIP: Need to add functionality for bulk delete first
+  // };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
     const selectedIndex = selected.indexOf(id);
@@ -223,6 +221,17 @@ const OverviewTable = ({
     // setPage(0);
   };
 
+  const handleAction = (e, id) => {
+    const action = e.target.value;
+    switch (action) {
+      case 'delete':
+        deleteItem([id]);
+        break;
+      case 'edit':
+        editItem(id);
+    }
+  };
+
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
 
   return (
@@ -241,7 +250,7 @@ const OverviewTable = ({
           >
             <EnhancedTableHead
               numSelected={selected.length}
-              onSelectAllClick={handleSelectAllClick}
+              // onSelectAllClick={handleSelectAllClick}
               rowCount={tableData.totalItems}
               headCells={tableHeader}
             />
@@ -253,7 +262,6 @@ const OverviewTable = ({
                 return (
                   <TableRow
                     hover
-                    onClick={event => handleClick(event, row.id.toString())}
                     role='checkbox'
                     aria-checked={isItemSelected}
                     tabIndex={-1}
@@ -262,15 +270,46 @@ const OverviewTable = ({
                   >
                     <TableCell padding='checkbox'>
                       <Checkbox
+                        onClick={event => handleClick(event, row.id.toString())}
                         checked={isItemSelected}
                         inputProps={{ 'aria-labelledby': labelId }}
                       />
                     </TableCell>
-                    {tableHeader.map(item => (
-                      <TableCell padding='none' align='left'>
-                        {row[item.id]}
-                      </TableCell>
-                    ))}
+                    {tableHeader.map((item, index) => {
+                      if (item.id === 'actions') {
+                        return (
+                          <TableCell key={item.id} padding='none' align='left'>
+                            <FormControl
+                              variant='filled'
+                              style={{
+                                minWidth: '80px',
+                                margin: '10px',
+                              }}
+                            >
+                              <Select
+                                labelId='demo-simple-select-outlined-label'
+                                id='demo-simple-select-outlined'
+                                value=''
+                                onChange={e =>
+                                  handleAction(e, row.id.toString())
+                                }
+                                labelWidth={50}
+                              >
+                                <MenuItem value=''></MenuItem>
+                                <MenuItem value='edit'>Edit</MenuItem>
+                                <MenuItem value='delete'>Delete</MenuItem>
+                                <MenuItem value='view'>View</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </TableCell>
+                        );
+                      }
+                      return (
+                        <TableCell key={item.id} padding='none' align='left'>
+                          {row[item.id]}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 );
               })}

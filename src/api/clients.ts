@@ -1,5 +1,6 @@
 import request from './axiosWrapper';
 import { ClientsPaginated } from './responses/clients.type';
+import { ICreateClient } from 'forms/formValidations/add-client';
 
 export const searchClients = (url): Promise<ClientsPaginated> => {
   return request(
@@ -25,4 +26,28 @@ export const deleteClient = (id): Promise<ClientsPaginated> => {
   ).then(res => {
     return res;
   });
+};
+
+export const createClient = (data: ICreateClient): Promise<any> => {
+  return request(
+    {
+      method: 'POST',
+      useBaseUrl: true,
+      data,
+      url: '/clients',
+    },
+    { auth: true },
+  );
+};
+
+export const updateClient = (data: ICreateClient, id: string): Promise<any> => {
+  return request(
+    {
+      method: 'PATCH',
+      useBaseUrl: true,
+      data,
+      url: `/clients/${id}`,
+    },
+    { auth: true },
+  );
 };

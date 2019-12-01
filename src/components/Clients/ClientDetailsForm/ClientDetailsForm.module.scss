@@ -1,0 +1,10 @@
+.form_wrapper {
+  & .form_items {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 25px;
+  }
+  & button {
+    width: 50%;
+  }
+}

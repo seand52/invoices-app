@@ -5,6 +5,7 @@ export const initialState = {
   clients: {} as ClientsPaginated,
   loading: false as boolean,
   error: null as string | null,
+  success: false as boolean,
 };
 
 export const key = 'clients';
@@ -17,7 +18,14 @@ type Actions =
   | ClientActions.SearchAllFailed
   | ClientActions.DeleteClient
   | ClientActions.DeleteClientOk
-  | ClientActions.DeleteClientFailed;
+  | ClientActions.DeleteClientFailed
+  | ClientActions.NewClient
+  | ClientActions.NewClientOk
+  | ClientActions.NewClientFailed
+  | ClientActions.ResetSuccess
+  | ClientActions.UpdateClient
+  | ClientActions.UpdateClientOk
+  | ClientActions.UpdateClientFailed;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -47,12 +55,56 @@ export const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         loading: false,
+        success: true,
       };
     case ClientActions.DELETE_FAILED:
       return {
         ...state,
         loading: false,
+        success: false,
       };
+    case ClientActions.NEW_CLIENT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ClientActions.NEW_CLIENT_OK:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+      };
+    case ClientActions.NEW_CLIENT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.payload,
+      };
+    case ClientActions.UPDATE_CLIENT:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ClientActions.UPDATE_CLIENT_OK:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+      };
+    case ClientActions.UPDATE_CLIENT_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.payload,
+      };
+    case ClientActions.RESET_SUCCESS:
+      return {
+        ...state,
+        success: false,
+      };
+
     default:
       return state;
   }

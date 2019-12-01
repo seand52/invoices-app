@@ -12,6 +12,7 @@ interface Props {
   tableHeader: HeadCell[];
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
+  editItem: (id: string) => void;
 }
 export default function Overview({
   onSearchChange,
@@ -21,6 +22,7 @@ export default function Overview({
   tableHeader,
   onNextPage,
   deleteItem,
+  editItem,
 }: Props) {
   return (
     <div>
@@ -38,6 +40,7 @@ export default function Overview({
           onNextPage={onNextPage}
           tableHeader={tableHeader}
           tableData={tableData}
+          editItem={editItem}
         />
       ) : null}
     </div>
