@@ -55,12 +55,7 @@ const headCells: HeadCell[] = [
     disablePadding: true,
     label: 'Telephone',
   },
-  {
-    id: 'telephone2',
-    numeric: false,
-    disablePadding: true,
-    label: 'Telephone 2',
-  },
+
   { id: 'address', numeric: false, disablePadding: true, label: 'Address' },
   { id: 'city', numeric: false, disablePadding: true, label: 'City' },
   { id: 'actions', numeric: false, disablePadding: true, label: '' },
@@ -76,8 +71,22 @@ const Clients = ({
   const [search, setSearch] = useState('');
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    searchAll({ url: 'http://localhost:3000/api/clients?page=1&limit=3' });
+    searchAll({ url: 'http://localhost:3000/api/clients?page=1&limit=10' });
   }, []);
+
+  useEffect(() => {
+    if (clientState.success) {
+      localDispatch({ type: 'CLOSE_MODAL' });
+      Swal.fire(
+        alertProp({
+          type: 'success',
+          title: 'Success!',
+          text: `Client ${localState.action} correctly`,
+        }),
+      );
+      resetSuccess();
+    }
+  }, [clientState.success]);
 
   const onSearchChange = e => {
     setSearch(e.target.value);
@@ -103,24 +112,15 @@ const Clients = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/clients?page=${newPage}&limit=3`,
+      url: `http://localhost:3000/api/clients?page=${newPage}&limit=${clientState.clients.itemCount}`,
     });
   };
 
-  useEffect(() => {
-    if (clientState.success) {
-      localDispatch({ type: 'CLOSE_MODAL' });
-      Swal.fire(
-        alertProp({
-          type: 'success',
-          title: 'Success!',
-          text: `Client ${localState.action} correctly`,
-        }),
-      );
-      resetSuccess();
-    }
-  }, [clientState.success]);
-
+  const onChangeRowsPerPage = rowsPerPage => {
+    searchAll({
+      url: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${rowsPerPage}`,
+    });
+  };
   return (
     <div>
       <Layout
@@ -137,6 +137,7 @@ const Clients = ({
               onSearchChange={onSearchChange}
               onSubmitSearch={submitSearch}
               onNextPage={onNextPage}
+              onChangeRowsPerPage={onChangeRowsPerPage}
             />
           )
         }

@@ -168,6 +168,7 @@ interface Props {
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
   editItem: (id: string) => void;
+  onChangeRowsPerPage: (rowsPerPage: string) => void;
 }
 
 const OverviewTable = ({
@@ -177,11 +178,12 @@ const OverviewTable = ({
   onNextPage,
   deleteItem,
   editItem,
+  onChangeRowsPerPage,
 }: Props) => {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
   const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
   //WIP: Need to add functionality for bulk delete first
@@ -217,8 +219,9 @@ const OverviewTable = ({
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    // setPage(0);
+    const numberOfRows = event.target.value;
+    setRowsPerPage(parseInt(numberOfRows, 10));
+    onChangeRowsPerPage(numberOfRows);
   };
 
   const handleAction = (e, id) => {
@@ -317,7 +320,7 @@ const OverviewTable = ({
           </Table>
         </div>
         <TablePagination
-          rowsPerPageOptions={[3, 6, 10]}
+          rowsPerPageOptions={[10, 20, 30]}
           component='div'
           count={tableData.totalItems}
           rowsPerPage={rowsPerPage}

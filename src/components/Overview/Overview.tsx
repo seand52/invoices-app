@@ -13,6 +13,7 @@ interface Props {
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
   editItem: (id: string) => void;
+  onChangeRowsPerPage: (rowsPerPage: string) => void;
 }
 export default function Overview({
   onSearchChange,
@@ -23,6 +24,7 @@ export default function Overview({
   onNextPage,
   deleteItem,
   editItem,
+  onChangeRowsPerPage,
 }: Props) {
   return (
     <div>
@@ -36,6 +38,7 @@ export default function Overview({
       ) : null}
       {tableData && tableData.items && tableData.items.length ? (
         <OverviewTable
+          onChangeRowsPerPage={onChangeRowsPerPage}
           deleteItem={deleteItem}
           onNextPage={onNextPage}
           tableHeader={tableHeader}
