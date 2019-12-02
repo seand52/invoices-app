@@ -25,6 +25,8 @@ import { HeadCell } from 'components/Clients/Clients';
 import { connect } from 'react-redux';
 import { searchAll, searchAllOk } from 'store/actions/clientActions';
 import { FormControl, Select, MenuItem } from '@material-ui/core';
+import { ProductsHeadCell } from 'components/Products/Products';
+import { ProductsPaginated } from 'api/responses/products.type';
 
 interface EnhancedTableProps {
   numSelected: number;
@@ -33,7 +35,7 @@ interface EnhancedTableProps {
   //   checked: boolean,
   // ) => void;
   rowCount: number;
-  headCells: HeadCell[];
+  headCells: HeadCell[] | ProductsHeadCell[];
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
@@ -49,6 +51,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             inputProps={{ 'aria-label': 'select all desserts' }}
           />
         </TableCell>
+        {/* 
+        //@ts-ignore */}
         {props.headCells.map(headCell => (
           <TableCell
             key={headCell.id}
@@ -114,7 +118,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       )}
       {numSelected > 0 ? (
-        //@ts-ignore
+        // @ts-ignore
         <Tooltip onClick={props.deleteItem} title='Delete'>
           <IconButton aria-label='delete'>
             <DeleteIcon />
@@ -162,8 +166,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  tableHeader: HeadCell[];
-  tableData: ClientsPaginated;
+  tableHeader: HeadCell[] | ProductsHeadCell[];
+  tableData: ClientsPaginated | ProductsPaginated;
   searchAll: ({ url: string }) => void;
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
@@ -258,6 +262,8 @@ const OverviewTable = ({
               headCells={tableHeader}
             />
             <TableBody>
+              {/* 
+        //@ts-ignore */}
               {tableData.items.map((row, index) => {
                 const isItemSelected = isSelected(row.id.toString());
                 const labelId = `enhanced-table-checkbox-${index}`;
@@ -278,6 +284,8 @@ const OverviewTable = ({
                         inputProps={{ 'aria-labelledby': labelId }}
                       />
                     </TableCell>
+                    {/* 
+        //@ts-ignore */}
                     {tableHeader.map((item, index) => {
                       if (item.id === 'actions') {
                         return (

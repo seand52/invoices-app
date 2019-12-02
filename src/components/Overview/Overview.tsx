@@ -3,13 +3,15 @@ import OverviewHeader from './OverviewHeader/OverviewHeader';
 import OverviewTable from './OverviewTable/OverviewTable';
 import { ClientsPaginated } from 'api/responses/clients.type';
 import { HeadCell } from 'components/Clients/Clients';
+import { ProductsHeadCell } from 'components/Products/Products';
+import { ProductsPaginated } from 'api/responses/products.type';
 
 interface Props {
   onSearchChange: (e) => void;
   onSubmitSearch: (e) => void;
   onAddNew: (e) => void;
-  tableData: ClientsPaginated;
-  tableHeader: HeadCell[];
+  tableData: ClientsPaginated | ProductsPaginated;
+  tableHeader: HeadCell[] | ProductsHeadCell[];
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
   editItem: (id: string) => void;

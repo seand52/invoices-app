@@ -12,7 +12,7 @@ export default function Navigation({ main }: Props) {
       <div className={styles.navbar}>Icon, Logout, Edit business profile</div>
       <div className={styles.sidebar_left}>
         <List style={{ paddingTop: 0 }} component='nav'>
-          <ListItem onClick={() => navigate('/clients')} selected button>
+          <ListItem onClick={() => navigate('/clients')} button>
             <ListItemText primary='Clients' />
           </ListItem>
           <ListItem onClick={() => navigate('/products')} button>

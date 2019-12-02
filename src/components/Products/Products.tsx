@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useReducer, useCallback } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { connect } from 'react-redux';
 import Layout from 'components/Layout/Layout';
 import {
   searchAll,
-  deleteClient,
+  deleteProduct,
   resetSuccess,
-} from 'store/actions/clientActions';
+} from 'store/actions/productsActions';
 import { InitialState } from 'store';
-import { getClientsState } from 'selectors/clients';
-import { ClientState } from 'store/reducers/clientsReducer';
+import { getProductState } from 'selectors/products';
+import { ProductState } from 'store/reducers/productsReducer';
 import Overview from 'components/Overview/Overview';
 import SimpleModal from 'components/SimpleModal/SimpleModal';
-import ClientDetailsForm from './ClientDetailsForm/ClientDetailsForm';
+import ProductDetailsForm from './ProductsDetailsForm/ProductDetailsForm';
 import Swal from 'sweetalert2';
 import { alertProp } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
@@ -19,74 +19,82 @@ import { initialState, reducer } from './localReducer';
 interface Props {
   path: string;
   searchAll: ({ url: string }) => void;
-  deleteClient: (id: string) => void;
+  deleteProduct: (id: string) => void;
   resetSuccess: () => void;
-  clientState: ClientState;
+  productState: ProductState;
 }
 
 interface Data {
-  name: string;
-  email: string;
-  telephone1: string;
-  telephone2: string;
-  address: string;
-  city: string;
+  id: string;
+  description: string;
+  price: string;
+  stock: string;
   actions: 'actions';
 }
 
-export interface HeadCell {
+export interface ProductsHeadCell {
   disablePadding: boolean;
   id: keyof Data;
   label: string;
   numeric: boolean;
 }
 
-const headCells: HeadCell[] = [
+const headCells: ProductsHeadCell[] = [
   {
-    id: 'name',
-    numeric: false,
+    id: 'id',
+    numeric: true,
     disablePadding: true,
-    label: 'Name',
+    label: 'ID',
   },
-  { id: 'email', numeric: false, disablePadding: true, label: 'Email' },
   {
-    id: 'telephone1',
+    id: 'description',
+    numeric: true,
+    disablePadding: true,
+    label: 'Description',
+  },
+  {
+    id: 'price',
     numeric: false,
     disablePadding: true,
-    label: 'Telephone',
+    label: 'Price',
   },
 
-  { id: 'address', numeric: false, disablePadding: true, label: 'Address' },
-  { id: 'city', numeric: false, disablePadding: true, label: 'City' },
+  {
+    id: 'stock',
+    numeric: false,
+    disablePadding: true,
+    label: 'Stock',
+  },
+
   { id: 'actions', numeric: false, disablePadding: true, label: '' },
 ];
 
 const Clients = ({
   path,
   searchAll,
-  clientState,
+  productState,
   resetSuccess,
-  deleteClient: deleteClientAction,
+  deleteProduct: deleteProductAction,
 }: Props) => {
   const [search, setSearch] = useState('');
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    searchAll({ url: 'http://localhost:3000/api/clients?page=1&limit=10' });
+    searchAll({ url: 'http://localhost:3000/api/products?page=1&limit=10' });
   }, []);
 
   useEffect(() => {
-    if (clientState.success) {
+    if (productState.success) {
       localDispatch({ type: 'CLOSE_MODAL' });
       Swal.fire(
         alertProp({
           type: 'success',
           title: 'Success!',
-          text: `Client ${localState.action} correctly`,
+          text: `Product ${localState.action} correctly`,
         }),
       );
       resetSuccess();
     }
-  }, [clientState.success]);
+  }, [productState.success]);
 
   const onSearchChange = e => {
     setSearch(e.target.value);
@@ -96,44 +104,45 @@ const Clients = ({
     e.preventDefault();
   };
 
-  const onAddNewClient = e => {
+  const addNewProduct = e => {
     e.preventDefault();
-    localDispatch({ type: 'ADD_CLIENT' });
+    localDispatch({ type: 'ADD_PRODUCT' });
   };
 
-  const deleteClient = (ids: string[]) => {
-    deleteClientAction(ids[0]);
-    localDispatch({ type: 'DELETE_CLIENT' });
+  const deleteProduct = (ids: string[]) => {
+    deleteProductAction(ids[0]);
+    localDispatch({ type: 'DELETE_PRODUCT' });
   };
 
-  const editClient = (id: string) => {
-    localDispatch({ type: 'EDIT_CLIENT', payload: id });
+  const editProduct = (id: string) => {
+    localDispatch({ type: 'EDIT_PRODUCT', payload: id });
   };
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/clients?page=${newPage}&limit=${clientState.clients.itemCount}`,
+      url: `http://localhost:3000/api/products?page=${newPage}&limit=${productState.products.itemCount}`,
     });
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
     searchAll({
-      url: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${rowsPerPage}`,
+      url: `http://localhost:3000/api/products?page=${productState.products.currentPage}&limit=${rowsPerPage}`,
     });
   };
+
   return (
     <div>
       <Layout
         main={
-          clientState.loading ? (
+          productState.loading ? (
             <p>Loading... </p>
           ) : (
             <Overview
-              editItem={editClient}
-              deleteItem={deleteClient}
+              editItem={editProduct}
+              deleteItem={deleteProduct}
               tableHeader={headCells}
-              tableData={clientState.clients}
-              onAddNew={onAddNewClient}
+              tableData={productState.products}
+              onAddNew={addNewProduct}
               onSearchChange={onSearchChange}
               onSubmitSearch={submitSearch}
               onNextPage={onNextPage}
@@ -146,7 +155,7 @@ const Clients = ({
         open={localState.showModal}
         closeModal={() => localDispatch({ type: 'TOGGLE_MODAL' })}
       >
-        <ClientDetailsForm selectedClient={localState.selectedClientId} />
+        <ProductDetailsForm selectedProduct={localState.selectedProductId} />
       </SimpleModal>
     </div>
   );
@@ -154,14 +163,14 @@ const Clients = ({
 
 const mapStateToProps = (state: InitialState) => {
   return {
-    clientState: getClientsState(state),
+    productState: getProductState(state),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     searchAll: ({ url }) => dispatch(searchAll({ url })),
-    deleteClient: id => dispatch(deleteClient(id)),
+    deleteProduct: id => dispatch(deleteProduct(id)),
     resetSuccess: () => dispatch(resetSuccess()),
   };
 };
