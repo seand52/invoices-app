@@ -7,6 +7,7 @@ import PrivateRoute from 'components/PrivateRoute/PrivateRoute';
 import Clients from 'components/Clients/Clients';
 import PublicRoute from 'components/PublicRoute/PublicRoute';
 import Products from 'components/Products/Products';
+import Invoices from 'components/Invoices/Invoices';
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         <RegisterContainer path='/register' /> */}
         <PrivateRoute path='/clients' component={Clients} />
         <PrivateRoute path='/products' component={Products} />
+        <PrivateRoute path='/invoices' component={Invoices} />
       </Router>
     </div>
   );

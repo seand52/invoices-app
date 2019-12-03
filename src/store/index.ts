@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import * as users from 'store/reducers/userReducer';
 import * as clients from 'store/reducers/clientsReducer';
 import * as products from 'store/reducers/productsReducer';
+import * as invoices from 'store/reducers/invoicesReducer';
 import sagas from './sagas/index';
 
 //@ts-ignore
@@ -13,12 +14,14 @@ const rootReducer = combineReducers({
   [users.key]: users.reducer,
   [clients.key]: clients.reducer,
   [products.key]: products.reducer,
+  [invoices.key]: invoices.reducer,
 });
 
 const initialState = {
   [users.key]: users.initialState,
   [clients.key]: clients.initialState,
   [products.key]: products.initialState,
+  [invoices.key]: invoices.initialState,
 };
 
 export type InitialState = typeof initialState;

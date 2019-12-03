@@ -27,6 +27,8 @@ import { searchAll, searchAllOk } from 'store/actions/clientActions';
 import { FormControl, Select, MenuItem } from '@material-ui/core';
 import { ProductsHeadCell } from 'components/Products/Products';
 import { ProductsPaginated } from 'api/responses/products.type';
+import { InvoicesHeadCell } from 'components/Invoices/Invoices';
+import { InvoicesPaginated } from 'api/responses/invoices.type';
 
 interface EnhancedTableProps {
   numSelected: number;
@@ -35,7 +37,7 @@ interface EnhancedTableProps {
   //   checked: boolean,
   // ) => void;
   rowCount: number;
-  headCells: HeadCell[] | ProductsHeadCell[];
+  headCells: HeadCell[] | ProductsHeadCell[] | InvoicesHeadCell[];
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
@@ -166,8 +168,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  tableHeader: HeadCell[] | ProductsHeadCell[];
-  tableData: ClientsPaginated | ProductsPaginated;
+  tableHeader: HeadCell[] | ProductsHeadCell[] | InvoicesHeadCell[];
+  tableData: ClientsPaginated | ProductsPaginated | InvoicesPaginated;
   searchAll: ({ url: string }) => void;
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
@@ -240,7 +242,7 @@ const OverviewTable = ({
   };
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
-
+  console.log('tableData is ', tableData);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -314,6 +316,13 @@ const OverviewTable = ({
                             </FormControl>
                           </TableCell>
                         );
+                      }
+                      if (item.nested && item.nested.length) {
+                        return item.nested.map((i, __index) => (
+                          <TableCell key={__index} padding='none' align='left'>
+                            {row[i.key][i.property]}
+                          </TableCell>
+                        ));
                       }
                       return (
                         <TableCell key={item.id} padding='none' align='left'>

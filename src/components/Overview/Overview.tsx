@@ -5,13 +5,15 @@ import { ClientsPaginated } from 'api/responses/clients.type';
 import { HeadCell } from 'components/Clients/Clients';
 import { ProductsHeadCell } from 'components/Products/Products';
 import { ProductsPaginated } from 'api/responses/products.type';
+import { InvoicesPaginated } from 'api/responses/invoices.type';
+import { InvoicesHeadCell } from 'components/Invoices/Invoices';
 
 interface Props {
   onSearchChange: (e) => void;
   onSubmitSearch: (e) => void;
   onAddNew: (e) => void;
-  tableData: ClientsPaginated | ProductsPaginated;
-  tableHeader: HeadCell[] | ProductsHeadCell[];
+  tableData: ClientsPaginated | ProductsPaginated | InvoicesPaginated;
+  tableHeader: HeadCell[] | ProductsHeadCell[] | InvoicesHeadCell[];
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
   editItem: (id: string) => void;
