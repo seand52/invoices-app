@@ -149,12 +149,6 @@ const Invoices = ({
           )
         }
       />
-      <SimpleModal
-        open={localState.showModal}
-        closeModal={() => localDispatch({ type: 'TOGGLE_MODAL' })}
-      >
-        <InvoiceDetailsForm selectedInvoice={localState.selectedInvoiceId} />
-      </SimpleModal>
     </div>
   );
 };

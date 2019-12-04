@@ -1,0 +1,28 @@
+.top_area {
+  min-height: 50px;
+  background: red;
+  display: flex;
+  justify-content: flex-end;
+  & button {
+    margin-right: 50px;
+    width: 150px;
+  }
+}
+
+.main_form_container {
+  & .form_settings {
+    min-height: 100px;
+    margin: 20px 0;
+    background-color: aliceblue;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 20px;
+    padding: 20px;
+  }
+
+  & .form_products {
+    height: 800px;
+    background-color: beige;
+  }
+}

@@ -1,5 +1,5 @@
 import request from './axiosWrapper';
-import { ClientsPaginated } from './responses/clients.type';
+import { ClientsPaginated, Client } from './responses/clients.type';
 import { ICreateClient } from 'forms/formValidations/add-client';
 
 export const searchClients = (url): Promise<ClientsPaginated> => {
@@ -47,6 +47,17 @@ export const updateClient = (data: ICreateClient, id: string): Promise<any> => {
       useBaseUrl: true,
       data,
       url: `/clients/${id}`,
+    },
+    { auth: true },
+  );
+};
+
+export const searchClientsByName = (name: string): Promise<Client[]> => {
+  return request(
+    {
+      method: 'GET',
+      useBaseUrl: true,
+      url: `/clients/search?name=${name}`,
     },
     { auth: true },
   );

@@ -8,6 +8,15 @@ export const initialState = {
   success: false as boolean,
 };
 
+export enum InvoiceSettingKeys {
+  CLIENTID = 'clientId',
+  DATE = 'date',
+  RE = 're',
+  TRANSPORTPRICE = 'transportPrice',
+  PAYMENTYPE = 'paymentType',
+  TAX = 'tax',
+}
+
 export const key = 'invoices';
 
 export type InvoiceState = typeof initialState;

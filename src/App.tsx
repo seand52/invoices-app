@@ -8,6 +8,7 @@ import Clients from 'components/Clients/Clients';
 import PublicRoute from 'components/PublicRoute/PublicRoute';
 import Products from 'components/Products/Products';
 import Invoices from 'components/Invoices/Invoices';
+import InvoiceDetailsFormContainer from 'components/Invoices/InvoiceDetailsForm/InvoiceDetailsFormContainer';
 
 const App: React.FC = () => {
   return (
@@ -16,12 +17,14 @@ const App: React.FC = () => {
         <PublicRoute component={LoginContainer} path='/' />
         <PublicRoute component={LoginContainer} path='/login' />
         <PublicRoute component={RegisterContainer} path='/register' />
-        {/* <LoginContainer path='/' />
-        <LoginContainer path='/login' />
-        <RegisterContainer path='/register' /> */}
+
         <PrivateRoute path='/clients' component={Clients} />
+
         <PrivateRoute path='/products' component={Products} />
+
         <PrivateRoute path='/invoices' component={Invoices} />
+        <PrivateRoute path='/invoices/new' component={InvoiceDetailsFormContainer}
+        />
       </Router>
     </div>
   );
