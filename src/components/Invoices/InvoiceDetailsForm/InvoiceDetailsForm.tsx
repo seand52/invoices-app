@@ -1,6 +1,14 @@
 import React from 'react';
 import styles from './InvoiceDetailsForm.module.scss';
-import { Button, TextField } from '@material-ui/core';
+import {
+  Button,
+  TextField,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from '@material-ui/core';
 import InputFilter from 'components/InputFilter/InputFilter';
 import {
   KeyboardDatePicker,
@@ -11,6 +19,8 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { taxOptions, TaxOption } from 'data/taxOptions';
 import { paymentTypes, PaymentType } from 'data/paymentTypes';
 import { InvoiceSettingKeys } from 'store/reducers/invoicesReducer';
+import { Product } from 'api/responses/products.type';
+import { InvoiceDetailsState } from './invoiceDetailsReducer';
 
 interface Props {
   clientsLoading: boolean;
@@ -18,6 +28,13 @@ interface Props {
   onClientInputChange: (e: any) => void;
   onSelectTax: (e: any, newValue: any) => void;
   onSelectInvoiceSetting: (field: InvoiceSettingKeys, newValue: any) => void;
+  products: Product[];
+  invoiceState: InvoiceDetailsState;
+  addProductRow: () => void;
+  deleteProductRow: (id) => void;
+  onSelectProduct: (product: any, uuid: string) => void;
+  onChangeProductQuantity: (value, uuid) => void;
+  onSubmitInvoice: () => void;
 }
 export default function InvoiceDetailsForm({
   clientsLoading,
@@ -25,6 +42,13 @@ export default function InvoiceDetailsForm({
   onClientInputChange,
   onSelectTax,
   onSelectInvoiceSetting,
+  products,
+  invoiceState,
+  addProductRow,
+  deleteProductRow,
+  onSelectProduct,
+  onChangeProductQuantity,
+  onSubmitInvoice,
 }: Props) {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date(),
@@ -33,11 +57,16 @@ export default function InvoiceDetailsForm({
     setSelectedDate(date);
     onSelectInvoiceSetting(InvoiceSettingKeys.DATE, date);
   };
-
+  console.log(invoiceState);
   return (
     <React.Fragment>
       <div className={styles.top_area}>
-        <Button variant='contained' color='primary' type='button'>
+        <Button
+          onClick={onSubmitInvoice}
+          variant='contained'
+          color='primary'
+          type='button'
+        >
           Save
         </Button>
       </div>
@@ -112,7 +141,82 @@ export default function InvoiceDetailsForm({
             type='text'
           />
         </div>
-        <div className={styles.form_products}></div>
+        <div className={styles.form_products}>
+          <div className={styles.product}>
+            {!invoiceState.products.length ? (
+              <button onClick={addProductRow}>Add a product</button>
+            ) : (
+              <Table aria-label='simple table'>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Product</TableCell>
+                    <TableCell align='right'>Quantity</TableCell>
+                    <TableCell align='right'>Price</TableCell>
+                    <TableCell align='right'>Disc. %</TableCell>
+                    <TableCell align='right'>Total</TableCell>
+                    <TableCell align='right'></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {invoiceState.products.map((row, index) => (
+                    <TableRow key={row.uuid}>
+                      <TableCell component='th' scope='row'>
+                        <Autocomplete
+                          options={products}
+                          onChange={(e, newProduct: Product) =>
+                            onSelectProduct(newProduct, row.uuid)
+                          }
+                          getOptionLabel={(product: Product) =>
+                            product.description
+                          }
+                          style={{ width: 300 }}
+                          renderInput={params => (
+                            <TextField
+                              {...params}
+                              label='Product'
+                              variant='outlined'
+                              fullWidth
+                            />
+                          )}
+                        />
+                      </TableCell>
+                      <TableCell align='right'>
+                        <TextField
+                          onChange={e =>
+                            onChangeProductQuantity(e.target.value, row.uuid)
+                          }
+                          id='outlined-number'
+                          label='Number'
+                          defaultValue={row.quantity}
+                          className={styles.quantity}
+                          type='number'
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          margin='normal'
+                          variant='outlined'
+                        />
+                      </TableCell>
+                      <TableCell align='right'>
+                        {!!row.price ? row.price : null}
+                      </TableCell>
+                      <TableCell align='right'>0%</TableCell>
+                      <TableCell align='right'>
+                        {row.price ? row.quantity * row.price : null}
+                      </TableCell>
+                      <TableCell align='right'>
+                        <span onClick={addProductRow}>Add</span>
+                        <span onClick={() => deleteProductRow(row.uuid)}>
+                          Delete
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );

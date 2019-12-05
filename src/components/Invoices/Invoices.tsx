@@ -9,12 +9,11 @@ import {
 import { InitialState } from 'store';
 import { getInvoiceState } from 'selectors/invoices';
 import Overview from 'components/Overview/Overview';
-import SimpleModal from 'components/SimpleModal/SimpleModal';
-import InvoiceDetailsForm from './InvoiceDetailsForm/InvoiceDetailsForm';
 import Swal from 'sweetalert2';
 import { alertProp } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
+import { navigate } from '@reach/router';
 
 interface Props {
   path: string;
@@ -92,6 +91,7 @@ const Invoices = ({
         }),
       );
       resetSuccess();
+      navigate('/invoices');
     }
   }, [invoiceState.success]);
 
@@ -105,7 +105,7 @@ const Invoices = ({
 
   const onAddNewInvoice = e => {
     e.preventDefault();
-    // localDispatch({ type: '' });
+    navigate('/invoices/new');
   };
 
   const deleteInvoice = (ids: string[]) => {

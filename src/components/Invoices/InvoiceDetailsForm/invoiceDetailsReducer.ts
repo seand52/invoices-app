@@ -1,5 +1,6 @@
 import { Client } from 'api/responses/clients.type';
 import { TaxOption } from 'data/taxOptions';
+import uuidv4 from 'uuid/v4';
 
 enum PaymentType {
   TRANSFERENCIA = 'Transferencia',
@@ -7,28 +8,42 @@ enum PaymentType {
   EFECTIVO = 'Efectivo',
 }
 
-interface InvoiceSettings {
+export interface InvoiceSettings {
   clientId: number | null;
-  date: string | null;
-  re: number | null;
+  date: string | Date;
+  re: number;
   transportPrice: number | null;
   paymentType: PaymentType | null;
-  tax: number | null;
+  tax: number;
 }
-export const initialState = {
-  clientLoading: false as boolean,
-  clientsFound: [] as Client[],
-  settings: {
-    clientId: null as number | null,
-    date: new Date() as string | Date,
-    re: null as number | null,
-    transportPrice: null as number | null,
-    paymentType: null as PaymentType | null,
-    tax: null as number | null,
-  },
-};
 
-export type InvoiceDetailsState = typeof initialState;
+export interface InvoiceProducts {
+  id: number | null;
+  quantity: number;
+  uuid: string;
+  price: number;
+}
+
+export interface InvoiceDetailsState {
+  clientLoading: boolean;
+  clientsFound: Client[];
+  settings: InvoiceSettings;
+  products: InvoiceProducts[];
+}
+
+export const initialState: InvoiceDetailsState = {
+  clientLoading: false,
+  clientsFound: [],
+  settings: {
+    clientId: null,
+    date: new Date(),
+    re: 0,
+    transportPrice: null,
+    paymentType: null,
+    tax: 0,
+  },
+  products: [{ id: null, quantity: 1, uuid: uuidv4(), price: 0 }],
+};
 
 interface ToggleLoading {
   type: 'TOGGLE_LOADING';
@@ -61,13 +76,41 @@ interface UpdateTaxes {
   payload: TaxOption[];
 }
 
+interface AddProductRow {
+  type: 'ADD_PRODUCT';
+}
+
+interface DeleteProductRow {
+  type: 'DELETE_PRODUCT';
+  payload: string;
+}
+
+interface SelectProduct {
+  type: 'SELECT_PRODUCT';
+  payload: {
+    product: InvoiceProducts;
+    uuid: string;
+  };
+}
+
+interface ChangeQuantity {
+  type: 'CHANGE_QUANTITY';
+  payload: {
+    uuid: string;
+    newQuantity: number;
+  };
+}
 type Actions =
   | ToggleLoading
   | FindClients
   | FindClientsOk
   | FindClientsFailed
   | UpdateSettings
-  | UpdateTaxes;
+  | UpdateTaxes
+  | AddProductRow
+  | DeleteProductRow
+  | SelectProduct
+  | ChangeQuantity;
 
 export const reducer = (
   state: InvoiceDetailsState,
@@ -111,10 +154,52 @@ export const reducer = (
         ...state,
         settings: {
           ...state.settings,
-          re: re ? re.value : null,
-          tax: tax ? tax.value : null,
+          re: re ? re.value : 0,
+          tax: tax ? tax.value : 0,
         },
       };
+    case 'ADD_PRODUCT':
+      return {
+        ...state,
+        products: [
+          ...state.products,
+          { id: null, quantity: 1, uuid: uuidv4(), price: 0 },
+        ],
+      };
+    case 'DELETE_PRODUCT':
+      const newProducts = state.products.filter(
+        item => item.uuid !== action.payload,
+      );
+      return {
+        ...state,
+        products: newProducts,
+      };
+    case 'SELECT_PRODUCT':
+      const productIndex = state.products.findIndex(
+        item => item.uuid === action.payload.uuid,
+      );
+      const productsCopy = [...state.products];
+      productsCopy[productIndex] = {
+        id: action.payload.product.id,
+        price: action.payload.product.price,
+        uuid: action.payload.product.uuid,
+        quantity: productsCopy[productIndex].quantity,
+      };
+      return {
+        ...state,
+        products: productsCopy,
+      };
+    case 'CHANGE_QUANTITY': {
+      const productIndex = state.products.findIndex(
+        item => item.uuid === action.payload.uuid,
+      );
+      const productsCopy = [...state.products];
+      productsCopy[productIndex].quantity = action.payload.newQuantity;
+      return {
+        ...state,
+        products: productsCopy,
+      };
+    }
   }
   return state;
 };

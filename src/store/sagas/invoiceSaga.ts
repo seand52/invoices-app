@@ -27,29 +27,19 @@ function* deleteInvoice({ payload }: any) {
   }
 }
 
-function* createClient({ payload }: any) {
-  const state = yield select();
-  const invoiceState = getInvoiceState(state);
+function* createInvoice({ payload }: any) {
   try {
     const res = yield api.createInvoice(payload);
     yield put(InvoiceActions.newInvoiceOk(res));
-    yield call(searchInvoices, {
-      payload: `http://localhost:3000/api/invoices?page=${invoiceState.invoices.currentPage}&limit=${invoiceState.invoices.itemCount}`,
-    });
   } catch (err) {
     yield put(InvoiceActions.newInvoiceFailed('fail'));
   }
 }
 
-function* updateClient({ payload }: any) {
-  const state = yield select();
-  const invoiceState = getInvoiceState(state);
+function* updateInvoice({ payload }: any) {
   try {
     const res = yield api.updateInvoice(payload.data, payload.id);
     yield put(InvoiceActions.updateInvoiceOk(res));
-    yield call(searchInvoices, {
-      payload: `http://localhost:3000/api/invoices?page=${invoiceState.invoices.currentPage}&limit=${invoiceState.invoices.itemCount}`,
-    });
   } catch (err) {
     yield put(InvoiceActions.updateInvoiceFailed('fail'));
   }
@@ -59,8 +49,8 @@ function* sagas() {
   return all([
     yield takeLatest(InvoiceActions.SEARCH_ALL, searchInvoices),
     yield takeLatest(InvoiceActions.DELETE, deleteInvoice),
-    yield takeLatest(InvoiceActions.NEW_INVOICE, createClient),
-    yield takeLatest(InvoiceActions.UPDATE_INVOICE, updateClient),
+    yield takeLatest(InvoiceActions.NEW_INVOICE, createInvoice),
+    yield takeLatest(InvoiceActions.UPDATE_INVOICE, updateInvoice),
   ]);
 }
 
