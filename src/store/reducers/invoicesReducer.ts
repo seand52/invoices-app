@@ -13,9 +13,8 @@ export const initialState = {
 };
 
 export enum InvoiceSettingKeys {
-  CLIENTID = 'clientId',
+  CLIENTID = 'client',
   DATE = 'date',
-  RE = 're',
   TRANSPORTPRICE = 'transportPrice',
   PAYMENTYPE = 'paymentType',
   TAX = 'tax',

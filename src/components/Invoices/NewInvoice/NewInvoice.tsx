@@ -14,22 +14,26 @@ import { connect } from 'react-redux';
 import { InitialState } from 'store';
 import { getInvoiceState } from 'selectors/invoices';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
+import { navigate } from '@reach/router';
+import { clearInvoice } from 'store/actions/invoiceFormActions';
 
 interface Props {
   saveInvoice: (data: ICreateInvoice) => void;
   invoiceState: InvoiceState;
   resetSuccess: () => void;
+  clearInvoice: () => void;
   dispatch: any;
 }
 const NewInvoice = ({
   saveInvoice,
   invoiceState,
   resetSuccess,
+  clearInvoice,
   dispatch,
 }: Props) => {
   useEffect(() => {
     return () => {
-      console.log('dismount');
+      clearInvoice();
     };
   }, []);
   useEffect(() => {
@@ -41,7 +45,9 @@ const NewInvoice = ({
           title: 'Success!',
           type: 'success',
         }),
-      );
+      ).then(() => {
+        navigate('/invoices');
+      });
     }
   }, [invoiceState.success]);
 
@@ -81,6 +87,7 @@ const mapDispatchToProps = dispatch => {
   return {
     saveInvoice: (data: ICreateInvoice) => dispatch(newInvoice(data)),
     resetSuccess: () => dispatch(resetSuccess()),
+    clearInvoice: () => dispatch(clearInvoice()),
   };
 };
 

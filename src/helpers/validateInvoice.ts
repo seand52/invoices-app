@@ -7,7 +7,7 @@ export const validateInvoice = (
   products: InvoiceProducts[],
   settings: InvoiceSettings,
 ) => {
-  if (!settings.clientId || !settings.paymentType) {
+  if (!settings.client || !settings.paymentType) {
     return {
       type: 'error',
       message:

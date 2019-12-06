@@ -9,8 +9,6 @@ import * as invoices from 'store/reducers/invoicesReducer';
 import * as invoiceForm from 'store/reducers/invoiceFormReducer';
 import sagas from './sagas/index';
 
-console.log(invoiceForm.reducer);
-console.log(invoiceForm.initialState);
 //@ts-ignore
 const rootReducer = combineReducers({
   //@ts-ignore

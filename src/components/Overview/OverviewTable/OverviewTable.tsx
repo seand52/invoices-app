@@ -242,7 +242,6 @@ const OverviewTable = ({
   };
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
-  console.log('tableData is ', tableData);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>

@@ -15,6 +15,8 @@ export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const SELECT_PRODUCT = 'SELECT_PRODUCT';
 export const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
+export const DEFAULT_VALUES = 'DEFAULT_VALES';
+export const CLEAR_INVOICE = 'CLEAR_INVOICE';
 
 export interface ToggleLoading {
   type: typeof TOGGLE_LOADING;
@@ -71,3 +73,27 @@ export interface ChangeQuantity {
     newQuantity: number;
   };
 }
+
+export interface InsertDefaultValues {
+  type: typeof DEFAULT_VALUES;
+  payload: {
+    settings: InvoiceSettings;
+    products: InvoiceProducts[];
+  };
+}
+
+export const insertDefaultValues = (
+  settings: InvoiceSettings,
+  products: InvoiceProducts[],
+) => ({
+  type: DEFAULT_VALUES,
+  payload: { settings, products },
+});
+
+export interface ClearInvoice {
+  type: typeof CLEAR_INVOICE;
+}
+
+export const clearInvoice = () => ({
+  type: CLEAR_INVOICE,
+});

@@ -9,13 +9,15 @@ interface Props {
   loading: boolean;
   options: any;
   onInputChange: (e: any) => void;
-  onSelectItem: (e: any, newValue: number) => void;
+  onSelectItem: (e: any, newValue: { name: string; id: number } | null) => void;
+  defaultValue: any;
 }
 export default function InputFilter({
   loading = false,
   options = [],
   onInputChange,
   onSelectItem,
+  defaultValue,
 }: Props) {
   const [open, setOpen] = React.useState(false);
 
@@ -28,9 +30,16 @@ export default function InputFilter({
       id='asynchronous-demo'
       style={{ width: 300 }}
       open={open}
-      onChange={(e, newValue: Client) =>
-        onSelectItem(InvoiceSettingKeys.CLIENTID, newValue.id)
-      }
+      onChange={(e, newValue: Client) => {
+        if (newValue) {
+          onSelectItem(InvoiceSettingKeys.CLIENTID, {
+            name: newValue.name,
+            id: newValue.id,
+          });
+        } else {
+          onSelectItem(InvoiceSettingKeys.CLIENTID, null);
+        }
+      }}
       onOpen={() => {
         setOpen(true);
       }}
@@ -39,6 +48,7 @@ export default function InputFilter({
       }}
       getOptionLabel={option => option.name}
       options={options}
+      defaultValue={defaultValue}
       loading={loading}
       renderInput={params => (
         <TextField

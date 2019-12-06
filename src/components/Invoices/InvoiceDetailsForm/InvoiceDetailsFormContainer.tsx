@@ -82,6 +82,7 @@ const InvoiceDetailsFormContainer = ({
           price: !product ? 0 : product.price,
           quantity: 1,
           uuid,
+          description: product.description,
         },
         uuid,
       },

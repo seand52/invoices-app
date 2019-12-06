@@ -1,9 +1,11 @@
 import { all, takeLatest, put, call, select } from '@redux-saga/core/effects';
 import * as InvoiceActions from 'store/actions/invoiceActions';
+import * as InvoiceFormActions from 'store/actions/invoiceFormActions';
 import * as api from 'api/invoice';
 import { getInvoiceState } from 'selectors/invoices';
 import { FullInvoiceDetails } from 'api/responses/invoices.type';
 import { navigate } from '@reach/router';
+import { prepareInvoiceDefaultValues } from 'helpers/prepareInvoiceDefaultValues';
 
 function* searchInvoices({ payload }: any) {
   try {
@@ -19,6 +21,8 @@ function* searchInvoiceDetails({
 }: ReturnType<typeof InvoiceActions.searchOne>) {
   try {
     const res = yield api.searchInvoiceDetails(payload);
+    const { settings, products } = prepareInvoiceDefaultValues(res);
+    yield put(InvoiceFormActions.insertDefaultValues(settings, products));
     yield put(InvoiceActions.searchOneOk(res));
   } catch (err) {
     yield put(

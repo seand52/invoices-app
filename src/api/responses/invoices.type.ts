@@ -1,3 +1,5 @@
+import { PaymentType } from 'store/reducers/invoiceFormReducer';
+
 export interface InvoicesPaginated {
   items: Invoice[];
   itemCount: number;
@@ -16,7 +18,7 @@ interface InvoiceProducts {
   product: {
     id: number;
     description: string;
-    price: string;
+    price: number;
     userId: number;
     createdAt: string;
     updatedAt: string;
@@ -29,7 +31,7 @@ export interface Invoice {
   re: number;
   tax: number;
   transportPrice: number;
-  paymentType: 'Transferencia' | 'Efectivo' | 'Tarjeta';
+  paymentType: PaymentType;
   userId: number;
   clientId: number;
   date: string;

@@ -1,20 +1,20 @@
 import * as InvoiceFormActions from '../actions/invoiceFormActions';
 import { Client } from 'api/responses/clients.type';
 import uuidv4 from 'uuid/v4';
+import { TaxOption } from 'data/taxOptions';
 
-enum PaymentType {
+export enum PaymentType {
   TRANSFERENCIA = 'Transferencia',
   TARJETA = 'Tarjeta',
   EFECTIVO = 'Efectivo',
 }
 
 export interface InvoiceSettings {
-  clientId: number | null;
+  client: { name: string; id: number } | null;
   date: string | Date;
-  re: number;
   transportPrice: number | null;
-  paymentType: PaymentType | null;
-  tax: number;
+  paymentType: { label: string; value: PaymentType };
+  tax: TaxOption[];
 }
 
 export interface InvoiceProducts {
@@ -22,6 +22,7 @@ export interface InvoiceProducts {
   quantity: number;
   uuid: string;
   price: number;
+  description: string;
 }
 
 export interface InvoiceDetailsState {
@@ -35,14 +36,15 @@ export const initialState: InvoiceDetailsState = {
   clientLoading: false,
   clientsFound: [],
   settings: {
-    clientId: null,
+    client: null,
     date: new Date(),
-    re: 0,
     transportPrice: null,
-    paymentType: null,
-    tax: 0,
+    paymentType: { label: 'Bank Transfer', value: PaymentType.TRANSFERENCIA },
+    tax: [{ label: 'IVA (21%)', value: 0.21, category: 'tax' }],
   },
-  products: [{ id: null, quantity: 1, uuid: uuidv4(), price: 0 }],
+  products: [
+    { id: null, quantity: 1, uuid: uuidv4(), price: 0, description: '' },
+  ],
 };
 
 export const key = 'invoiceForm';
@@ -57,7 +59,9 @@ type Actions =
   | InvoiceFormActions.AddProductRow
   | InvoiceFormActions.DeleteProductRow
   | InvoiceFormActions.SelectProduct
-  | InvoiceFormActions.ChangeQuantity;
+  | InvoiceFormActions.ChangeQuantity
+  | InvoiceFormActions.InsertDefaultValues
+  | InvoiceFormActions.ClearInvoice;
 
 export const reducer = (
   state: InvoiceDetailsState = initialState,
@@ -95,14 +99,11 @@ export const reducer = (
         },
       };
     case InvoiceFormActions.UPDATE_TAXES:
-      const re = action.payload.find(item => item.category === 're');
-      const tax = action.payload.find(item => item.category === 'tax');
       return {
         ...state,
         settings: {
           ...state.settings,
-          re: re ? re.value : 0,
-          tax: tax ? tax.value : 0,
+          tax: action.payload,
         },
       };
     case InvoiceFormActions.ADD_PRODUCT:
@@ -110,7 +111,7 @@ export const reducer = (
         ...state,
         products: [
           ...state.products,
-          { id: null, quantity: 1, uuid: uuidv4(), price: 0 },
+          { id: null, quantity: 1, uuid: uuidv4(), price: 0, description: '' },
         ],
       };
     case InvoiceFormActions.DELETE_PRODUCT:
@@ -131,6 +132,7 @@ export const reducer = (
         price: action.payload.product.price,
         uuid: action.payload.product.uuid,
         quantity: productsCopy[productIndex].quantity,
+        description: action.payload.product.description,
       };
       return {
         ...state,
@@ -147,6 +149,15 @@ export const reducer = (
         products: productsCopy,
       };
     }
+    case InvoiceFormActions.DEFAULT_VALUES: {
+      return {
+        ...state,
+        settings: action.payload.settings,
+        products: action.payload.products,
+      };
+    }
+    case InvoiceFormActions.CLEAR_INVOICE:
+      return { ...initialState };
   }
   return state;
 };

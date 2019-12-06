@@ -3,6 +3,7 @@ import {
   InvoiceProducts,
   InvoiceSettings,
 } from 'store/reducers/invoiceFormReducer';
+import styles from './TotalPriceToolbar.module.scss';
 
 interface Props {
   products: InvoiceProducts;
@@ -15,11 +16,13 @@ const calculateTotalprice = (
   products: InvoiceProducts[],
   settings: InvoiceSettings,
 ) => {
+  const ivaSettings = settings.tax.find(item => item.category === 'tax');
+  const reSettings = settings.tax.find(item => item.category === 're');
   const subTotal = products
     .filter(item => item.id !== null)
     .reduce((accum, curr) => accum + curr.price * curr.quantity, 0);
-  const iva = subTotal * settings.tax;
-  const re = subTotal * settings.re;
+  const iva = ivaSettings ? subTotal * ivaSettings.value : 0;
+  const re = reSettings ? subTotal * reSettings.value : 0;
   const transport = settings.transportPrice || 0;
   const invoiceTotal = subTotal + iva + re + transport;
   return {
@@ -37,7 +40,7 @@ export default function TotalPriceToolBar({ products, settings }) {
     settings,
   );
   return (
-    <div>
+    <div className={styles.price_bar}>
       <p>SubTotal: {subTotal}</p>
       <p>IVA: {roundedNumber(iva + re)}</p>
       <p>Transport: {transport}</p>

@@ -36,7 +36,6 @@ const ProductDetailsForm = ({
       updateProduct(data, product.id.toString());
     }
   };
-  console.log(watch());
   return (
     //@ts-ignore
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form_wrapper}>

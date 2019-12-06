@@ -51,12 +51,13 @@ export default function InvoiceDetailsForm({
   saveInvoice,
 }: Props) {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date(),
+    new Date(invoiceState.settings.date) || new Date(),
   );
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
     onSelectInvoiceSetting(InvoiceSettingKeys.DATE, date);
   };
+
   return (
     <React.Fragment>
       <div className={styles.top_area}>
@@ -72,6 +73,7 @@ export default function InvoiceDetailsForm({
       <div className={styles.main_form_container}>
         <div className={styles.form_settings}>
           <InputFilter
+            defaultValue={invoiceState.settings.client}
             onSelectItem={onSelectInvoiceSetting}
             onInputChange={onClientInputChange}
             loading={clientsLoading}
@@ -95,6 +97,7 @@ export default function InvoiceDetailsForm({
             multiple
             id='tags-standard'
             onChange={(e, newValue) => onSelectTax(e, newValue)}
+            defaultValue={invoiceState.settings.tax}
             options={taxOptions}
             getOptionLabel={(option: TaxOption) => option.label}
             renderInput={params => (
@@ -109,6 +112,7 @@ export default function InvoiceDetailsForm({
           />
           <Autocomplete
             id='paymentType'
+            defaultValue={invoiceState.settings.paymentType}
             options={paymentTypes}
             onChange={(e, newValue: PaymentType) =>
               onSelectInvoiceSetting(
@@ -128,6 +132,7 @@ export default function InvoiceDetailsForm({
             )}
           />
           <TextField
+            defaultValue={invoiceState.settings.transportPrice}
             onChange={e =>
               onSelectInvoiceSetting(
                 InvoiceSettingKeys.TRANSPORTPRICE,
@@ -161,6 +166,7 @@ export default function InvoiceDetailsForm({
                     <TableRow key={row.uuid}>
                       <TableCell component='th' scope='row'>
                         <Autocomplete
+                          defaultValue={row}
                           options={products}
                           onChange={(e, newProduct: Product) =>
                             onSelectProduct(newProduct, row.uuid)
@@ -182,7 +188,10 @@ export default function InvoiceDetailsForm({
                       <TableCell align='right'>
                         <TextField
                           onChange={e =>
-                            onChangeProductQuantity(e.target.value, row.uuid)
+                            onChangeProductQuantity(
+                              parseInt(e.target.value),
+                              row.uuid,
+                            )
                           }
                           id='outlined-number'
                           label='Number'

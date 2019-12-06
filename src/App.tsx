@@ -8,8 +8,8 @@ import Clients from 'components/Clients/Clients';
 import PublicRoute from 'components/PublicRoute/PublicRoute';
 import Products from 'components/Products/Products';
 import Invoices from 'components/Invoices/Invoices';
-import InvoiceDetailsFormContainer from 'components/Invoices/InvoiceDetailsForm/InvoiceDetailsFormContainer';
 import NewInvoice from 'components/Invoices/NewInvoice/NewInvoice';
+import EditInvoice from 'components/Invoices/EditInvoice/EditInvoice';
 
 const App: React.FC = () => {
   return (
@@ -25,10 +25,7 @@ const App: React.FC = () => {
 
         <PrivateRoute path='/invoices' component={Invoices} />
         <PrivateRoute path='/invoices/new' component={NewInvoice} />
-        <PrivateRoute
-          path='/invoice/:invoiceId/edit'
-          component={InvoiceDetailsFormContainer}
-        />
+        <PrivateRoute path='/invoice/:invoiceId/edit' component={EditInvoice} />
       </Router>
     </div>
   );

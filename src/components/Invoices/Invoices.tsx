@@ -76,7 +76,6 @@ const Invoices = ({
   resetSuccess,
   deleteInvoice: deleteInvoiceAction,
 }: Props) => {
-  console.log(invoiceState);
   const [search, setSearch] = useState('');
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
