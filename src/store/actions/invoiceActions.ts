@@ -1,9 +1,16 @@
-import { InvoicesPaginated } from 'api/responses/invoices.type';
+import {
+  InvoicesPaginated,
+  FullInvoiceDetails,
+} from 'api/responses/invoices.type';
 import { ICreateInvoice } from 'forms/formValidations/add-invoice';
 
 export const SEARCH_ALL = 'INVOICES:SEARCH_ALL';
 export const SEARCH_ALL_OK = 'INVOICES:SEARCH_ALL_OK';
 export const SEARCH_ALL_FAILED = 'INVOICES:SEARCH_ALL_FAILED';
+
+export const SEARCH_ONE = 'INVOICES::SEARCH_ONE';
+export const SEARCH_ONE_OK = 'INVOICES::SEARCH_ONE_OK';
+export const SEARCH_ONE_FAILED = 'INVOICES::SEARCH_ONE_FAILED';
 
 export const DELETE = 'INVOICES::DELETE';
 export const DELETE_OK = 'INVOICES::DELETE_OK';
@@ -42,6 +49,35 @@ export interface SearchAllFailed {
   payload: string;
 }
 
+export interface SearchOne {
+  type: typeof SEARCH_ONE;
+  payload: string;
+}
+
+export const searchOne = id => ({
+  type: SEARCH_ONE,
+  payload: id,
+});
+
+export interface SearchOneOk {
+  type: typeof SEARCH_ONE_OK;
+  payload: string;
+}
+
+export const searchOneOk = (data: FullInvoiceDetails) => ({
+  type: SEARCH_ONE_OK,
+  payload: data,
+});
+
+export interface SearchOneFailed {
+  type: typeof SEARCH_ONE_FAILED;
+  payload: string;
+}
+
+export const searchOneFailed = message => ({
+  type: SEARCH_ONE_FAILED,
+  payload: message,
+});
 export const searchAllFailed = () => ({
   type: SEARCH_ALL_FAILED,
   payload: 'There was an error retrieving your invoices',

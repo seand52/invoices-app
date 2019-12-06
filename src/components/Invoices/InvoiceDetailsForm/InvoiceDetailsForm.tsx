@@ -34,7 +34,7 @@ interface Props {
   deleteProductRow: (id) => void;
   onSelectProduct: (product: any, uuid: string) => void;
   onChangeProductQuantity: (value, uuid) => void;
-  onSubmitInvoice: () => void;
+  saveInvoice: () => void;
 }
 export default function InvoiceDetailsForm({
   clientsLoading,
@@ -48,7 +48,7 @@ export default function InvoiceDetailsForm({
   deleteProductRow,
   onSelectProduct,
   onChangeProductQuantity,
-  onSubmitInvoice,
+  saveInvoice,
 }: Props) {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date(),
@@ -57,12 +57,11 @@ export default function InvoiceDetailsForm({
     setSelectedDate(date);
     onSelectInvoiceSetting(InvoiceSettingKeys.DATE, date);
   };
-  console.log(invoiceState);
   return (
     <React.Fragment>
       <div className={styles.top_area}>
         <Button
-          onClick={onSubmitInvoice}
+          onClick={saveInvoice}
           variant='contained'
           color='primary'
           type='button'

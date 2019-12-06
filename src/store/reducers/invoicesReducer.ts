@@ -1,11 +1,15 @@
 import * as InvoiceActions from '../actions/invoiceActions';
-import { InvoicesPaginated } from 'api/responses/invoices.type';
+import {
+  InvoicesPaginated,
+  FullInvoiceDetails,
+} from 'api/responses/invoices.type';
 
 export const initialState = {
   invoices: {} as InvoicesPaginated,
   loading: false as boolean,
   error: null as string | null,
   success: false as boolean,
+  selectedInvoiceDetails: {} as FullInvoiceDetails,
 };
 
 export enum InvoiceSettingKeys {
@@ -25,6 +29,9 @@ type Actions =
   | InvoiceActions.SearchAll
   | InvoiceActions.SearchAllOk
   | InvoiceActions.SearchAllFailed
+  | InvoiceActions.SearchOne
+  | InvoiceActions.SearchOneOk
+  | InvoiceActions.SearchOneFailed
   | InvoiceActions.DeleteInvoice
   | InvoiceActions.DeleteInvoiceOk
   | InvoiceActions.DeleteInvoiceFailed
@@ -54,6 +61,23 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         error: action.payload,
         loading: false,
+      };
+    case InvoiceActions.SEARCH_ONE:
+      return {
+        ...state,
+        loading: true,
+      };
+    case InvoiceActions.SEARCH_ONE_OK:
+      return {
+        ...state,
+        loading: false,
+        selectedInvoiceDetails: action.payload,
+      };
+    case InvoiceActions.SEARCH_ONE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
       };
     case InvoiceActions.DELETE:
       return {

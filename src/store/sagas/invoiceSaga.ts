@@ -2,6 +2,8 @@ import { all, takeLatest, put, call, select } from '@redux-saga/core/effects';
 import * as InvoiceActions from 'store/actions/invoiceActions';
 import * as api from 'api/invoice';
 import { getInvoiceState } from 'selectors/invoices';
+import { FullInvoiceDetails } from 'api/responses/invoices.type';
+import { navigate } from '@reach/router';
 
 function* searchInvoices({ payload }: any) {
   try {
@@ -9,6 +11,19 @@ function* searchInvoices({ payload }: any) {
     yield put(InvoiceActions.searchAllOk(res));
   } catch (err) {
     yield put(InvoiceActions.searchAllFailed());
+  }
+}
+
+function* searchInvoiceDetails({
+  payload,
+}: ReturnType<typeof InvoiceActions.searchOne>) {
+  try {
+    const res = yield api.searchInvoiceDetails(payload);
+    yield put(InvoiceActions.searchOneOk(res));
+  } catch (err) {
+    yield put(
+      InvoiceActions.searchOneFailed('There was an error loading your invoice'),
+    );
   }
 }
 
@@ -48,6 +63,7 @@ function* updateInvoice({ payload }: any) {
 function* sagas() {
   return all([
     yield takeLatest(InvoiceActions.SEARCH_ALL, searchInvoices),
+    yield takeLatest(InvoiceActions.SEARCH_ONE, searchInvoiceDetails),
     yield takeLatest(InvoiceActions.DELETE, deleteInvoice),
     yield takeLatest(InvoiceActions.NEW_INVOICE, createInvoice),
     yield takeLatest(InvoiceActions.UPDATE_INVOICE, updateInvoice),

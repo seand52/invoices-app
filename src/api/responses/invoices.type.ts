@@ -1,3 +1,28 @@
+export interface InvoicesPaginated {
+  items: Invoice[];
+  itemCount: number;
+  totalItems: number;
+  pageCount: number;
+  next: string;
+  previous: string;
+  currentPage: number;
+}
+
+interface InvoiceProducts {
+  id: number;
+  invoiceId: number;
+  productId: number;
+  quantity: number;
+  product: {
+    id: number;
+    description: string;
+    price: string;
+    userId: number;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
 export interface Invoice {
   id: number;
   totalPrice: number;
@@ -17,12 +42,6 @@ export interface Invoice {
   };
 }
 
-export interface InvoicesPaginated {
-  items: Invoice[];
-  itemCount: number;
-  totalItems: number;
-  pageCount: number;
-  next: string;
-  previous: string;
-  currentPage: number;
+export interface FullInvoiceDetails extends Invoice {
+  invoiceToProducts: InvoiceProducts[];
 }

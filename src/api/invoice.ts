@@ -1,5 +1,8 @@
 import request from './axiosWrapper';
-import { InvoicesPaginated } from './responses/invoices.type';
+import {
+  InvoicesPaginated,
+  FullInvoiceDetails,
+} from './responses/invoices.type';
 import { ICreateInvoice } from 'forms/formValidations/add-invoice';
 
 export const searchInvoices = (url): Promise<InvoicesPaginated> => {
@@ -8,6 +11,19 @@ export const searchInvoices = (url): Promise<InvoicesPaginated> => {
       method: 'GET',
       useBaseUrl: false,
       url,
+    },
+    { auth: true },
+  ).then(res => {
+    return res;
+  });
+};
+
+export const searchInvoiceDetails = (id): Promise<FullInvoiceDetails> => {
+  return request(
+    {
+      method: 'GET',
+      useBaseUrl: true,
+      url: `/invoices/${id}`,
     },
     { auth: true },
   ).then(res => {

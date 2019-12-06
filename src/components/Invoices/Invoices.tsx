@@ -5,6 +5,7 @@ import {
   searchAll,
   deleteInvoice,
   resetSuccess,
+  searchOne,
 } from 'store/actions/invoiceActions';
 import { InitialState } from 'store';
 import { getInvoiceState } from 'selectors/invoices';
@@ -18,6 +19,7 @@ import { navigate } from '@reach/router';
 interface Props {
   path: string;
   searchAll: ({ url: string }) => void;
+  searchOne: (id) => void;
   deleteInvoice: (id: string) => void;
   resetSuccess: () => void;
   invoiceState: InvoiceState;
@@ -69,6 +71,7 @@ const headCells: InvoicesHeadCell[] = [
 const Invoices = ({
   path,
   searchAll,
+  searchOne,
   invoiceState,
   resetSuccess,
   deleteInvoice: deleteInvoiceAction,
@@ -114,7 +117,7 @@ const Invoices = ({
   };
 
   const editInvoice = (id: string) => {
-    // localDispatch({ type: 'EDIT_CLIENT', payload: id });
+    navigate(`/invoice/${id}/edit`);
   };
 
   const onNextPage = newPage => {
@@ -162,6 +165,7 @@ const mapStateToProps = (state: InitialState) => {
 const mapDispatchToProps = dispatch => {
   return {
     searchAll: ({ url }) => dispatch(searchAll({ url })),
+    searchOne: id => dispatch(searchOne(id)),
     deleteInvoice: id => dispatch(deleteInvoice(id)),
     resetSuccess: () => dispatch(resetSuccess()),
   };
