@@ -1,7 +1,7 @@
 import {
   InvoiceProducts,
   InvoiceSettings,
-} from 'components/Invoices/InvoiceDetailsForm/invoiceDetailsReducer';
+} from 'store/reducers/invoiceFormReducer';
 
 export const prepareInvoiceData = (
   products: InvoiceProducts[],

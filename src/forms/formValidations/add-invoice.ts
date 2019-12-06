@@ -1,4 +1,4 @@
-import { InvoiceSettings } from 'components/Invoices/InvoiceDetailsForm/invoiceDetailsReducer';
+import { InvoiceSettings } from 'store/reducers/invoiceFormReducer';
 
 export interface ICreateInvoice {
   settings: InvoiceSettings;

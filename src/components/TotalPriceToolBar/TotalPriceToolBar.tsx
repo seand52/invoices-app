@@ -2,7 +2,7 @@ import React from 'react';
 import {
   InvoiceProducts,
   InvoiceSettings,
-} from 'components/Invoices/InvoiceDetailsForm/invoiceDetailsReducer';
+} from 'store/reducers/invoiceFormReducer';
 
 interface Props {
   products: InvoiceProducts;

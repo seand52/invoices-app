@@ -20,7 +20,7 @@ import { taxOptions, TaxOption } from 'data/taxOptions';
 import { paymentTypes, PaymentType } from 'data/paymentTypes';
 import { InvoiceSettingKeys } from 'store/reducers/invoicesReducer';
 import { Product } from 'api/responses/products.type';
-import { InvoiceDetailsState } from './invoiceDetailsReducer';
+import { InvoiceDetailsState } from 'store/reducers/invoiceFormReducer';
 
 interface Props {
   clientsLoading: boolean;

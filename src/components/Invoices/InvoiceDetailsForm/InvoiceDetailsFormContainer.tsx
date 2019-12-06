@@ -2,28 +2,31 @@ import * as api from 'api/clients';
 import Layout from 'components/Layout/Layout';
 import TotalPriceToolBar from 'components/TotalPriceToolBar/TotalPriceToolBar';
 import { PaymentType } from 'data/paymentTypes';
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getProductState } from 'selectors/products';
 import { InitialState } from 'store';
 import { searchAll } from 'store/actions/productsActions';
 import { ProductState } from 'store/reducers/productsReducer';
 import InvoiceDetailsForm from './InvoiceDetailsForm';
-import { initialState, reducer } from './invoiceDetailsReducer';
+import { InvoiceDetailsState } from 'store/reducers/invoiceFormReducer';
+import { getInvoiceFormState } from 'selectors/invoiceForm';
 
 interface Props {
   searchAll: ({ url: string }) => void;
   productState: ProductState;
   onSubmitInvoice: (products, settings) => void;
+  invoiceFormState: InvoiceDetailsState;
+  dispatch?: any;
 }
 
 const InvoiceDetailsFormContainer = ({
   searchAll,
   productState,
   onSubmitInvoice,
+  invoiceFormState,
+  dispatch,
 }: Props) => {
-  const [localState, localDispatch] = useReducer(reducer, initialState);
-
   useEffect(() => {
     searchAll({ url: 'http://localhost:3000/api/products?page=1&limit=1000' });
   }, []);
@@ -31,12 +34,12 @@ const InvoiceDetailsFormContainer = ({
   const onClientInputChange = async e => {
     const { value } = e.target;
     if (value.trim().length === 0) {
-      localDispatch({ type: 'FIND_CLIENTS_OK', payload: [] });
+      dispatch({ type: 'FIND_CLIENTS_OK', payload: [] });
     }
     if (value.trim().length % 2 === 0 && value.trim().length >= 3) {
-      localDispatch({ type: 'FIND_CLIENTS' });
+      dispatch({ type: 'FIND_CLIENTS' });
       const response = await api.searchClientsByName(value);
-      localDispatch({ type: 'FIND_CLIENTS_OK', payload: response });
+      dispatch({ type: 'FIND_CLIENTS_OK', payload: response });
     }
   };
 
@@ -49,11 +52,11 @@ const InvoiceDetailsFormContainer = ({
       return;
     }
 
-    localDispatch({ type: 'UPDATE_TAXES', payload: newValue });
+    dispatch({ type: 'UPDATE_TAXES', payload: newValue });
   };
 
   const onSelectInvoiceSetting = (field, newValue: PaymentType) => {
-    localDispatch({
+    dispatch({
       type: 'UPDATE_SETTINGS',
       payload: {
         field: field,
@@ -63,15 +66,15 @@ const InvoiceDetailsFormContainer = ({
   };
 
   const addProductRow = () => {
-    localDispatch({ type: 'ADD_PRODUCT' });
+    dispatch({ type: 'ADD_PRODUCT' });
   };
 
   const deleteProductRow = (uuid: string) => {
-    localDispatch({ type: 'DELETE_PRODUCT', payload: uuid });
+    dispatch({ type: 'DELETE_PRODUCT', payload: uuid });
   };
 
   const onSelectProduct = (product, uuid) => {
-    localDispatch({
+    dispatch({
       type: 'SELECT_PRODUCT',
       payload: {
         product: {
@@ -86,7 +89,7 @@ const InvoiceDetailsFormContainer = ({
   };
 
   const onChangeProductQuantity = (newQuantity, uuid) => {
-    localDispatch({
+    dispatch({
       type: 'CHANGE_QUANTITY',
       payload: {
         uuid,
@@ -96,7 +99,7 @@ const InvoiceDetailsFormContainer = ({
   };
 
   const saveInvoice = () => {
-    onSubmitInvoice(localState.products, localState.settings);
+    onSubmitInvoice(invoiceFormState.products, invoiceFormState.settings);
   };
 
   return (
@@ -108,19 +111,19 @@ const InvoiceDetailsFormContainer = ({
               saveInvoice={saveInvoice}
               onClientInputChange={onClientInputChange}
               onSelectTax={onSelectTax}
-              clientsLoading={localState.clientLoading}
-              options={localState.clientsFound}
+              clientsLoading={invoiceFormState.clientLoading}
+              options={invoiceFormState.clientsFound}
               onSelectInvoiceSetting={onSelectInvoiceSetting}
               products={productState.products.items}
-              invoiceState={localState}
+              invoiceState={invoiceFormState}
               addProductRow={addProductRow}
               deleteProductRow={deleteProductRow}
               onSelectProduct={onSelectProduct}
               onChangeProductQuantity={onChangeProductQuantity}
             />
             <TotalPriceToolBar
-              settings={localState.settings}
-              products={localState.products}
+              settings={invoiceFormState.settings}
+              products={invoiceFormState.products}
             />
           </React.Fragment>
         }
@@ -132,6 +135,7 @@ const InvoiceDetailsFormContainer = ({
 const mapStateToProps = (state: InitialState) => {
   return {
     productState: getProductState(state),
+    invoiceFormState: getInvoiceFormState(state),
   };
 };
 

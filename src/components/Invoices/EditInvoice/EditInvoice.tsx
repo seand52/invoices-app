@@ -17,21 +17,16 @@ import { InvoiceState } from 'store/reducers/invoicesReducer';
 
 interface Props {
   saveInvoice: (data: ICreateInvoice) => void;
+  invoiceId: string;
   invoiceState: InvoiceState;
   resetSuccess: () => void;
-  dispatch: any;
 }
 const NewInvoice = ({
   saveInvoice,
   invoiceState,
   resetSuccess,
-  dispatch,
+  invoiceId,
 }: Props) => {
-  useEffect(() => {
-    return () => {
-      console.log('dismount');
-    };
-  }, []);
   useEffect(() => {
     if (invoiceState.success) {
       resetSuccess();
@@ -63,12 +58,7 @@ const NewInvoice = ({
     const data = prepareInvoiceData(products, settings);
     saveInvoice(data);
   };
-  return (
-    <InvoiceDetailsFormContainer
-      dispatch={dispatch}
-      onSubmitInvoice={onSubmitInvoice}
-    />
-  );
+  return <InvoiceDetailsFormContainer onSubmitInvoice={onSubmitInvoice} />;
 };
 
 const mapStateToProps = (state: InitialState) => {
