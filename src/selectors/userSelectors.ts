@@ -1,5 +1,4 @@
 import { InitialState } from 'store';
-import { createSelector } from 'reselect';
 
 export const getUserState = (state: InitialState) => state.userInfo;
 

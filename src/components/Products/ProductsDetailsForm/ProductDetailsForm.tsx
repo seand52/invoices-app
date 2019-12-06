@@ -1,14 +1,12 @@
-import React from 'react';
-import useFormBuilder from 'hooks/useFormBuilder';
 import { TextField } from '@material-ui/core';
-import { Link } from '@reach/router';
-import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
 import ButtonWithSpinner from 'components/ButtonWithSpinner/ButtonWithSpinner';
-import { connect } from 'react-redux';
 import { ICreateProduct } from 'forms/formValidations/add-product';
+import useFormBuilder from 'hooks/useFormBuilder';
+import React from 'react';
+import { connect } from 'react-redux';
+import { getProductState } from 'selectors/products';
 import { newProduct, updateProduct } from 'store/actions/productsActions';
 import { ProductState } from 'store/reducers/productsReducer';
-import { getProductState } from 'selectors/products';
 import styles from './ProductDetailsForm.module.scss';
 
 interface Props {
@@ -25,7 +23,7 @@ const ProductDetailsForm = ({
 }: Props) => {
   const products = productState.products.items;
   const product = products.find(item => item.id.toString() === selectedProduct);
-  const { register, handleSubmit, errors, watch } = useFormBuilder({
+  const { register, handleSubmit, errors } = useFormBuilder({
     key: 'createProductsFields',
   });
 

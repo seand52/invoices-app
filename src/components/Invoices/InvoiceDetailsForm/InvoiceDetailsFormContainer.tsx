@@ -29,7 +29,7 @@ const InvoiceDetailsFormContainer = ({
 }: Props) => {
   useEffect(() => {
     searchAll({ url: 'http://localhost:3000/api/products?page=1&limit=1000' });
-  }, []);
+  }, [searchAll]);
 
   const onClientInputChange = async e => {
     const { value } = e.target;

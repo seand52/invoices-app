@@ -35,7 +35,7 @@ const NewInvoice = ({
     return () => {
       clearInvoice();
     };
-  }, []);
+  }, [clearInvoice]);
   useEffect(() => {
     if (invoiceState.success) {
       resetSuccess();
@@ -49,7 +49,7 @@ const NewInvoice = ({
         navigate('/invoices');
       });
     }
-  }, [invoiceState.success]);
+  }, [invoiceState.success, resetSuccess]);
 
   const onSubmitInvoice = (
     products: InvoiceProducts[],

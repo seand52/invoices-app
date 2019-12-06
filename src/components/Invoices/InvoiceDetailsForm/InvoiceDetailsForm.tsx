@@ -210,7 +210,9 @@ export default function InvoiceDetailsForm({
                       </TableCell>
                       <TableCell align='right'>0%</TableCell>
                       <TableCell align='right'>
-                        {row.price ? row.quantity * row.price : null}
+                        {row.price
+                          ? Math.round(row.quantity * row.price * 100) / 100
+                          : null}
                       </TableCell>
                       <TableCell align='right'>
                         <span onClick={addProductRow}>Add</span>

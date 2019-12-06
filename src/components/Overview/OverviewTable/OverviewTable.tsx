@@ -188,7 +188,6 @@ const OverviewTable = ({
 }: Props) => {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
-  const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -253,7 +252,7 @@ const OverviewTable = ({
           <Table
             className={classes.table}
             aria-labelledby='tableTitle'
-            size={dense ? 'small' : 'medium'}
+            size='medium'
             aria-label='enhanced table'
           >
             <EnhancedTableHead
