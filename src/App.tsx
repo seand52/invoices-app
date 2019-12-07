@@ -10,6 +10,9 @@ import Products from 'components/Products/Products';
 import Invoices from 'components/Invoices/Invoices';
 import NewInvoice from 'components/Invoices/NewInvoice/NewInvoice';
 import EditInvoice from 'components/Invoices/EditInvoice/EditInvoice';
+import SalesOrders from 'components/SalesOrders/SalesOrders';
+import NewSalesOrder from 'components/SalesOrders/NewSalesOrder/NewSalesOrder';
+import EditSalesOrder from 'components/SalesOrders/EditSalesOrder/EditSalesOrder';
 
 const App: React.FC = () => {
   return (
@@ -26,6 +29,13 @@ const App: React.FC = () => {
         <PrivateRoute path='/invoices' component={Invoices} />
         <PrivateRoute path='/invoices/new' component={NewInvoice} />
         <PrivateRoute path='/invoice/:invoiceId/edit' component={EditInvoice} />
+
+        <PrivateRoute path='/sales-orders' component={SalesOrders} />
+        <PrivateRoute path='/sales-order/new' component={NewSalesOrder} />
+        <PrivateRoute
+          path='/sales-order/:salesOrderId/edit'
+          component={EditSalesOrder}
+        />
       </Router>
     </div>
   );

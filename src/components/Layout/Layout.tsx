@@ -21,8 +21,8 @@ export default function Navigation({ main }: Props) {
           <ListItem onClick={() => navigate('/invoices')} button>
             <ListItemText primary='Invoices' />
           </ListItem>
-          <ListItem onClick={() => navigate('/dashboard')} button>
-            <ListItemText primary='Dashboard' />
+          <ListItem onClick={() => navigate('/sales-orders')} button>
+            <ListItemText primary='Sales Orders' />
           </ListItem>
         </List>
       </div>

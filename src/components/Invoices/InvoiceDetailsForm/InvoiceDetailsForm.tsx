@@ -115,10 +115,7 @@ export default function InvoiceDetailsForm({
             defaultValue={invoiceState.settings.paymentType}
             options={paymentTypes}
             onChange={(e, newValue: PaymentType) =>
-              onSelectInvoiceSetting(
-                InvoiceSettingKeys.PAYMENTYPE,
-                newValue.value,
-              )
+              onSelectInvoiceSetting(InvoiceSettingKeys.PAYMENTYPE, newValue)
             }
             getOptionLabel={(option: PaymentType) => option.label}
             style={{ width: 300 }}

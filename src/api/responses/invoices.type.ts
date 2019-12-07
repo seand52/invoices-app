@@ -10,7 +10,7 @@ export interface InvoicesPaginated {
   currentPage: number;
 }
 
-interface InvoiceProducts {
+export interface InvoiceProducts {
   id: number;
   invoiceId: number;
   productId: number;

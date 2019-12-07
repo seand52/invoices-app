@@ -7,6 +7,7 @@ import * as clients from 'store/reducers/clientsReducer';
 import * as products from 'store/reducers/productsReducer';
 import * as invoices from 'store/reducers/invoicesReducer';
 import * as invoiceForm from 'store/reducers/invoiceFormReducer';
+import * as salesOrders from 'store/reducers/salesOrdersReducer';
 import sagas from './sagas/index';
 
 //@ts-ignore
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   [products.key]: products.reducer,
   [invoices.key]: invoices.reducer,
   [invoiceForm.key]: invoiceForm.reducer,
+  [salesOrders.key]: salesOrders.reducer,
 });
 
 const initialState = {
@@ -26,6 +28,7 @@ const initialState = {
   [invoices.key]: invoices.initialState,
   [invoices.key]: invoices.initialState,
   [invoiceForm.key]: invoiceForm.initialState,
+  [salesOrders.key]: salesOrders.initialState,
 };
 
 export type InitialState = typeof initialState;
