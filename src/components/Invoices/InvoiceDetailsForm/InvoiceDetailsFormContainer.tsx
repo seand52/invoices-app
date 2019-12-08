@@ -74,6 +74,23 @@ const InvoiceDetailsFormContainer = ({
   };
 
   const onSelectProduct = (product, uuid) => {
+    if (!product) {
+      dispatch({
+        type: 'SELECT_PRODUCT',
+        payload: {
+          product: {
+            id: null,
+            price: 0,
+            quantity: 0,
+            uuid,
+            description: '',
+            discount: 0,
+          },
+          uuid,
+        },
+      });
+      return;
+    }
     dispatch({
       type: 'SELECT_PRODUCT',
       payload: {

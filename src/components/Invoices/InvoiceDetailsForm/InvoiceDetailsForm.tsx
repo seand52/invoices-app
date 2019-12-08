@@ -165,6 +165,7 @@ export default function InvoiceDetailsForm({
                     <TableRow key={row.uuid}>
                       <TableCell component='th' scope='row'>
                         <Autocomplete
+                          freeSolo
                           defaultValue={row}
                           options={products}
                           onChange={(e, newProduct: Product) =>

@@ -23,6 +23,7 @@ export const prepareInvoiceData = (
       id: item.id,
       quantity: item.quantity,
       discount: item.discount,
+      price: item.price,
     })),
   };
 };

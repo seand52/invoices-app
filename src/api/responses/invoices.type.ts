@@ -16,6 +16,7 @@ export interface InvoiceProducts {
   productId: number;
   quantity: number;
   discount: string;
+  price: string;
   product: {
     id: number;
     description: string;
