@@ -35,6 +35,7 @@ interface Props {
   onSelectProduct: (product: any, uuid: string) => void;
   onChangeProductQuantity: (value, uuid) => void;
   saveInvoice: () => void;
+  changeDiscount: (id, value) => void;
 }
 export default function InvoiceDetailsForm({
   clientsLoading,
@@ -49,6 +50,7 @@ export default function InvoiceDetailsForm({
   onSelectProduct,
   onChangeProductQuantity,
   saveInvoice,
+  changeDiscount,
 }: Props) {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date(invoiceState.settings.date) || new Date(),
@@ -205,10 +207,33 @@ export default function InvoiceDetailsForm({
                       <TableCell align='right'>
                         {!!row.price ? row.price : null}
                       </TableCell>
-                      <TableCell align='right'>0%</TableCell>
+                      <TableCell align='right'>
+                        <TextField
+                          defaultValue={
+                            isNaN(row.discount) ? 0 : row.discount * 100
+                          }
+                          onChange={e =>
+                            changeDiscount(
+                              row.uuid,
+                              Math.round(
+                                (parseFloat(e.target.value) / 100) * 100,
+                              ) / 100,
+                            )
+                          }
+                          name='discount'
+                          label='Disc. %'
+                          variant='outlined'
+                          type='number'
+                        />
+                      </TableCell>
                       <TableCell align='right'>
                         {row.price
-                          ? Math.round(row.quantity * row.price * 100) / 100
+                          ? Math.round(
+                              row.quantity *
+                                row.price *
+                                (1 - row.discount) *
+                                100,
+                            ) / 100
                           : null}
                       </TableCell>
                       <TableCell align='right'>

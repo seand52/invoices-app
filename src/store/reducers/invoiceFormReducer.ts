@@ -23,6 +23,7 @@ export interface InvoiceProducts {
   uuid: string;
   price: number;
   description: string;
+  discount: number;
 }
 
 export interface InvoiceDetailsState {
@@ -43,7 +44,14 @@ export const initialState: InvoiceDetailsState = {
     tax: [{ label: 'IVA (21%)', value: 0.21, category: 'tax' }],
   },
   products: [
-    { id: null, quantity: 1, uuid: uuidv4(), price: 0, description: '' },
+    {
+      id: null,
+      quantity: 1,
+      uuid: uuidv4(),
+      price: 0,
+      description: '',
+      discount: 0,
+    },
   ],
 };
 
@@ -61,7 +69,8 @@ type Actions =
   | InvoiceFormActions.SelectProduct
   | InvoiceFormActions.ChangeQuantity
   | InvoiceFormActions.InsertDefaultValues
-  | InvoiceFormActions.ClearInvoice;
+  | InvoiceFormActions.ClearInvoice
+  | InvoiceFormActions.SetDiscount;
 
 export const reducer = (
   state: InvoiceDetailsState = initialState,
@@ -111,7 +120,14 @@ export const reducer = (
         ...state,
         products: [
           ...state.products,
-          { id: null, quantity: 1, uuid: uuidv4(), price: 0, description: '' },
+          {
+            id: null,
+            quantity: 1,
+            uuid: uuidv4(),
+            price: 0,
+            description: '',
+            discount: 0,
+          },
         ],
       };
     case InvoiceFormActions.DELETE_PRODUCT:
@@ -133,6 +149,7 @@ export const reducer = (
         uuid: action.payload.product.uuid,
         quantity: productsCopy[productIndex].quantity,
         description: action.payload.product.description,
+        discount: action.payload.product.discount,
       };
       return {
         ...state,
@@ -154,6 +171,18 @@ export const reducer = (
         ...state,
         settings: action.payload.settings,
         products: action.payload.products,
+      };
+    }
+
+    case InvoiceFormActions.SET_DISCOUNT: {
+      const productIndex = state.products.findIndex(
+        item => item.uuid === action.payload.uuid,
+      );
+      const productsCopy = [...state.products];
+      productsCopy[productIndex].discount = action.payload.value;
+      return {
+        ...state,
+        products: productsCopy,
       };
     }
     case InvoiceFormActions.CLEAR_INVOICE:

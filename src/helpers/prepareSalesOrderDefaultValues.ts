@@ -4,6 +4,7 @@ import {
   InvoiceSettings,
 } from 'store/reducers/invoiceFormReducer';
 import uuidv4 from 'uuid/v4';
+import { TaxOption, taxOptions } from 'data/taxOptions';
 
 export const prepareSalesOrderDefaultValues = (data: FullSalesOrderDetails) => {
   const settings: InvoiceSettings = {
@@ -11,10 +12,7 @@ export const prepareSalesOrderDefaultValues = (data: FullSalesOrderDetails) => {
     date: data.date,
     transportPrice: data.transportPrice,
     paymentType: { label: data.paymentType, value: data.paymentType },
-    tax: [
-      { label: 'IVA (21%)', value: data.tax, category: 'tax' },
-      { label: 'RE (5.2%)', value: 0.052, category: 're' },
-    ],
+    tax: makeTaxArray(data),
   };
   const products: InvoiceProducts[] = data.salesOrderToProducts.map(
     product => ({
@@ -23,7 +21,29 @@ export const prepareSalesOrderDefaultValues = (data: FullSalesOrderDetails) => {
       id: product.product.id,
       price: product.product.price,
       description: product.product.description,
+      discount: parseFloat(product.discount),
     }),
   );
   return { settings, products };
+};
+
+export const makeTaxArray = (data: FullSalesOrderDetails) => {
+  let taxes: TaxOption[] = [];
+  if (!!data.tax) {
+    const option = taxOptions.find(item => item.value === data.tax);
+    taxes.push({
+      label: option ? option.label : 'Tax',
+      value: data.tax,
+      category: 'tax',
+    });
+  }
+  if (!!data.re) {
+    const option = taxOptions.find(item => item.value === data.re);
+    taxes.push({
+      label: option ? option.label : 'Re',
+      value: data.re,
+      category: 're',
+    });
+  }
+  return taxes;
 };

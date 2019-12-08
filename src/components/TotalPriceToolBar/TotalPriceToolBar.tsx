@@ -10,6 +10,8 @@ interface Props {
   settings: InvoiceSettings;
 }
 
+const makeZero = number => (isNaN(number) ? 0 : number);
+
 const roundedNumber = number => Math.round(number * 100) / 100;
 
 const calculateTotalprice = (
@@ -18,9 +20,14 @@ const calculateTotalprice = (
 ) => {
   const ivaSettings = settings.tax.find(item => item.category === 'tax');
   const reSettings = settings.tax.find(item => item.category === 're');
+
   const subTotal = products
     .filter(item => item.id !== null)
-    .reduce((accum, curr) => accum + curr.price * curr.quantity, 0);
+    .reduce(
+      (accum, curr) =>
+        accum + curr.price * curr.quantity * (1 - makeZero(curr.discount)),
+      0,
+    );
   const iva = ivaSettings ? subTotal * ivaSettings.value : 0;
   const re = reSettings ? subTotal * reSettings.value : 0;
   const transport = settings.transportPrice || 0;

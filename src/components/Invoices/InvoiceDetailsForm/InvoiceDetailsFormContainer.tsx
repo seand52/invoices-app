@@ -83,6 +83,7 @@ const InvoiceDetailsFormContainer = ({
           quantity: 1,
           uuid,
           description: product.description,
+          discount: 0,
         },
         uuid,
       },
@@ -99,6 +100,9 @@ const InvoiceDetailsFormContainer = ({
     });
   };
 
+  const changeDiscount = (uuid, value) => {
+    dispatch({ type: 'SET_DISCOUNT', payload: { uuid, value } });
+  };
   const saveInvoice = () => {
     onSubmitInvoice(invoiceFormState.products, invoiceFormState.settings);
   };
@@ -109,6 +113,7 @@ const InvoiceDetailsFormContainer = ({
         main={
           <React.Fragment>
             <InvoiceDetailsForm
+              changeDiscount={changeDiscount}
               saveInvoice={saveInvoice}
               onClientInputChange={onClientInputChange}
               onSelectTax={onSelectTax}

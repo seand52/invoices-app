@@ -17,6 +17,7 @@ export const SELECT_PRODUCT = 'SELECT_PRODUCT';
 export const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 export const DEFAULT_VALUES = 'DEFAULT_VALES';
 export const CLEAR_INVOICE = 'CLEAR_INVOICE';
+export const SET_DISCOUNT = 'SET_DISCOUNT';
 
 export interface ToggleLoading {
   type: typeof TOGGLE_LOADING;
@@ -96,4 +97,20 @@ export interface ClearInvoice {
 
 export const clearInvoice = () => ({
   type: CLEAR_INVOICE,
+});
+
+export interface SetDiscount {
+  type: typeof SET_DISCOUNT;
+  payload: {
+    uuid: string;
+    value: number;
+  };
+}
+
+export const setDiscount = (uuid, value) => ({
+  type: SET_DISCOUNT,
+  payload: {
+    uuid,
+    value,
+  },
 });

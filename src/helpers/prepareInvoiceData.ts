@@ -22,6 +22,7 @@ export const prepareInvoiceData = (
     products: products.map(item => ({
       id: item.id,
       quantity: item.quantity,
+      discount: item.discount,
     })),
   };
 };
