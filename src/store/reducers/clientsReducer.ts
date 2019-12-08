@@ -25,8 +25,8 @@ type Actions =
   | ClientActions.ResetSuccess
   | ClientActions.UpdateClient
   | ClientActions.UpdateClientOk
-  | ClientActions.UpdateClientFailed;
-
+  | ClientActions.UpdateClientFailed
+  | ClientActions.SearchByName;
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
     case ClientActions.SEARCH_ALL:
@@ -46,6 +46,12 @@ export const reducer = (state = initialState, action: Actions) => {
         error: action.payload,
         loading: false,
       };
+    case ClientActions.SEARCH_BY_NAME:
+      return {
+        ...state,
+        clients: action.payload,
+      };
+
     case ClientActions.DELETE:
       return {
         ...state,

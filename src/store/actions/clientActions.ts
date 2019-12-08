@@ -4,7 +4,7 @@ import { ICreateClient } from 'forms/formValidations/add-client';
 export const SEARCH_ALL = 'CLIENTS:SEARCH_ALL';
 export const SEARCH_ALL_OK = 'CLIENTS:SEARCH_ALL_OK';
 export const SEARCH_ALL_FAILED = 'CLIENTS:SEARCH_ALL_FAILED';
-
+export const SEARCH_BY_NAME = 'CLIENTS:SEARCH_BY_NAME';
 export const DELETE = 'CLIENTS::DELETE';
 export const DELETE_OK = 'CLIENTS::DELETE_OK';
 export const DELETE_FAILED = 'CLIENTS::DELETE_FAILED';
@@ -41,6 +41,16 @@ export interface SearchAllFailed {
   type: typeof SEARCH_ALL_FAILED;
   payload: string;
 }
+
+export interface SearchByName {
+  type: typeof SEARCH_BY_NAME;
+  payload: string;
+}
+
+export const searchByName = (name: string) => ({
+  type: SEARCH_BY_NAME,
+  payload: name,
+});
 
 export const searchAllFailed = () => ({
   type: SEARCH_ALL_FAILED,

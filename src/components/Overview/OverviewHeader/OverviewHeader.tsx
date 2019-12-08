@@ -7,25 +7,29 @@ interface Props {
   onSearchChange: (e: any) => void;
   onSubmitSearch: (e) => void;
   onAddNew: (e) => void;
+  onSearchClear?: () => void;
 }
 export default function OverviewHeader({
   title,
   onSearchChange,
   onSubmitSearch,
   onAddNew,
+  onSearchClear,
 }: Props) {
   return (
     <div className={styles.overview_header}>
       <ul className={styles.list}>
         <li className={styles.search}>
-          <form onSubmit={onSubmitSearch}>
+          <form className={styles.search_form} onSubmit={onSubmitSearch}>
             <TextField
+              variant='outlined'
               onChange={onSearchChange}
               id='standard-required'
               label='Search'
               className={styles.textField}
               margin='normal'
             />
+            <span onClick={onSearchClear}>Clear</span>
           </form>
         </li>
         <li className={styles.add_new}>

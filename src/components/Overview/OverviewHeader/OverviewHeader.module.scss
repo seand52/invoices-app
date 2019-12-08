@@ -22,3 +22,13 @@
 .add_new {
   margin-right: 20px;
 }
+
+.search_form {
+  display: flex;
+  align-items: center;
+  & > span {
+    margin-left: 20px;
+    cursor: pointer;
+    color: blue;
+  }
+}

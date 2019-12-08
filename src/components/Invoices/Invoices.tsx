@@ -103,6 +103,22 @@ const Invoices = ({
 
   const submitSearch = e => {
     e.preventDefault();
+    if (search !== '') {
+      searchAll({
+        url: `http://localhost:3000/api/invoices?page=1&limit=10&clientName=${search}`,
+      });
+    } else {
+      searchAll({
+        url: `http://localhost:3000/api/invoices?page=1&limit=10`,
+      });
+    }
+  };
+
+  const onSearchClear = () => {
+    setSearch('');
+    searchAll({
+      url: `http://localhost:3000/api/invoices?page=1&limit=10`,
+    });
   };
 
   const onAddNewInvoice = e => {
@@ -134,21 +150,19 @@ const Invoices = ({
     <div>
       <Layout
         main={
-          invoiceState.loading ? (
-            <p>Loading... </p>
-          ) : (
-            <Overview
-              editItem={editInvoice}
-              deleteItem={deleteInvoice}
-              tableHeader={headCells}
-              tableData={invoiceState.invoices}
-              onAddNew={onAddNewInvoice}
-              onSearchChange={onSearchChange}
-              onSubmitSearch={submitSearch}
-              onNextPage={onNextPage}
-              onChangeRowsPerPage={onChangeRowsPerPage}
-            />
-          )
+          <Overview
+            onSearchClear={onSearchClear}
+            loading={invoiceState.loading}
+            editItem={editInvoice}
+            deleteItem={deleteInvoice}
+            tableHeader={headCells}
+            tableData={invoiceState.invoices}
+            onAddNew={onAddNewInvoice}
+            onSearchChange={onSearchChange}
+            onSubmitSearch={submitSearch}
+            onNextPage={onNextPage}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+          />
         }
       />
     </div>

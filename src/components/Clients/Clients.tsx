@@ -94,6 +94,22 @@ const Clients = ({
 
   const submitSearch = e => {
     e.preventDefault();
+    if (search !== '') {
+      searchAll({
+        url: `http://localhost:3000/api/clients?page=1&limit=10&name=${search}`,
+      });
+    } else {
+      searchAll({
+        url: `http://localhost:3000/api/clients?page=1&limit=10`,
+      });
+    }
+  };
+
+  const onSearchClear = () => {
+    setSearch('');
+    searchAll({
+      url: `http://localhost:3000/api/clients?page=1&limit=10`,
+    });
   };
 
   const onAddNewClient = e => {
@@ -125,21 +141,19 @@ const Clients = ({
     <div>
       <Layout
         main={
-          clientState.loading ? (
-            <p>Loading... </p>
-          ) : (
-            <Overview
-              editItem={editClient}
-              deleteItem={deleteClient}
-              tableHeader={headCells}
-              tableData={clientState.clients}
-              onAddNew={onAddNewClient}
-              onSearchChange={onSearchChange}
-              onSubmitSearch={submitSearch}
-              onNextPage={onNextPage}
-              onChangeRowsPerPage={onChangeRowsPerPage}
-            />
-          )
+          <Overview
+            onSearchClear={onSearchClear}
+            loading={clientState.loading}
+            editItem={editClient}
+            deleteItem={deleteClient}
+            tableHeader={headCells}
+            tableData={clientState.clients}
+            onAddNew={onAddNewClient}
+            onSearchChange={onSearchChange}
+            onSubmitSearch={submitSearch}
+            onNextPage={onNextPage}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+          />
         }
       />
       <SimpleModal

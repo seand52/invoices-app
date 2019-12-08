@@ -18,6 +18,8 @@ interface Props {
   deleteItem: (ids: string[]) => void;
   editItem: (id: string) => void;
   onChangeRowsPerPage: (rowsPerPage: string) => void;
+  loading?: boolean;
+  onSearchClear?: () => void;
 }
 export default function Overview({
   onSearchChange,
@@ -29,18 +31,19 @@ export default function Overview({
   deleteItem,
   editItem,
   onChangeRowsPerPage,
+  loading,
+  onSearchClear,
 }: Props) {
   return (
     <div>
-      {tableData && tableData.items && tableData.items.length ? (
-        <OverviewHeader
-          onAddNew={onAddNew}
-          onSearchChange={onSearchChange}
-          onSubmitSearch={onSubmitSearch}
-          title='Clients'
-        />
-      ) : null}
-      {tableData && tableData.items && tableData.items.length ? (
+      <OverviewHeader
+        onSearchClear={onSearchClear}
+        onAddNew={onAddNew}
+        onSearchChange={onSearchChange}
+        onSubmitSearch={onSubmitSearch}
+        title='Clients'
+      />
+      {tableData && tableData.items && tableData.items.length && !loading ? (
         <OverviewTable
           onChangeRowsPerPage={onChangeRowsPerPage}
           deleteItem={deleteItem}

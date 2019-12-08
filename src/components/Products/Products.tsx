@@ -102,6 +102,22 @@ const Clients = ({
 
   const submitSearch = e => {
     e.preventDefault();
+    if (search !== '') {
+      searchAll({
+        url: `http://localhost:3000/api/products?page=1&limit=10&name=${search}`,
+      });
+    } else {
+      searchAll({
+        url: `http://localhost:3000/api/products?page=1&limit=10`,
+      });
+    }
+  };
+
+  const onSearchClear = () => {
+    setSearch('');
+    searchAll({
+      url: `http://localhost:3000/api/products?page=1&limit=10`,
+    });
   };
 
   const addNewProduct = e => {
@@ -134,21 +150,19 @@ const Clients = ({
     <div>
       <Layout
         main={
-          productState.loading ? (
-            <p>Loading... </p>
-          ) : (
-            <Overview
-              editItem={editProduct}
-              deleteItem={deleteProduct}
-              tableHeader={headCells}
-              tableData={productState.products}
-              onAddNew={addNewProduct}
-              onSearchChange={onSearchChange}
-              onSubmitSearch={submitSearch}
-              onNextPage={onNextPage}
-              onChangeRowsPerPage={onChangeRowsPerPage}
-            />
-          )
+          <Overview
+            onSearchClear={onSearchClear}
+            loading={productState.loading}
+            editItem={editProduct}
+            deleteItem={deleteProduct}
+            tableHeader={headCells}
+            tableData={productState.products}
+            onAddNew={addNewProduct}
+            onSearchChange={onSearchChange}
+            onSubmitSearch={submitSearch}
+            onNextPage={onNextPage}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+          />
         }
       />
       <SimpleModal

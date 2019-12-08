@@ -1,6 +1,7 @@
 export const initialState = {
   showModal: false,
-  action: null as 'added' | 'modified' | 'deleted' | null,
+  action: null as 'added' | 'modified' | 'deleted' | 'searching' | null,
+  loading: false as boolean,
   selectedClientId: null as string | null,
 };
 
@@ -65,4 +66,5 @@ export const reducer = (
         showModal: false,
       };
   }
+  return state;
 };

@@ -104,6 +104,22 @@ const SalesOrders = ({
 
   const submitSearch = e => {
     e.preventDefault();
+    if (search !== '') {
+      searchAll({
+        url: `http://localhost:3000/api/sales-orders?page=1&limit=10&clientName=${search}`,
+      });
+    } else {
+      searchAll({
+        url: `http://localhost:3000/api/sales-orders?page=1&limit=10`,
+      });
+    }
+  };
+
+  const onSearchClear = () => {
+    setSearch('');
+    searchAll({
+      url: `http://localhost:3000/api/sales-orders?page=1&limit=10`,
+    });
   };
 
   const onAddNewSalesOrder = e => {
@@ -135,21 +151,19 @@ const SalesOrders = ({
     <div>
       <Layout
         main={
-          salesOrderState.loading ? (
-            <p>Loading... </p>
-          ) : (
-            <Overview
-              editItem={editSalesOrder}
-              deleteItem={deleteSalesOrder}
-              tableHeader={headCells}
-              tableData={salesOrderState.salesOrders}
-              onAddNew={onAddNewSalesOrder}
-              onSearchChange={onSearchChange}
-              onSubmitSearch={submitSearch}
-              onNextPage={onNextPage}
-              onChangeRowsPerPage={onChangeRowsPerPage}
-            />
-          )
+          <Overview
+            onSearchClear={onSearchClear}
+            loading={salesOrderState.loading}
+            editItem={editSalesOrder}
+            deleteItem={deleteSalesOrder}
+            tableHeader={headCells}
+            tableData={salesOrderState.salesOrders}
+            onAddNew={onAddNewSalesOrder}
+            onSearchChange={onSearchChange}
+            onSubmitSearch={submitSearch}
+            onNextPage={onNextPage}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+          />
         }
       />
     </div>
