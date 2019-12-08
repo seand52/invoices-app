@@ -20,6 +20,7 @@ import { getInvoiceState } from 'selectors/invoices';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { clearInvoice } from 'store/actions/invoiceFormActions';
 import { navigate } from '@reach/router';
+import { makeDownloadLink } from 'helpers/makeDownloadLink';
 
 interface Props {
   updateInvoice: (data: ICreateInvoice, id) => void;
@@ -41,6 +42,7 @@ const EditInvoice = ({
 }: Props) => {
   useEffect(() => {
     if (invoiceState.success) {
+      makeDownloadLink(invoiceState.base64Invoice);
       resetSuccess();
       Swal.fire(
         alertProp({

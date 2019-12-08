@@ -48,6 +48,7 @@ function* deleteSalesOrder({ payload }: any) {
 function* createSalesOrder({ payload }: any) {
   try {
     const res = yield api.createSalesOrder(payload);
+    debugger;
     yield put(SalesOrderActions.newSalesOrderOk(res));
   } catch (err) {
     yield put(SalesOrderActions.newSalesOrderFailed('fail'));

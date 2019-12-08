@@ -10,6 +10,7 @@ export const initialState = {
   error: null as string | null,
   success: false as boolean,
   selectedInvoiceDetails: {} as FullInvoiceDetails,
+  base64Invoice: '' as string,
 };
 
 export enum InvoiceSettingKeys {
@@ -105,6 +106,7 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         success: true,
+        base64Invoice: action.payload,
       };
     case InvoiceActions.NEW_INVOICE_FAILED:
       return {
@@ -123,6 +125,7 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         success: true,
+        base64Invoice: action.payload,
       };
     case InvoiceActions.UPDATE_INVOICE_FAILED:
       return {

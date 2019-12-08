@@ -16,6 +16,7 @@ import { getSalesOrderState } from 'selectors/salesOrders';
 import { SalesOrderState } from 'store/reducers/salesOrdersReducer';
 import { navigate } from '@reach/router';
 import { clearInvoice } from 'store/actions/invoiceFormActions';
+import { makeDownloadLink } from 'helpers/makeDownloadLink';
 
 interface Props {
   saveSalesOrder: (data: ICreateSalesOrder) => void;
@@ -38,6 +39,7 @@ const NewSalesOrder = ({
   }, [clearInvoice]);
   useEffect(() => {
     if (salesOrderState.success) {
+      makeDownloadLink(salesOrderState.base64SalesOrder);
       resetSuccess();
       Swal.fire(
         alertProp({

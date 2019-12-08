@@ -126,10 +126,10 @@ export const newSalesOrder = (data: ICreateSalesOrder) => ({
 
 export interface NewSalesOrderOk {
   type: typeof NEW_SALES_ORDER_OK;
-  data: any;
+  payload: any;
 }
 
-export const newSalesOrderOk = data => ({
+export const newSalesOrderOk = (data: string) => ({
   type: NEW_SALES_ORDER_OK,
   payload: data,
 });
@@ -156,10 +156,10 @@ export const updateSalesOrder = (data: ICreateSalesOrder, id: string) => ({
 
 export interface UpdateSalesOrderOk {
   type: typeof UPDATE_SALES_ORDER_OK;
-  data: any;
+  payload: any;
 }
 
-export const updateSalesOrderOk = data => ({
+export const updateSalesOrderOk = (data: string) => ({
   type: UPDATE_SALES_ORDER_OK,
   payload: data,
 });

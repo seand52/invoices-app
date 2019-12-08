@@ -16,6 +16,7 @@ import { getInvoiceState } from 'selectors/invoices';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { navigate } from '@reach/router';
 import { clearInvoice } from 'store/actions/invoiceFormActions';
+import { makeDownloadLink } from 'helpers/makeDownloadLink';
 
 interface Props {
   saveInvoice: (data: ICreateInvoice) => void;
@@ -38,6 +39,7 @@ const NewInvoice = ({
   }, [clearInvoice]);
   useEffect(() => {
     if (invoiceState.success) {
+      makeDownloadLink(invoiceState.base64Invoice);
       resetSuccess();
       Swal.fire(
         alertProp({
@@ -70,10 +72,12 @@ const NewInvoice = ({
     saveInvoice(data);
   };
   return (
-    <InvoiceDetailsFormContainer
-      dispatch={dispatch}
-      onSubmitInvoice={onSubmitInvoice}
-    />
+    <React.Fragment>
+      <InvoiceDetailsFormContainer
+        dispatch={dispatch}
+        onSubmitInvoice={onSubmitInvoice}
+      />
+    </React.Fragment>
   );
 };
 

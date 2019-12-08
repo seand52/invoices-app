@@ -125,10 +125,10 @@ export const newInvoice = (data: ICreateInvoice) => ({
 
 export interface NewInvoiceOk {
   type: typeof NEW_INVOICE_OK;
-  data: any;
+  payload: string;
 }
 
-export const newInvoiceOk = data => ({
+export const newInvoiceOk = (data: string) => ({
   type: NEW_INVOICE_OK,
   payload: data,
 });
@@ -155,10 +155,10 @@ export const updateInvoice = (data: ICreateInvoice, id: string) => ({
 
 export interface UpdateInvoiceOk {
   type: typeof UPDATE_INVOICE_OK;
-  data: any;
+  payload: any;
 }
 
-export const updateInvoiceOk = data => ({
+export const updateInvoiceOk = (data: string) => ({
   type: UPDATE_INVOICE_OK,
   payload: data,
 });

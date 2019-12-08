@@ -10,6 +10,7 @@ export const initialState = {
   error: null as string | null,
   success: false as boolean,
   selectedSalesOrderDetails: {} as FullSalesOrderDetails,
+  base64SalesOrder: '' as string,
 };
 
 export enum SalesOrderSettingKeys {
@@ -105,6 +106,7 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         success: true,
+        base64SalesOrder: action.payload,
       };
     case SalesOrderActions.NEW_SALES_ORDER_FAILED:
       return {
@@ -123,6 +125,7 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         success: true,
+        base64SalesOrder: action.payload,
       };
     case SalesOrderActions.UPDATE_SALES_ORDER_FAILED:
       return {
