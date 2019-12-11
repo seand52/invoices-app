@@ -4,6 +4,7 @@ import {
   InvoiceSettings,
 } from 'store/reducers/invoiceFormReducer';
 import styles from './TotalPriceToolbar.module.scss';
+import NumberFormatter from 'helpers/numberFormat';
 
 interface Props {
   products: InvoiceProducts;
@@ -48,10 +49,10 @@ export default function TotalPriceToolBar({ products, settings }) {
   );
   return (
     <div className={styles.price_bar}>
-      <p>SubTotal: {subTotal}</p>
-      <p>IVA: {roundedNumber(iva + re)}</p>
-      <p>Transport: {transport}</p>
-      <p>Total: {invoiceTotal}</p>
+      <p>SubTotal: {NumberFormatter.format(subTotal)}</p>
+      <p>IVA: {NumberFormatter.format(roundedNumber(iva + re))}</p>
+      <p>Transport: {NumberFormatter.format(transport)}</p>
+      <p>Total: {NumberFormatter.format(invoiceTotal)}</p>
     </div>
   );
 }

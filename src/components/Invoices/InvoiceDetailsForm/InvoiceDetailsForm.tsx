@@ -21,6 +21,7 @@ import { paymentTypes, PaymentType } from 'data/paymentTypes';
 import { InvoiceSettingKeys } from 'store/reducers/invoicesReducer';
 import { Product } from 'api/responses/products.type';
 import { InvoiceDetailsState } from 'store/reducers/invoiceFormReducer';
+import NumberFormatter from 'helpers/numberFormat';
 
 interface Props {
   clientsLoading: boolean;
@@ -206,7 +207,7 @@ export default function InvoiceDetailsForm({
                         />
                       </TableCell>
                       <TableCell align='right'>
-                        {!!row.price ? row.price : null}
+                        {!!row.price ? NumberFormatter.format(row.price) : null}
                       </TableCell>
                       <TableCell align='right'>
                         <TextField
@@ -229,12 +230,14 @@ export default function InvoiceDetailsForm({
                       </TableCell>
                       <TableCell align='right'>
                         {row.price
-                          ? Math.round(
-                              row.quantity *
-                                row.price *
-                                (1 - row.discount) *
-                                100,
-                            ) / 100
+                          ? NumberFormatter.format(
+                              Math.round(
+                                row.quantity *
+                                  row.price *
+                                  (1 - row.discount) *
+                                  100,
+                              ) / 100,
+                            )
                           : null}
                       </TableCell>
                       <TableCell align='right'>
