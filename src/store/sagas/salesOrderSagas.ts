@@ -1,6 +1,7 @@
 import { all, takeLatest, put, call, select } from '@redux-saga/core/effects';
 import * as SalesOrderActions from 'store/actions/SalesOrderActions';
 import * as InvoiceFormActions from 'store/actions/invoiceFormActions';
+import * as InvoiceActions from 'store/actions/invoiceActions';
 import * as api from 'api/salesOrder';
 import { getSalesOrderState } from 'selectors/salesOrders';
 import { prepareSalesOrderDefaultValues } from 'helpers/prepareSalesOrderDefaultValues';
@@ -48,7 +49,6 @@ function* deleteSalesOrder({ payload }: any) {
 function* createSalesOrder({ payload }: any) {
   try {
     const res = yield api.createSalesOrder(payload);
-    debugger;
     yield put(SalesOrderActions.newSalesOrderOk(res));
   } catch (err) {
     yield put(SalesOrderActions.newSalesOrderFailed('fail'));
@@ -64,6 +64,16 @@ function* updateSalesOrder({ payload }: any) {
   }
 }
 
+function* transformToInvoice({ payload }: any) {
+  try {
+    const res = yield api.transformToInvoice(payload);
+    yield put(InvoiceActions.updateBase64Invoice(res));
+    yield put(SalesOrderActions.transformToInvoiceOk(res));
+  } catch (err) {
+    yield put(SalesOrderActions.transformToInvoiceFailed('fail'));
+  }
+}
+
 function* sagas() {
   return all([
     yield takeLatest(SalesOrderActions.SEARCH_ALL, searchSalesOrders),
@@ -71,6 +81,10 @@ function* sagas() {
     yield takeLatest(SalesOrderActions.DELETE, deleteSalesOrder),
     yield takeLatest(SalesOrderActions.NEW_SALES_ORDER, createSalesOrder),
     yield takeLatest(SalesOrderActions.UPDATE_SALES_ORDER, updateSalesOrder),
+    yield takeLatest(
+      SalesOrderActions.TRANSFORM_TO_INVOICE,
+      transformToInvoice,
+    ),
   ]);
 }
 

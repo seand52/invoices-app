@@ -37,6 +37,7 @@ export interface ProductsHeadCell {
   id: keyof Data;
   label: string;
   numeric: boolean;
+  currency?: boolean;
 }
 
 const headCells: ProductsHeadCell[] = [
@@ -55,6 +56,7 @@ const headCells: ProductsHeadCell[] = [
   {
     id: 'price',
     numeric: false,
+    currency: true,
     disablePadding: true,
     label: 'Price',
   },
@@ -69,7 +71,26 @@ const headCells: ProductsHeadCell[] = [
   { id: 'actions', numeric: false, disablePadding: true, label: '' },
 ];
 
-const Clients = ({
+const tableActions = [
+  {
+    label: '',
+    value: '',
+  },
+  {
+    label: 'Edit',
+    value: 'edit',
+  },
+  {
+    label: 'Delete',
+    value: 'delete',
+  },
+  {
+    label: 'View',
+    value: 'view',
+  },
+];
+
+const Products = ({
   path,
   searchAll,
   productState,
@@ -151,6 +172,7 @@ const Clients = ({
       <Layout
         main={
           <Overview
+            tableActions={tableActions}
             onSearchClear={onSearchClear}
             loading={productState.loading}
             editItem={editProduct}
@@ -188,4 +210,4 @@ const mapDispatchToProps = dispatch => {
     resetSuccess: () => dispatch(resetSuccess()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Clients);
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

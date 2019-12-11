@@ -41,7 +41,10 @@ type Actions =
   | SalesOrderActions.NewSalesOrder
   | SalesOrderActions.NewSalesOrderOk
   | SalesOrderActions.NewSalesOrderFailed
-  | SalesOrderActions.ResetSuccess;
+  | SalesOrderActions.ResetSuccess
+  | SalesOrderActions.TransformToInvoice
+  | SalesOrderActions.TransformToInvoiceOk
+  | SalesOrderActions.TransformToInvoiceFailed;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -133,6 +136,26 @@ export const reducer = (state = initialState, action: Actions) => {
         loading: false,
         success: false,
         error: action.payload,
+      };
+    case SalesOrderActions.TRANSFORM_TO_INVOICE:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+      };
+    case SalesOrderActions.TRANSFORM_TO_INVOICE_OK:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        success: true,
+      };
+    case SalesOrderActions.TRANSFORM_TO_INVOICE_FAILED:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false,
       };
     case SalesOrderActions.RESET_SUCCESS:
       return {

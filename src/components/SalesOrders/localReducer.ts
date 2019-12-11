@@ -1,6 +1,8 @@
+type Action = 'added' | 'modified' | 'deleted';
+
 export const initialState = {
   showModal: false,
-  action: null as 'added' | 'modified' | 'deleted' | null,
+  action: null as Action | null,
   selectedSalesOrderId: null as string | null,
 };
 
@@ -17,8 +19,12 @@ interface CloseModal {
 interface DeleteSalesOrder {
   type: 'DELETE_SALES_ORDER';
 }
+interface SetAction {
+  type: 'SET_ACTION';
+  payload: Action;
+}
 
-type Actions = ToggleModal | DeleteSalesOrder | CloseModal;
+type Actions = ToggleModal | DeleteSalesOrder | CloseModal | SetAction;
 
 export const reducer = (
   state: SalesOrderComponentState,
@@ -40,6 +46,11 @@ export const reducer = (
         ...state,
         action: 'deleted',
         showModal: false,
+      };
+    case 'SET_ACTION':
+      return {
+        ...state,
+        action: action.payload,
       };
   }
 };

@@ -29,6 +29,7 @@ import { ProductsHeadCell } from 'components/Products/Products';
 import { ProductsPaginated } from 'api/responses/products.type';
 import { InvoicesHeadCell } from 'components/Invoices/Invoices';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
+import NumberFormatter from 'helpers/numberFormat';
 
 interface EnhancedTableProps {
   numSelected: number;
@@ -174,7 +175,9 @@ interface Props {
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
   editItem: (id: string) => void;
+  transformToInvoice?: (id: string) => void;
   onChangeRowsPerPage: (rowsPerPage: string) => void;
+  tableActions?: { label: string; value: string }[];
 }
 
 const OverviewTable = ({
@@ -185,6 +188,8 @@ const OverviewTable = ({
   deleteItem,
   editItem,
   onChangeRowsPerPage,
+  transformToInvoice,
+  tableActions,
 }: Props) => {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
@@ -237,6 +242,12 @@ const OverviewTable = ({
         break;
       case 'edit':
         editItem(id);
+        break;
+      case 'transform':
+        if (transformToInvoice) {
+          transformToInvoice(id);
+        }
+        break;
     }
   };
 
@@ -306,10 +317,12 @@ const OverviewTable = ({
                                 }
                                 labelWidth={50}
                               >
-                                <MenuItem value=''></MenuItem>
-                                <MenuItem value='edit'>Edit</MenuItem>
-                                <MenuItem value='delete'>Delete</MenuItem>
-                                <MenuItem value='view'>View</MenuItem>
+                                {tableActions &&
+                                  tableActions.map((item, index) => (
+                                    <MenuItem key={index} value={item.value}>
+                                      {item.label}
+                                    </MenuItem>
+                                  ))}
                               </Select>
                             </FormControl>
                           </TableCell>
@@ -324,7 +337,9 @@ const OverviewTable = ({
                       }
                       return (
                         <TableCell key={item.id} padding='none' align='left'>
-                          {row[item.id]}
+                          {item.currency
+                            ? NumberFormatter.format(row[item.id])
+                            : row[item.id]}
                         </TableCell>
                       );
                     })}

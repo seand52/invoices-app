@@ -41,7 +41,8 @@ type Actions =
   | InvoiceActions.NewInvoice
   | InvoiceActions.NewInvoiceOk
   | InvoiceActions.NewInvoiceFailed
-  | InvoiceActions.ResetSuccess;
+  | InvoiceActions.ResetSuccess
+  | InvoiceActions.UpdateBase64Invoice;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -140,6 +141,12 @@ export const reducer = (state = initialState, action: Actions) => {
         success: false,
       };
 
+    case InvoiceActions.UPDATE_BASE64_INVOICE:
+      debugger;
+      return {
+        ...state,
+        base64Invoice: action.payload,
+      };
     default:
       return state;
   }

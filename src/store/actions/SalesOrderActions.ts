@@ -25,6 +25,11 @@ export const UPDATE_SALES_ORDER_OK = 'SALES_ORDER:UPDATE_SALES_ORDER_OK';
 export const UPDATE_SALES_ORDER_FAILED =
   'SALES_ORDER:UPDATE_SALES_ORDER_FAILED';
 
+export const TRANSFORM_TO_INVOICE = 'SALES_ORDER::TRANSFORM_TO_INVOICE';
+export const TRANSFORM_TO_INVOICE_OK = 'SALES_ORDER::TRANSFORM_TO_INVOICE_OK';
+export const TRANSFORM_TO_INVOICE_FAILED =
+  'SALES_ORDER::TRANSFORM_TO_INVOICE_FAILED';
+
 export const RESET_SUCCESS = 'SALES_ORDER::RESET_SUCCESS';
 export interface SearchAll {
   type: typeof SEARCH_ALL;
@@ -172,6 +177,36 @@ export interface UpdateSalesOrderFailed {
 export const updateSalesOrderFailed = (message: string) => ({
   type: UPDATE_SALES_ORDER_FAILED,
   payload: 'There was an error creating this sales order',
+});
+
+export interface TransformToInvoice {
+  type: typeof TRANSFORM_TO_INVOICE;
+  payload: string;
+}
+
+export const transformToInvoice = id => ({
+  type: TRANSFORM_TO_INVOICE,
+  payload: id,
+});
+
+export interface TransformToInvoiceOk {
+  type: typeof TRANSFORM_TO_INVOICE_OK;
+  payload: string;
+}
+
+export const transformToInvoiceOk = base64invoice => ({
+  type: TRANSFORM_TO_INVOICE_OK,
+  payload: base64invoice,
+});
+
+export interface TransformToInvoiceFailed {
+  type: typeof TRANSFORM_TO_INVOICE_FAILED;
+  payload: string;
+}
+
+export const transformToInvoiceFailed = message => ({
+  type: TRANSFORM_TO_INVOICE_FAILED,
+  payload: 'Fail',
 });
 
 export interface ResetSuccess {

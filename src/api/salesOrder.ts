@@ -70,3 +70,14 @@ export const updateSalesOrder = (
     { auth: true },
   );
 };
+
+export const transformToInvoice = (id: string): Promise<any> => {
+  return request(
+    {
+      method: 'PUT',
+      useBaseUrl: true,
+      url: `/invoices/transform-sales-order/${id}`,
+    },
+    { auth: true },
+  );
+};

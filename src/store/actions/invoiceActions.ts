@@ -25,6 +25,7 @@ export const UPDATE_INVOICE_OK = 'INVOICES::UPDATE_INVOICE_OK';
 export const UPDATE_INVOICE_FAILED = 'INVOICES::UPDATE_INVOICE_FAILED';
 
 export const RESET_SUCCESS = 'INVOICES::RESET_SUCCESS';
+export const UPDATE_BASE64_INVOICE = 'INVOICE::UPDATE_BASE_64_INVOICE';
 export interface SearchAll {
   type: typeof SEARCH_ALL;
 }
@@ -179,4 +180,14 @@ export interface ResetSuccess {
 
 export const resetSuccess = () => ({
   type: RESET_SUCCESS,
+});
+
+export interface UpdateBase64Invoice {
+  type: typeof UPDATE_BASE64_INVOICE;
+  payload: string;
+}
+
+export const updateBase64Invoice = base64 => ({
+  type: UPDATE_BASE64_INVOICE,
+  payload: base64,
 });

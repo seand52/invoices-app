@@ -20,6 +20,8 @@ interface Props {
   onChangeRowsPerPage: (rowsPerPage: string) => void;
   loading?: boolean;
   onSearchClear?: () => void;
+  transformToInvoice?: (id) => void;
+  tableActions?: { label: string; value: string }[];
 }
 export default function Overview({
   onSearchChange,
@@ -33,6 +35,8 @@ export default function Overview({
   onChangeRowsPerPage,
   loading,
   onSearchClear,
+  transformToInvoice,
+  tableActions,
 }: Props) {
   return (
     <div>
@@ -45,6 +49,8 @@ export default function Overview({
       />
       {tableData && tableData.items && tableData.items.length && !loading ? (
         <OverviewTable
+          tableActions={tableActions}
+          transformToInvoice={transformToInvoice}
           onChangeRowsPerPage={onChangeRowsPerPage}
           deleteItem={deleteItem}
           onNextPage={onNextPage}

@@ -61,6 +61,25 @@ const headCells: HeadCell[] = [
   { id: 'actions', numeric: false, disablePadding: true, label: '' },
 ];
 
+const tableActions = [
+  {
+    label: '',
+    value: '',
+  },
+  {
+    label: 'Edit',
+    value: 'edit',
+  },
+  {
+    label: 'Delete',
+    value: 'delete',
+  },
+  {
+    label: 'View',
+    value: 'view',
+  },
+];
+
 const Clients = ({
   path,
   searchAll,
@@ -142,6 +161,7 @@ const Clients = ({
       <Layout
         main={
           <Overview
+            tableActions={tableActions}
             onSearchClear={onSearchClear}
             loading={clientState.loading}
             editItem={editClient}

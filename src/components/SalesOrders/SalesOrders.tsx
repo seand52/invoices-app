@@ -6,6 +6,7 @@ import {
   deleteSalesOrder,
   resetSuccess,
   searchOne,
+  transformToInvoice,
 } from 'store/actions/SalesOrderActions';
 import { InitialState } from 'store';
 import { getSalesOrderState } from 'selectors/salesOrders';
@@ -15,6 +16,9 @@ import { alertProp } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
 import { SalesOrderState } from 'store/reducers/salesOrdersReducer';
 import { navigate } from '@reach/router';
+import { getInvoiceState } from 'selectors/invoices';
+import { InvoiceState } from 'store/reducers/invoicesReducer';
+import { makeDownloadLink } from 'helpers/makeDownloadLink';
 
 interface Props {
   path: string;
@@ -22,7 +26,9 @@ interface Props {
   searchOne: (id) => void;
   deleteSalesOrder: (id: string) => void;
   resetSuccess: () => void;
+  transformToInvoice: (id) => void;
   salesOrderState: SalesOrderState;
+  invoiceState: InvoiceState;
 }
 
 interface Data {
@@ -40,6 +46,7 @@ export interface SalesOrdersHeadCell {
   label: string;
   numeric: boolean;
   nested?: { key: 'client'; property: string }[];
+  currency?: boolean;
 }
 
 const headCells: SalesOrdersHeadCell[] = [
@@ -61,11 +68,31 @@ const headCells: SalesOrdersHeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: 'Price',
+    currency: true,
   },
 
   { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
   { id: 'paymentType', numeric: false, disablePadding: true, label: 'Payment' },
   { id: 'actions', numeric: false, disablePadding: true, label: '' },
+];
+
+const tableActions = [
+  {
+    label: '',
+    value: '',
+  },
+  {
+    label: 'Edit',
+    value: 'edit',
+  },
+  {
+    label: 'Delete',
+    value: 'delete',
+  },
+  {
+    label: 'Make invoice',
+    value: 'transform',
+  },
 ];
 
 const SalesOrders = ({
@@ -74,6 +101,8 @@ const SalesOrders = ({
   salesOrderState,
   resetSuccess,
   deleteSalesOrder: deleteSalesOrderAction,
+  transformToInvoice: transformToInvoiceAction,
+  invoiceState,
 }: Props) => {
   const [search, setSearch] = useState('');
   const [localState, localDispatch] = useReducer(reducer, initialState);
@@ -94,6 +123,11 @@ const SalesOrders = ({
         }),
       );
       resetSuccess();
+      if (invoiceState.base64Invoice) {
+        makeDownloadLink(invoiceState.base64Invoice);
+        navigate('/invoices');
+        return;
+      }
       navigate('/sales-orders');
     }
   }, [salesOrderState.success, resetSuccess]);
@@ -147,11 +181,18 @@ const SalesOrders = ({
       url: `http://localhost:3000/api/sales-orders?page=${salesOrderState.salesOrders.currentPage}&limit=${rowsPerPage}`,
     });
   };
+
+  const transformToInvoice = id => {
+    localDispatch({ type: 'SET_ACTION', payload: 'modified' });
+    transformToInvoiceAction(id);
+  };
   return (
     <div>
       <Layout
         main={
           <Overview
+            tableActions={tableActions}
+            transformToInvoice={transformToInvoice}
             onSearchClear={onSearchClear}
             loading={salesOrderState.loading}
             editItem={editSalesOrder}
@@ -173,6 +214,7 @@ const SalesOrders = ({
 const mapStateToProps = (state: InitialState) => {
   return {
     salesOrderState: getSalesOrderState(state),
+    invoiceState: getInvoiceState(state),
   };
 };
 
@@ -181,6 +223,7 @@ const mapDispatchToProps = dispatch => {
     searchAll: ({ url }) => dispatch(searchAll({ url })),
     searchOne: id => dispatch(searchOne(id)),
     deleteSalesOrder: id => dispatch(deleteSalesOrder(id)),
+    transformToInvoice: id => dispatch(transformToInvoice(id)),
     resetSuccess: () => dispatch(resetSuccess()),
   };
 };

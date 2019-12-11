@@ -40,6 +40,7 @@ export interface InvoicesHeadCell {
   label: string;
   numeric: boolean;
   nested?: { key: 'client'; property: string }[];
+  currency?: boolean;
 }
 
 const headCells: InvoicesHeadCell[] = [
@@ -61,11 +62,31 @@ const headCells: InvoicesHeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: 'Price',
+    currency: true,
   },
 
   { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
   { id: 'paymentType', numeric: false, disablePadding: true, label: 'Payment' },
   { id: 'actions', numeric: false, disablePadding: true, label: '' },
+];
+
+const tableActions = [
+  {
+    label: '',
+    value: '',
+  },
+  {
+    label: 'Edit',
+    value: 'edit',
+  },
+  {
+    label: 'Delete',
+    value: 'delete',
+  },
+  {
+    label: 'Make transport',
+    value: 'transport',
+  },
 ];
 
 const Invoices = ({
@@ -151,6 +172,7 @@ const Invoices = ({
       <Layout
         main={
           <Overview
+            tableActions={tableActions}
             onSearchClear={onSearchClear}
             loading={invoiceState.loading}
             editItem={editInvoice}
