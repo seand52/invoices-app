@@ -20,10 +20,10 @@ export const prepareInvoiceData = (
       tax: tax ? tax.value : 0,
     },
     products: products.map(item => ({
-      id: item.id,
       quantity: item.quantity,
       discount: item.discount,
       price: item.price,
+      description: item.description,
     })),
   };
 };

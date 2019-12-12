@@ -18,9 +18,8 @@ export const prepareSalesOrderDefaultValues = (data: FullSalesOrderDetails) => {
     product => ({
       uuid: uuidv4(),
       quantity: product.quantity,
-      id: product.product.id,
       price: parseFloat(product.price),
-      description: product.product.description,
+      description: product.description,
       discount: parseFloat(product.discount),
     }),
   );

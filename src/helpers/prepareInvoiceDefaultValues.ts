@@ -17,9 +17,8 @@ export const prepareInvoiceDefaultValues = (data: FullInvoiceDetails) => {
   const products: InvoiceProducts[] = data.invoiceToProducts.map(product => ({
     uuid: uuidv4(),
     quantity: product.quantity,
-    id: product.product.id,
     price: parseFloat(product.price),
-    description: product.product.description,
+    description: product.description,
     discount: parseFloat(product.discount),
   }));
   return { settings, products };

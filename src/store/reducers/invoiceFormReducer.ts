@@ -18,7 +18,6 @@ export interface InvoiceSettings {
 }
 
 export interface InvoiceProducts {
-  id: number | null;
   quantity: number;
   uuid: string;
   price: number;
@@ -45,7 +44,6 @@ export const initialState: InvoiceDetailsState = {
   },
   products: [
     {
-      id: null,
       quantity: 1,
       uuid: uuidv4(),
       price: 0,
@@ -121,7 +119,6 @@ export const reducer = (
         products: [
           ...state.products,
           {
-            id: null,
             quantity: 1,
             uuid: uuidv4(),
             price: 0,
@@ -144,7 +141,6 @@ export const reducer = (
       );
       const productsCopy = [...state.products];
       productsCopy[productIndex] = {
-        id: action.payload.product.id,
         price: action.payload.product.price,
         uuid: action.payload.product.uuid,
         quantity: productsCopy[productIndex].quantity,

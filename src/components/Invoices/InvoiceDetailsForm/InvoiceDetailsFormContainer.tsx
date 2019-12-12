@@ -79,7 +79,6 @@ const InvoiceDetailsFormContainer = ({
         type: 'SELECT_PRODUCT',
         payload: {
           product: {
-            id: null,
             price: 0,
             quantity: 0,
             uuid,
@@ -95,7 +94,6 @@ const InvoiceDetailsFormContainer = ({
       type: 'SELECT_PRODUCT',
       payload: {
         product: {
-          id: !product ? null : product.id,
           price: !product ? 0 : product.price,
           quantity: 1,
           uuid,

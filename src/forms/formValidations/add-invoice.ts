@@ -11,5 +11,10 @@ interface CreateInvoiceSettings {
 
 export interface ICreateInvoice {
   settings: CreateInvoiceSettings;
-  products: { id: number | null; quantity: number }[];
+  products: {
+    quantity: number;
+    discount: number;
+    price: number;
+    description: string;
+  }[];
 }

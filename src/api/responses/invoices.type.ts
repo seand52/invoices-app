@@ -13,18 +13,10 @@ export interface InvoicesPaginated {
 export interface InvoiceProducts {
   id: number;
   invoiceId: number;
-  productId: number;
   quantity: number;
   discount: string;
   price: string;
-  product: {
-    id: number;
-    description: string;
-    price: number;
-    userId: number;
-    createdAt: string;
-    updatedAt: string;
-  };
+  description: string;
 }
 
 export interface Invoice {
