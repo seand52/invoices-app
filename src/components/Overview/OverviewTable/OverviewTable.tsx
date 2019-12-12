@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import { FormControl, MenuItem, Select } from '@material-ui/core';
+import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
 import {
   createStyles,
   lighten,
@@ -13,35 +15,30 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { ClientsPaginated } from 'api/responses/clients.type';
-import { HeadCell } from 'components/Clients/Clients';
+import clsx from 'clsx';
+import NumberFormatter from 'helpers/numberFormat';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { searchAll, searchAllOk } from 'store/actions/clientActions';
-import { FormControl, Select, MenuItem } from '@material-ui/core';
-import { ProductsHeadCell } from 'components/Products/Products';
-import { ProductsPaginated } from 'api/responses/products.type';
-import { InvoicesHeadCell } from 'components/Invoices/Invoices';
-import { InvoicesPaginated } from 'api/responses/invoices.type';
-import NumberFormatter from 'helpers/numberFormat';
+import { TableHeadOptions, TableOptions } from '../Overview';
 
-interface EnhancedTableProps {
+interface EnhancedTableProps<P extends TableHeadOptions> {
   numSelected: number;
   // onSelectAllClick: (
   //   event: React.ChangeEvent<HTMLInputElement>,
   //   checked: boolean,
   // ) => void;
   rowCount: number;
-  headCells: HeadCell[] | ProductsHeadCell[] | InvoicesHeadCell[];
+  headCells: P;
 }
 
-function EnhancedTableHead(props: EnhancedTableProps) {
+function EnhancedTableHead<P extends TableHeadOptions>(
+  props: EnhancedTableProps<P>,
+) {
   const { numSelected, rowCount } = props;
   return (
     <TableHead>
@@ -168,9 +165,9 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface Props {
-  tableHeader: HeadCell[] | ProductsHeadCell[] | InvoicesHeadCell[];
-  tableData: ClientsPaginated | ProductsPaginated | InvoicesPaginated;
+interface Props<T extends TableOptions, P extends TableHeadOptions> {
+  tableHeader: P;
+  tableData: T;
   searchAll: ({ url: string }) => void;
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
@@ -180,17 +177,16 @@ interface Props {
   tableActions?: { label: string; value: string }[];
 }
 
-const OverviewTable = ({
+function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
   tableHeader,
   tableData,
-  searchAll,
   onNextPage,
   deleteItem,
   editItem,
   onChangeRowsPerPage,
   transformToInvoice,
   tableActions,
-}: Props) => {
+}: Props<T, P>) {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -361,7 +357,7 @@ const OverviewTable = ({
       </Paper>
     </div>
   );
-};
+}
 
 const mapDispatchToProps = dispatch => {
   return {

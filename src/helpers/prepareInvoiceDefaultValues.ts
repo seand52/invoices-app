@@ -5,8 +5,9 @@ import {
 } from 'store/reducers/invoiceFormReducer';
 import uuidv4 from 'uuid/v4';
 import { TaxOption, taxOptions } from 'data/taxOptions';
-
-export const prepareInvoiceDefaultValues = (data: FullInvoiceDetails) => {
+import { FullSalesOrderDetails } from 'api/responses/sales-orders.type';
+type Options = FullInvoiceDetails | FullSalesOrderDetails;
+export function prepareInvoiceDefaultValues<T extends Options>(data: T) {
   const settings: InvoiceSettings = {
     client: { name: data.client.name, id: data.clientId },
     date: data.date,
@@ -22,9 +23,9 @@ export const prepareInvoiceDefaultValues = (data: FullInvoiceDetails) => {
     discount: parseFloat(product.discount),
   }));
   return { settings, products };
-};
+}
 
-export const makeTaxArray = (data: FullInvoiceDetails) => {
+function makeTaxArray<T extends Options>(data: T) {
   let taxes: TaxOption[] = [];
   if (!!data.tax) {
     const option = taxOptions.find(item => item.value === data.tax);
@@ -43,4 +44,4 @@ export const makeTaxArray = (data: FullInvoiceDetails) => {
     });
   }
   return taxes;
-};
+}

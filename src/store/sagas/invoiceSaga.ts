@@ -21,7 +21,9 @@ function* searchInvoiceDetails({
 }: ReturnType<typeof InvoiceActions.searchOne>) {
   try {
     const res = yield api.searchInvoiceDetails(payload);
-    const { settings, products } = prepareInvoiceDefaultValues(res);
+    const { settings, products } = prepareInvoiceDefaultValues<
+      FullInvoiceDetails
+    >(res);
     yield put(InvoiceFormActions.insertDefaultValues(settings, products));
     yield put(InvoiceActions.searchOneOk(res));
   } catch (err) {

@@ -15,6 +15,7 @@ import { alertProp } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { navigate } from '@reach/router';
+import { InvoicesPaginated } from 'api/responses/invoices.type';
 
 interface Props {
   path: string;
@@ -171,7 +172,7 @@ const Invoices = ({
     <div>
       <Layout
         main={
-          <Overview
+          <Overview<InvoicesPaginated, InvoicesHeadCell[]>
             tableActions={tableActions}
             onSearchClear={onSearchClear}
             loading={invoiceState.loading}

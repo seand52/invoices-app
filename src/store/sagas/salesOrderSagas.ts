@@ -1,10 +1,11 @@
-import { all, takeLatest, put, call, select } from '@redux-saga/core/effects';
-import * as SalesOrderActions from 'store/actions/SalesOrderActions';
-import * as InvoiceFormActions from 'store/actions/invoiceFormActions';
-import * as InvoiceActions from 'store/actions/invoiceActions';
+import { all, call, put, select, takeLatest } from '@redux-saga/core/effects';
+import { FullSalesOrderDetails } from 'api/responses/sales-orders.type';
 import * as api from 'api/salesOrder';
+import { prepareInvoiceDefaultValues } from 'helpers/prepareInvoiceDefaultValues';
 import { getSalesOrderState } from 'selectors/salesOrders';
-import { prepareSalesOrderDefaultValues } from 'helpers/prepareSalesOrderDefaultValues';
+import * as InvoiceActions from 'store/actions/invoiceActions';
+import * as InvoiceFormActions from 'store/actions/invoiceFormActions';
+import * as SalesOrderActions from 'store/actions/SalesOrderActions';
 
 function* searchSalesOrders({ payload }: any) {
   try {
@@ -20,7 +21,9 @@ function* searchSalesOrderDetails({
 }: ReturnType<typeof SalesOrderActions.searchOne>) {
   try {
     const res = yield api.searchSalesOrderDetails(payload);
-    const { settings, products } = prepareSalesOrderDefaultValues(res);
+    const { settings, products } = prepareInvoiceDefaultValues<
+      FullSalesOrderDetails
+    >(res);
     yield put(InvoiceFormActions.insertDefaultValues(settings, products));
     yield put(SalesOrderActions.searchOneOk(res));
   } catch (err) {

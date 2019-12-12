@@ -8,12 +8,22 @@ import { ProductsPaginated } from 'api/responses/products.type';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
 import { InvoicesHeadCell } from 'components/Invoices/Invoices';
 
-interface Props {
+export type TableOptions =
+  | ClientsPaginated
+  | ProductsPaginated
+  | InvoicesPaginated;
+
+export type TableHeadOptions =
+  | HeadCell[]
+  | ProductsHeadCell[]
+  | InvoicesHeadCell[];
+
+interface Props<T extends TableOptions, P extends TableHeadOptions> {
   onSearchChange: (e) => void;
   onSubmitSearch: (e) => void;
   onAddNew: (e) => void;
-  tableData: ClientsPaginated | ProductsPaginated | InvoicesPaginated;
-  tableHeader: HeadCell[] | ProductsHeadCell[] | InvoicesHeadCell[];
+  tableData: T;
+  tableHeader: P;
   onNextPage: (newPage: number) => void;
   deleteItem: (ids: string[]) => void;
   editItem: (id: string) => void;
@@ -23,7 +33,10 @@ interface Props {
   transformToInvoice?: (id) => void;
   tableActions?: { label: string; value: string }[];
 }
-export default function Overview({
+export default function Overview<
+  T extends TableOptions,
+  P extends TableHeadOptions
+>({
   onSearchChange,
   onSubmitSearch,
   onAddNew,
@@ -37,7 +50,7 @@ export default function Overview({
   onSearchClear,
   transformToInvoice,
   tableActions,
-}: Props) {
+}: Props<T, P>) {
   return (
     <div>
       <OverviewHeader
