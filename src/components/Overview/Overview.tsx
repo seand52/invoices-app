@@ -32,6 +32,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   onSearchClear?: () => void;
   transformToInvoice?: (id) => void;
   tableActions?: { label: string; value: string }[];
+  newInvoice?: (id, name) => void;
 }
 export default function Overview<
   T extends TableOptions,
@@ -50,6 +51,7 @@ export default function Overview<
   onSearchClear,
   transformToInvoice,
   tableActions,
+  newInvoice,
 }: Props<T, P>) {
   return (
     <div>
@@ -62,6 +64,7 @@ export default function Overview<
       />
       {tableData && tableData.items && tableData.items.length && !loading ? (
         <OverviewTable
+          newInvoice={newInvoice}
           tableActions={tableActions}
           transformToInvoice={transformToInvoice}
           onChangeRowsPerPage={onChangeRowsPerPage}

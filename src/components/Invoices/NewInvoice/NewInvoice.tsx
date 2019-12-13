@@ -74,6 +74,7 @@ const NewInvoice = ({
   return (
     <React.Fragment>
       <InvoiceDetailsFormContainer
+        invoiceLoading={invoiceState.loading}
         dispatch={dispatch}
         onSubmitInvoice={onSubmitInvoice}
       />

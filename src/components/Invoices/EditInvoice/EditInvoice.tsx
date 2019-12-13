@@ -86,6 +86,7 @@ const EditInvoice = ({
   }
   return (
     <InvoiceDetailsFormContainer
+      invoiceLoading={invoiceState.loading}
       dispatch={dispatch}
       onSubmitInvoice={onSubmitInvoice}
     />

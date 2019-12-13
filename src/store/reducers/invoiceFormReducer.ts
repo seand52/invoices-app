@@ -68,7 +68,8 @@ type Actions =
   | InvoiceFormActions.ChangeQuantity
   | InvoiceFormActions.InsertDefaultValues
   | InvoiceFormActions.ClearInvoice
-  | InvoiceFormActions.SetDiscount;
+  | InvoiceFormActions.SetDiscount
+  | InvoiceFormActions.MakeInvoiceClient;
 
 export const reducer = (
   state: InvoiceDetailsState = initialState,
@@ -181,6 +182,14 @@ export const reducer = (
         products: productsCopy,
       };
     }
+    case InvoiceFormActions.MAKE_INVOICE_CLIENT:
+      return {
+        ...state,
+        settings: {
+          ...state.settings,
+          client: { id: action.payload.id, name: action.payload.name },
+        },
+      };
     case InvoiceFormActions.CLEAR_INVOICE:
       return { ...initialState };
   }

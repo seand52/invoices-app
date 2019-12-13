@@ -37,6 +37,7 @@ interface Props {
   onChangeProductQuantity: (value, uuid) => void;
   saveInvoice: () => void;
   changeDiscount: (id, value) => void;
+  invoiceLoading: boolean;
 }
 export default function InvoiceDetailsForm({
   clientsLoading,
@@ -52,6 +53,7 @@ export default function InvoiceDetailsForm({
   onChangeProductQuantity,
   saveInvoice,
   changeDiscount,
+  invoiceLoading,
 }: Props) {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date(invoiceState.settings.date) || new Date(),
@@ -65,6 +67,7 @@ export default function InvoiceDetailsForm({
     <React.Fragment>
       <div className={styles.top_area}>
         <Button
+          disabled={invoiceLoading}
           onClick={saveInvoice}
           variant='contained'
           color='primary'

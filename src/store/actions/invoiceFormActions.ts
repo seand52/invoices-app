@@ -18,6 +18,7 @@ export const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 export const DEFAULT_VALUES = 'DEFAULT_VALES';
 export const CLEAR_INVOICE = 'CLEAR_INVOICE';
 export const SET_DISCOUNT = 'SET_DISCOUNT';
+export const MAKE_INVOICE_CLIENT = 'MAKE_INVOICE_CLIENT,';
 
 export interface ToggleLoading {
   type: typeof TOGGLE_LOADING;
@@ -112,5 +113,18 @@ export const setDiscount = (uuid, value) => ({
   payload: {
     uuid,
     value,
+  },
+});
+
+export interface MakeInvoiceClient {
+  type: typeof MAKE_INVOICE_CLIENT;
+  payload: { name: string; id: number };
+}
+
+export const makeInvoiceClient = (id, name) => ({
+  type: MAKE_INVOICE_CLIENT,
+  payload: {
+    id,
+    name,
   },
 });

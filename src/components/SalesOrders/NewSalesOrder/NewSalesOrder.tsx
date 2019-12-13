@@ -73,6 +73,7 @@ const NewSalesOrder = ({
   };
   return (
     <InvoiceDetailsFormContainer
+      invoiceLoading={salesOrderState.loading}
       dispatch={dispatch}
       onSubmitInvoice={onSubmitSalesOrder}
     />

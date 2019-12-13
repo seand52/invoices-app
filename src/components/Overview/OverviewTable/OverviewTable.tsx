@@ -175,6 +175,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   transformToInvoice?: (id: string) => void;
   onChangeRowsPerPage: (rowsPerPage: string) => void;
   tableActions?: { label: string; value: string }[];
+  newInvoice?: (id, name) => void;
 }
 
 function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
@@ -186,6 +187,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
   onChangeRowsPerPage,
   transformToInvoice,
   tableActions,
+  newInvoice,
 }: Props<T, P>) {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
@@ -230,18 +232,23 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
     onChangeRowsPerPage(numberOfRows);
   };
 
-  const handleAction = (e, id) => {
+  const handleAction = (e, clientData) => {
     const action = e.target.value;
     switch (action) {
       case 'delete':
-        deleteItem([id]);
+        deleteItem([clientData.id]);
         break;
       case 'edit':
-        editItem(id);
+        editItem(clientData.id);
         break;
       case 'transform':
         if (transformToInvoice) {
-          transformToInvoice(id);
+          transformToInvoice(clientData.id);
+        }
+        break;
+      case 'newInvoice':
+        if (newInvoice) {
+          newInvoice(clientData.id, clientData.name);
         }
         break;
     }
@@ -309,7 +316,10 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
                                 id='demo-simple-select-outlined'
                                 value=''
                                 onChange={e =>
-                                  handleAction(e, row.id.toString())
+                                  handleAction(e, {
+                                    id: row.id.toString(),
+                                    name: row.name,
+                                  })
                                 }
                                 labelWidth={50}
                               >

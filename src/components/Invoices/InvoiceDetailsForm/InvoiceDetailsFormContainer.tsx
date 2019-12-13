@@ -11,12 +11,15 @@ import { ProductState } from 'store/reducers/productsReducer';
 import InvoiceDetailsForm from './InvoiceDetailsForm';
 import { InvoiceDetailsState } from 'store/reducers/invoiceFormReducer';
 import { getInvoiceFormState } from 'selectors/invoiceForm';
+import { getInvoiceState } from 'selectors/invoices';
+import { InvoiceState } from 'store/reducers/invoicesReducer';
 
 interface Props {
   searchAll: ({ url: string }) => void;
   productState: ProductState;
   onSubmitInvoice: (products, settings) => void;
   invoiceFormState: InvoiceDetailsState;
+  invoiceLoading: boolean;
   dispatch?: any;
 }
 
@@ -25,6 +28,7 @@ const InvoiceDetailsFormContainer = ({
   productState,
   onSubmitInvoice,
   invoiceFormState,
+  invoiceLoading,
   dispatch,
 }: Props) => {
   useEffect(() => {
@@ -128,6 +132,7 @@ const InvoiceDetailsFormContainer = ({
         main={
           <React.Fragment>
             <InvoiceDetailsForm
+              invoiceLoading={invoiceLoading}
               changeDiscount={changeDiscount}
               saveInvoice={saveInvoice}
               onClientInputChange={onClientInputChange}

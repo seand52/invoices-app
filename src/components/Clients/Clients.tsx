@@ -15,12 +15,15 @@ import ClientDetailsForm from './ClientDetailsForm/ClientDetailsForm';
 import Swal from 'sweetalert2';
 import { alertProp, confirmationAlert } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
+import { makeInvoiceClient } from 'store/actions/invoiceFormActions';
+import { navigate } from '@reach/router';
 
 interface Props {
   path: string;
   searchAll: ({ url: string }) => void;
   deleteClient: (id: string) => void;
   resetSuccess: () => void;
+  makeInvoiceForClient: (id, name) => void;
   clientState: ClientState;
 }
 
@@ -75,17 +78,17 @@ const tableActions = [
     value: 'delete',
   },
   {
-    label: 'View',
-    value: 'view',
+    label: 'New Invoice',
+    value: 'newInvoice',
   },
 ];
 
 const Clients = ({
-  path,
   searchAll,
   clientState,
   resetSuccess,
   deleteClient: deleteClientAction,
+  makeInvoiceForClient,
 }: Props) => {
   const [search, setSearch] = useState('');
   const [localState, localDispatch] = useReducer(reducer, initialState);
@@ -165,11 +168,17 @@ const Clients = ({
       url: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${rowsPerPage}`,
     });
   };
+
+  const makeNewInvoiceForClient = (id, name) => {
+    makeInvoiceForClient(id, name);
+    navigate('invoices/new');
+  };
   return (
     <div>
       <Layout
         main={
           <Overview
+            newInvoice={makeNewInvoiceForClient}
             tableActions={tableActions}
             onSearchClear={onSearchClear}
             loading={clientState.loading}
@@ -206,6 +215,7 @@ const mapDispatchToProps = dispatch => {
     searchAll: ({ url }) => dispatch(searchAll({ url })),
     deleteClient: id => dispatch(deleteClient(id)),
     resetSuccess: () => dispatch(resetSuccess()),
+    makeInvoiceForClient: (id, name) => dispatch(makeInvoiceClient(id, name)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Clients);
