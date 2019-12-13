@@ -11,7 +11,7 @@ import { InitialState } from 'store';
 import { getInvoiceState } from 'selectors/invoices';
 import Overview from 'components/Overview/Overview';
 import Swal from 'sweetalert2';
-import { alertProp } from 'utils/swal';
+import { alertProp, confirmationAlert } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { navigate } from '@reach/router';
@@ -149,8 +149,17 @@ const Invoices = ({
   };
 
   const deleteInvoice = (ids: string[]) => {
-    deleteInvoiceAction(ids[0]);
-    localDispatch({ type: 'DELETE_INVOICE' });
+    Swal.fire(
+      confirmationAlert({
+        title: 'Are you sure you want to delete the client?',
+        confirmButtonText: 'Yes, delete it!',
+      }),
+    ).then(result => {
+      if (result.value) {
+        deleteInvoiceAction(ids[0]);
+        localDispatch({ type: 'DELETE_INVOICE' });
+      }
+    });
   };
 
   const editInvoice = (id: string) => {

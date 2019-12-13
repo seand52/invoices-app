@@ -12,7 +12,7 @@ import { InitialState } from 'store';
 import { getSalesOrderState } from 'selectors/salesOrders';
 import Overview from 'components/Overview/Overview';
 import Swal from 'sweetalert2';
-import { alertProp } from 'utils/swal';
+import { alertProp, confirmationAlert } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
 import { SalesOrderState } from 'store/reducers/salesOrdersReducer';
 import { navigate } from '@reach/router';
@@ -162,8 +162,17 @@ const SalesOrders = ({
   };
 
   const deleteSalesOrder = (ids: string[]) => {
-    deleteSalesOrderAction(ids[0]);
-    localDispatch({ type: 'DELETE_SALES_ORDER' });
+    Swal.fire(
+      confirmationAlert({
+        title: 'Are you sure you want to delete the client?',
+        confirmButtonText: 'Yes, delete it!',
+      }),
+    ).then(result => {
+      if (result.value) {
+        deleteSalesOrderAction(ids[0]);
+        localDispatch({ type: 'DELETE_SALES_ORDER' });
+      }
+    });
   };
 
   const editSalesOrder = (id: string) => {
@@ -183,8 +192,18 @@ const SalesOrders = ({
   };
 
   const transformToInvoice = id => {
-    localDispatch({ type: 'SET_ACTION', payload: 'modified' });
-    transformToInvoiceAction(id);
+    Swal.fire(
+      confirmationAlert({
+        title: 'Are you sure you want to make this sales order an invoice?',
+        confirmButtonText: 'Yes, transform it!',
+        text: ' ',
+      }),
+    ).then(result => {
+      if (result.value) {
+        localDispatch({ type: 'SET_ACTION', payload: 'modified' });
+        transformToInvoiceAction(id);
+      }
+    });
   };
   return (
     <div>

@@ -13,7 +13,7 @@ import Overview from 'components/Overview/Overview';
 import SimpleModal from 'components/SimpleModal/SimpleModal';
 import ProductDetailsForm from './ProductsDetailsForm/ProductDetailsForm';
 import Swal from 'sweetalert2';
-import { alertProp } from 'utils/swal';
+import { alertProp, confirmationAlert } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
 
 interface Props {
@@ -147,8 +147,17 @@ const Products = ({
   };
 
   const deleteProduct = (ids: string[]) => {
-    deleteProductAction(ids[0]);
-    localDispatch({ type: 'DELETE_PRODUCT' });
+    Swal.fire(
+      confirmationAlert({
+        title: 'Are you sure you want to delete the client?',
+        confirmButtonText: 'Yes, delete it!',
+      }),
+    ).then(result => {
+      if (result.value) {
+        deleteProductAction(ids[0]);
+        localDispatch({ type: 'DELETE_PRODUCT' });
+      }
+    });
   };
 
   const editProduct = (id: string) => {

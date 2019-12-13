@@ -13,7 +13,7 @@ import Overview from 'components/Overview/Overview';
 import SimpleModal from 'components/SimpleModal/SimpleModal';
 import ClientDetailsForm from './ClientDetailsForm/ClientDetailsForm';
 import Swal from 'sweetalert2';
-import { alertProp } from 'utils/swal';
+import { alertProp, confirmationAlert } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
 
 interface Props {
@@ -137,8 +137,17 @@ const Clients = ({
   };
 
   const deleteClient = (ids: string[]) => {
-    deleteClientAction(ids[0]);
-    localDispatch({ type: 'DELETE_CLIENT' });
+    Swal.fire(
+      confirmationAlert({
+        title: 'Are you sure you want to delete the client?',
+        confirmButtonText: 'Yes, delete it!',
+      }),
+    ).then(result => {
+      if (result.value) {
+        deleteClientAction(ids[0]);
+        localDispatch({ type: 'DELETE_CLIENT' });
+      }
+    });
   };
 
   const editClient = (id: string) => {
