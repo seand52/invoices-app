@@ -52,9 +52,9 @@ export const searchByName = (name: string) => ({
   payload: name,
 });
 
-export const searchAllFailed = () => ({
+export const searchAllFailed = (message: string) => ({
   type: SEARCH_ALL_FAILED,
-  payload: 'There was an error retrieving your clients',
+  payload: message,
 });
 
 export interface DeleteClient {
@@ -84,7 +84,7 @@ export interface DeleteClientFailed {
 
 export const deleteClientFailed = (message: string) => ({
   type: DELETE_FAILED,
-  payload: 'There was an error deleting your clients',
+  payload: message,
 });
 
 export interface NewClient {
@@ -114,7 +114,7 @@ export interface NewClientFailed {
 
 export const newClientFailed = (message: string) => ({
   type: NEW_CLIENT_FAILED,
-  payload: 'There was an error creating this client',
+  payload: message,
 });
 
 export interface UpdateClient {
@@ -144,7 +144,7 @@ export interface UpdateClientFailed {
 
 export const updateClientFailed = (message: string) => ({
   type: UPDATE_CLIENT_FAILED,
-  payload: 'There was an error creating this client',
+  payload: message,
 });
 
 export interface ResetSuccess {

@@ -75,13 +75,13 @@ export interface SearchOneFailed {
   payload: string;
 }
 
-export const searchOneFailed = message => ({
+export const searchOneFailed = (message: string) => ({
   type: SEARCH_ONE_FAILED,
   payload: message,
 });
-export const searchAllFailed = () => ({
+export const searchAllFailed = (message: string) => ({
   type: SEARCH_ALL_FAILED,
-  payload: 'There was an error retrieving your invoices',
+  payload: message,
 });
 
 export interface DeleteInvoice {
@@ -111,7 +111,7 @@ export interface DeleteInvoiceFailed {
 
 export const deleteInvoiceFailed = (message: string) => ({
   type: DELETE_FAILED,
-  payload: 'There was an error deleting your invoices',
+  payload: message,
 });
 
 export interface NewInvoice {
@@ -141,7 +141,7 @@ export interface NewInvoiceFailed {
 
 export const newInvoiceFailed = (message: string) => ({
   type: NEW_INVOICE_FAILED,
-  payload: 'There was an error creating this invoice',
+  payload: message,
 });
 
 export interface UpdateInvoice {
@@ -171,7 +171,7 @@ export interface UpdateInvoiceFailed {
 
 export const updateInvoiceFailed = (message: string) => ({
   type: UPDATE_INVOICE_FAILED,
-  payload: 'There was an error creating this invoice',
+  payload: message,
 });
 
 export interface ResetSuccess {

@@ -42,9 +42,9 @@ export interface SearchAllFailed {
   payload: string;
 }
 
-export const searchAllFailed = () => ({
+export const searchAllFailed = (message: string) => ({
   type: SEARCH_ALL_FAILED,
-  payload: 'There was an error retrieving your products',
+  payload: message,
 });
 
 export interface DeleteProduct {
@@ -74,7 +74,7 @@ export interface DeleteProductFailed {
 
 export const deleteProductFailed = (message: string) => ({
   type: DELETE_FAILED,
-  payload: 'There was an error deleting your products',
+  payload: message,
 });
 
 export interface NewProduct {
@@ -104,7 +104,7 @@ export interface NewProductFailed {
 
 export const newProductFailed = (message: string) => ({
   type: NEW_PRODUCT_FAILED,
-  payload: 'There was an error creating this product',
+  payload: message,
 });
 
 export interface UpdateProduct {
@@ -134,7 +134,7 @@ export interface UpdateProductFailed {
 
 export const updateProductFailed = (message: string) => ({
   type: UPDATE_PRODUCT_FAILED,
-  payload: 'There was an error creating this product',
+  payload: message,
 });
 
 export interface ResetSuccess {

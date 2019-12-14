@@ -8,7 +8,7 @@ function* searchClients({ payload }: any) {
     const res = yield api.searchClients(payload);
     yield put(ClientActions.searchAllOk(res));
   } catch (err) {
-    yield put(ClientActions.searchAllFailed());
+    yield put(ClientActions.searchAllFailed(err));
   }
 }
 
@@ -23,7 +23,7 @@ function* deleteClient({ payload }: any) {
     });
     // yield put(ClientActions.)
   } catch (err) {
-    yield put(ClientActions.deleteClientFailed('fail'));
+    yield put(ClientActions.deleteClientFailed(err));
   }
 }
 
@@ -37,7 +37,7 @@ function* createClient({ payload }: any) {
       payload: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${clientState.clients.itemCount}`,
     });
   } catch (err) {
-    yield put(ClientActions.newClientFailed('fail'));
+    yield put(ClientActions.newClientFailed(err));
   }
 }
 
@@ -51,7 +51,7 @@ function* updateClient({ payload }: any) {
       payload: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${clientState.clients.itemCount}`,
     });
   } catch (err) {
-    yield put(ClientActions.updateClientFailed('fail'));
+    yield put(ClientActions.updateClientFailed(err));
   }
 }
 

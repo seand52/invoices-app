@@ -2,7 +2,7 @@ import {
   ILoginFields,
   IRegisterFields,
 } from 'forms/formValidations/authentication';
-import request from './axiosWrapper';
+import request from '../utils/axiosWrapper';
 import { IBusinessInfo } from 'forms/formValidations/business-info';
 import { BusinessInfoAPI } from './responses/businessInfo.type';
 

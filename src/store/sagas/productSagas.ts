@@ -8,7 +8,7 @@ function* searchProducts({ payload }: any) {
     const res = yield api.searchProducts(payload);
     yield put(ProductActions.searchAllOk(res));
   } catch (err) {
-    yield put(ProductActions.searchAllFailed());
+    yield put(ProductActions.searchAllFailed(err));
   }
 }
 
@@ -23,7 +23,7 @@ function* deleteProduct({ payload }: any) {
     });
     // yield put(ProductActions.)
   } catch (err) {
-    yield put(ProductActions.deleteProductFailed('fail'));
+    yield put(ProductActions.deleteProductFailed(err));
   }
 }
 
@@ -37,7 +37,7 @@ function* createProduct({ payload }: any) {
       payload: `http://localhost:3000/api/products?page=${productState.products.currentPage}&limit=${productState.products.itemCount}`,
     });
   } catch (err) {
-    yield put(ProductActions.newProductFailed('fail'));
+    yield put(ProductActions.newProductFailed(err));
   }
 }
 
@@ -51,7 +51,7 @@ function* updateProduct({ payload }: any) {
       payload: `http://localhost:3000/api/products?page=${productState.products.currentPage}&limit=${productState.products.itemCount}`,
     });
   } catch (err) {
-    yield put(ProductActions.updateProductFailed('fail'));
+    yield put(ProductActions.updateProductFailed(err));
   }
 }
 

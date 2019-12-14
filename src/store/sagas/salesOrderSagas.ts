@@ -12,7 +12,7 @@ function* searchSalesOrders({ payload }: any) {
     const res = yield api.searchSalesOrders(payload);
     yield put(SalesOrderActions.searchAllOk(res));
   } catch (err) {
-    yield put(SalesOrderActions.searchAllFailed());
+    yield put(SalesOrderActions.searchAllFailed(err));
   }
 }
 
@@ -27,11 +27,7 @@ function* searchSalesOrderDetails({
     yield put(InvoiceFormActions.insertDefaultValues(settings, products));
     yield put(SalesOrderActions.searchOneOk(res));
   } catch (err) {
-    yield put(
-      SalesOrderActions.searchOneFailed(
-        'There was an error loading your sales order',
-      ),
-    );
+    yield put(SalesOrderActions.searchOneFailed(err));
   }
 }
 
@@ -45,7 +41,7 @@ function* deleteSalesOrder({ payload }: any) {
       payload: `http://localhost:3000/api/sales-orders?page=${salesOrderState.salesOrders.currentPage}&limit=${salesOrderState.salesOrders.itemCount}`,
     });
   } catch (err) {
-    yield put(SalesOrderActions.deleteSalesOrderFailed('fail'));
+    yield put(SalesOrderActions.deleteSalesOrderFailed(err));
   }
 }
 
@@ -54,7 +50,7 @@ function* createSalesOrder({ payload }: any) {
     const res = yield api.createSalesOrder(payload);
     yield put(SalesOrderActions.newSalesOrderOk(res));
   } catch (err) {
-    yield put(SalesOrderActions.newSalesOrderFailed('fail'));
+    yield put(SalesOrderActions.newSalesOrderFailed(err));
   }
 }
 
@@ -63,7 +59,7 @@ function* updateSalesOrder({ payload }: any) {
     const res = yield api.updateSalesOrder(payload.data, payload.id);
     yield put(SalesOrderActions.updateSalesOrderOk(res));
   } catch (err) {
-    yield put(SalesOrderActions.updateSalesOrderFailed('fail'));
+    yield put(SalesOrderActions.updateSalesOrderFailed(err));
   }
 }
 
@@ -73,7 +69,7 @@ function* transformToInvoice({ payload }: any) {
     yield put(InvoiceActions.updateBase64Invoice(res));
     yield put(SalesOrderActions.transformToInvoiceOk(res));
   } catch (err) {
-    yield put(SalesOrderActions.transformToInvoiceFailed('fail'));
+    yield put(SalesOrderActions.transformToInvoiceFailed(err));
   }
 }
 

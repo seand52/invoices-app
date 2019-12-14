@@ -84,9 +84,9 @@ export const searchOneFailed = message => ({
   type: SEARCH_ONE_FAILED,
   payload: message,
 });
-export const searchAllFailed = () => ({
+export const searchAllFailed = (message: string) => ({
   type: SEARCH_ALL_FAILED,
-  payload: 'There was an error retrieving your sales order',
+  payload: message,
 });
 
 export interface DeleteSalesOrder {
@@ -116,7 +116,7 @@ export interface DeleteSalesOrderFailed {
 
 export const deleteSalesOrderFailed = (message: string) => ({
   type: DELETE_FAILED,
-  payload: 'There was an error deleting your SalesOrders',
+  payload: message,
 });
 
 export interface NewSalesOrder {
@@ -146,7 +146,7 @@ export interface NewSalesOrderFailed {
 
 export const newSalesOrderFailed = (message: string) => ({
   type: NEW_SALES_ORDER_FAILED,
-  payload: 'There was an error creating this sales order',
+  payload: message,
 });
 
 export interface UpdateSalesOrder {
@@ -176,7 +176,7 @@ export interface UpdateSalesOrderFailed {
 
 export const updateSalesOrderFailed = (message: string) => ({
   type: UPDATE_SALES_ORDER_FAILED,
-  payload: 'There was an error creating this sales order',
+  payload: message,
 });
 
 export interface TransformToInvoice {

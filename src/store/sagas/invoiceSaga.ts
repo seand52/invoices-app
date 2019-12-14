@@ -12,7 +12,7 @@ function* searchInvoices({ payload }: any) {
     const res = yield api.searchInvoices(payload);
     yield put(InvoiceActions.searchAllOk(res));
   } catch (err) {
-    yield put(InvoiceActions.searchAllFailed());
+    yield put(InvoiceActions.searchAllFailed(err));
   }
 }
 
@@ -27,9 +27,7 @@ function* searchInvoiceDetails({
     yield put(InvoiceFormActions.insertDefaultValues(settings, products));
     yield put(InvoiceActions.searchOneOk(res));
   } catch (err) {
-    yield put(
-      InvoiceActions.searchOneFailed('There was an error loading your invoice'),
-    );
+    yield put(InvoiceActions.searchOneFailed(err));
   }
 }
 
@@ -44,7 +42,7 @@ function* deleteInvoice({ payload }: any) {
     });
     // yield put(InvoiceActions.)
   } catch (err) {
-    yield put(InvoiceActions.deleteInvoiceFailed('fail'));
+    yield put(InvoiceActions.deleteInvoiceFailed(err));
   }
 }
 
@@ -53,7 +51,7 @@ function* createInvoice({ payload }: any) {
     const res = yield api.createInvoice(payload);
     yield put(InvoiceActions.newInvoiceOk(res));
   } catch (err) {
-    yield put(InvoiceActions.newInvoiceFailed('fail'));
+    yield put(InvoiceActions.newInvoiceFailed(err));
   }
 }
 
@@ -62,7 +60,7 @@ function* updateInvoice({ payload }: any) {
     const res = yield api.updateInvoice(payload.data, payload.id);
     yield put(InvoiceActions.updateInvoiceOk(res));
   } catch (err) {
-    yield put(InvoiceActions.updateInvoiceFailed('fail'));
+    yield put(InvoiceActions.updateInvoiceFailed(err));
   }
 }
 

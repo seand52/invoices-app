@@ -1,4 +1,4 @@
-import request from './axiosWrapper';
+import request from '../utils/axiosWrapper';
 import {
   InvoicesPaginated,
   FullInvoiceDetails,

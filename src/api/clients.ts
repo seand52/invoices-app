@@ -1,4 +1,4 @@
-import request from './axiosWrapper';
+import request from '../utils/axiosWrapper';
 import { ClientsPaginated, Client } from './responses/clients.type';
 import { ICreateClient } from 'forms/formValidations/add-client';
 

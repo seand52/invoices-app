@@ -17,6 +17,7 @@ interface Options<T> {
   data?: T;
   headers?: { Authorization: string };
 }
+
 const request = function(options: Options<any>, headers: { auth: boolean }) {
   const onSuccess = function(response) {
     console.debug('Request Successful!', response);
@@ -25,7 +26,7 @@ const request = function(options: Options<any>, headers: { auth: boolean }) {
 
   const onError = function(error) {
     console.error('Request Failed:', error.config);
-
+    console.log('full error is', error.response);
     if (error.response) {
       // Request was made but server responded with something
       // other than 2xx
@@ -37,8 +38,17 @@ const request = function(options: Options<any>, headers: { auth: boolean }) {
       // triggered the error
       console.error('Error Message:', error.message);
     }
-
-    return Promise.reject(error.response || error.message);
+    if (error.status && error.status === 400) {
+      return Promise.reject(
+        'You have made a bad request. Check that all the data is correct',
+      );
+    }
+    if (error.status && error.status !== 500) {
+      return Promise.reject(error.response || error.message);
+    }
+    return Promise.reject(
+      'Sorry, there was an unexpected error. Please try again later',
+    );
   };
   options = headers.auth
     ? {

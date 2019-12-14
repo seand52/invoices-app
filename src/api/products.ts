@@ -1,4 +1,4 @@
-import request from './axiosWrapper';
+import request from '../utils/axiosWrapper';
 import { ProductsPaginated } from './responses/products.type';
 import { ICreateProduct } from 'forms/formValidations/add-product';
 
