@@ -3,6 +3,8 @@ import {
   InvoicesPaginated,
   FullInvoiceDetails,
 } from 'api/responses/invoices.type';
+import Swal from 'sweetalert2';
+import { alertProp } from 'utils/swal';
 
 export const initialState = {
   invoices: {} as InvoicesPaginated,
@@ -16,6 +18,7 @@ export const initialState = {
 export enum InvoiceSettingKeys {
   CLIENTID = 'client',
   DATE = 'date',
+  EXPIRATION = 'expirationDate',
   TRANSPORTPRICE = 'transportPrice',
   PAYMENTYPE = 'paymentType',
   TAX = 'tax',
@@ -75,6 +78,13 @@ export const reducer = (state = initialState, action: Actions) => {
         selectedInvoiceDetails: action.payload,
       };
     case InvoiceActions.SEARCH_ONE_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -92,6 +102,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case InvoiceActions.DELETE_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -110,6 +127,13 @@ export const reducer = (state = initialState, action: Actions) => {
         base64Invoice: action.payload,
       };
     case InvoiceActions.NEW_INVOICE_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -129,6 +153,13 @@ export const reducer = (state = initialState, action: Actions) => {
         base64Invoice: action.payload,
       };
     case InvoiceActions.UPDATE_INVOICE_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -142,7 +173,6 @@ export const reducer = (state = initialState, action: Actions) => {
       };
 
     case InvoiceActions.UPDATE_BASE64_INVOICE:
-      debugger;
       return {
         ...state,
         base64Invoice: action.payload,

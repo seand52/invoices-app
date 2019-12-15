@@ -7,6 +7,7 @@ import { ProductsHeadCell } from 'components/Products/Products';
 import { ProductsPaginated } from 'api/responses/products.type';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
 import { InvoicesHeadCell } from 'components/Invoices/Invoices';
+import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
 
 export type TableOptions =
   | ClientsPaginated
@@ -33,6 +34,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   transformToInvoice?: (id) => void;
   tableActions?: { label: string; value: string }[];
   newInvoice?: (id, name) => void;
+  error: string | null;
 }
 export default function Overview<
   T extends TableOptions,
@@ -52,6 +54,7 @@ export default function Overview<
   transformToInvoice,
   tableActions,
   newInvoice,
+  error,
 }: Props<T, P>) {
   return (
     <div>
@@ -62,7 +65,11 @@ export default function Overview<
         onSubmitSearch={onSubmitSearch}
         title='Clients'
       />
-      {tableData && tableData.items && tableData.items.length && !loading ? (
+      {tableData &&
+      tableData.items &&
+      tableData.items.length &&
+      !loading &&
+      !error ? (
         <OverviewTable
           newInvoice={newInvoice}
           tableActions={tableActions}
@@ -75,6 +82,7 @@ export default function Overview<
           editItem={editItem}
         />
       ) : null}
+      {error ? <ErrorMessage>{error}</ErrorMessage> : null}
     </div>
   );
 }

@@ -193,6 +193,7 @@ const Products = ({
             onSubmitSearch={submitSearch}
             onNextPage={onNextPage}
             onChangeRowsPerPage={onChangeRowsPerPage}
+            error={productState.error}
           />
         }
       />

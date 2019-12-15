@@ -223,6 +223,7 @@ const SalesOrders = ({
             onSubmitSearch={submitSearch}
             onNextPage={onNextPage}
             onChangeRowsPerPage={onChangeRowsPerPage}
+            error={salesOrderState.error}
           />
         }
       />

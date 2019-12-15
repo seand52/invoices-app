@@ -1,5 +1,7 @@
 import * as ClientActions from '../actions/clientActions';
 import { ClientsPaginated } from 'api/responses/clients.type';
+import Swal from 'sweetalert2';
+import { alertProp } from 'utils/swal';
 
 export const initialState = {
   clients: {} as ClientsPaginated,
@@ -64,6 +66,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case ClientActions.DELETE_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -81,6 +90,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case ClientActions.NEW_CLIENT_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -99,6 +115,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case ClientActions.UPDATE_CLIENT_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,

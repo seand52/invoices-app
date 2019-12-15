@@ -3,6 +3,8 @@ import {
   SalesOrdersPaginated,
   FullSalesOrderDetails,
 } from 'api/responses/sales-orders.type';
+import Swal from 'sweetalert2';
+import { alertProp } from 'utils/swal';
 
 export const initialState = {
   salesOrders: {} as SalesOrdersPaginated,
@@ -94,6 +96,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case SalesOrderActions.DELETE_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -112,6 +121,13 @@ export const reducer = (state = initialState, action: Actions) => {
         base64SalesOrder: action.payload,
       };
     case SalesOrderActions.NEW_SALES_ORDER_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -131,6 +147,13 @@ export const reducer = (state = initialState, action: Actions) => {
         base64SalesOrder: action.payload,
       };
     case SalesOrderActions.UPDATE_SALES_ORDER_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -151,6 +174,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case SalesOrderActions.TRANSFORM_TO_INVOICE_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,

@@ -191,6 +191,7 @@ const Clients = ({
             onSubmitSearch={submitSearch}
             onNextPage={onNextPage}
             onChangeRowsPerPage={onChangeRowsPerPage}
+            error={clientState.error}
           />
         }
       />

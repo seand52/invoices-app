@@ -1,5 +1,7 @@
 import * as ProductsActions from '../actions/productsActions';
 import { ProductsPaginated } from 'api/responses/products.type';
+import Swal from 'sweetalert2';
+import { alertProp } from 'utils/swal';
 
 export const initialState = {
   products: {} as ProductsPaginated,
@@ -58,6 +60,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case ProductsActions.DELETE_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -75,6 +84,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case ProductsActions.NEW_PRODUCT_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
@@ -93,6 +109,13 @@ export const reducer = (state = initialState, action: Actions) => {
         success: true,
       };
     case ProductsActions.UPDATE_PRODUCT_FAILED:
+      Swal.fire(
+        alertProp({
+          text: action.payload,
+          title: 'Gee whiz',
+          type: 'error',
+        }),
+      );
       return {
         ...state,
         loading: false,
