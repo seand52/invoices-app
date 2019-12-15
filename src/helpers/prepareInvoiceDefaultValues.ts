@@ -11,6 +11,7 @@ export function prepareInvoiceDefaultValues<T extends Options>(data: T) {
   const settings: InvoiceSettings = {
     client: { name: data.client.name, id: data.clientId },
     date: data.date,
+    ...(data.expirationDate && { expirationDate: data.expirationDate }),
     transportPrice: data.transportPrice,
     paymentType: { label: data.paymentType, value: data.paymentType },
     tax: makeTaxArray(data),

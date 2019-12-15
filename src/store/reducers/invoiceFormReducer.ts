@@ -12,6 +12,7 @@ export enum PaymentType {
 export interface InvoiceSettings {
   client: { name: string; id: number } | null;
   date: string | Date;
+  expirationDate?: string | Date | null;
   transportPrice: number | null;
   paymentType: { label: string; value: PaymentType };
   tax: TaxOption[];
@@ -38,6 +39,7 @@ export const initialState: InvoiceDetailsState = {
   settings: {
     client: null,
     date: new Date(),
+    expirationDate: null,
     transportPrice: null,
     paymentType: { label: 'Bank Transfer', value: PaymentType.TRANSFERENCIA },
     tax: [{ label: 'IVA (21%)', value: 0.21, category: 'tax' }],

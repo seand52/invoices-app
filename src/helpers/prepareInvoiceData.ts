@@ -14,6 +14,9 @@ export const prepareInvoiceData = (
     settings: {
       clientId: settings.client ? settings.client.id : null,
       date: settings.date,
+      ...(settings.expirationDate && {
+        expirationDate: settings.expirationDate,
+      }),
       re: re ? re.value : 0,
       transportPrice: settings.transportPrice || 0,
       paymentType: settings.paymentType.value,

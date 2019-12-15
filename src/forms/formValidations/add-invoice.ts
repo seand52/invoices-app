@@ -3,6 +3,7 @@ import { PaymentType } from 'store/reducers/invoiceFormReducer';
 interface CreateInvoiceSettings {
   clientId: number | null;
   date: string | Date;
+  expirationDate?: string | Date | null;
   re: number;
   transportPrice: number;
   paymentType: PaymentType;

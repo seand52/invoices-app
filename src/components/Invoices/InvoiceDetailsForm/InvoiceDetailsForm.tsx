@@ -58,9 +58,27 @@ export default function InvoiceDetailsForm({
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date(invoiceState.settings.date) || new Date(),
   );
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-    onSelectInvoiceSetting(InvoiceSettingKeys.DATE, date);
+  const [
+    selectedExpiration,
+    setSelecteExpiration,
+  ] = React.useState<Date | null>(
+    invoiceState.settings.expirationDate
+      ? new Date(invoiceState.settings.expirationDate)
+      : null,
+  );
+  const handleDateChange = (
+    date: Date | null,
+    type: 'validFrom' | 'expiration',
+  ) => {
+    switch (type) {
+      case 'validFrom':
+        setSelectedDate(date);
+        onSelectInvoiceSetting(InvoiceSettingKeys.DATE, date);
+        break;
+      case 'expiration':
+        setSelecteExpiration(date);
+        onSelectInvoiceSetting(InvoiceSettingKeys.EXPIRATION, date);
+    }
   };
 
   return (
@@ -88,12 +106,12 @@ export default function InvoiceDetailsForm({
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
-              variant='inline'
+              variant='dialog'
               format='dd/MM/yyyy'
               id='date-picker-inline'
-              label='Date picker inline'
+              label='Issue Date'
               value={selectedDate}
-              onChange={handleDateChange}
+              onChange={date => handleDateChange(date, 'validFrom')}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -147,6 +165,20 @@ export default function InvoiceDetailsForm({
             variant='outlined'
             type='text'
           />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant='inline'
+              format='dd/MM/yyyy'
+              id='date-picker-inline'
+              label='Expiration Date'
+              value={selectedExpiration}
+              onChange={date => handleDateChange(date, 'expiration')}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
         </div>
         <div className={styles.form_products}>
           <div className={styles.product}>

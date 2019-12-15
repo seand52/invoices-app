@@ -29,6 +29,7 @@ export interface Invoice {
   userId: number;
   clientId: number;
   date: string;
+  expirationDate?: string;
   createdAt: string;
   updatedAt: string;
   client: {
