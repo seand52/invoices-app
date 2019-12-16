@@ -23,7 +23,7 @@ const calculateTotalprice = (
   const reSettings = settings.tax.find(item => item.category === 're');
 
   const subTotal = products
-    .filter(item => item.description !== '')
+    .filter(item => item.reference !== '')
     .reduce(
       (accum, curr) =>
         accum + curr.price * curr.quantity * (1 - makeZero(curr.discount)),

@@ -40,14 +40,12 @@ const ProductDetailsForm = ({
       <h1>Please fill in the clients details</h1>
       <div className={styles.form_items}>
         <TextField
-          defaultValue={product && product.description}
-          error={errors['description'] ? true : false}
-          helperText={
-            errors['description'] ? errors['description'].message : null
-          }
+          defaultValue={product && product.reference}
+          error={errors['reference'] ? true : false}
+          helperText={errors['reference'] ? errors['reference'].message : null}
           inputRef={register}
-          name='description'
-          label='Description*'
+          name='reference'
+          label='Reference*'
           margin='normal'
           variant='outlined'
         />

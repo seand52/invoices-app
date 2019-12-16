@@ -14,7 +14,7 @@ export const validateInvoice = (
         'You must complete the required fields before saving your invoice. Check that you have selected a client and payment type',
     };
   }
-  const filteredProducts = products.filter(item => item.description !== '');
+  const filteredProducts = products.filter(item => item.reference !== '');
   if (!filteredProducts.length) {
     return {
       type: 'error',

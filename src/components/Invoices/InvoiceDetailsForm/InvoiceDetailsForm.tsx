@@ -208,7 +208,7 @@ export default function InvoiceDetailsForm({
                             onSelectProduct(newProduct, row.uuid)
                           }
                           getOptionLabel={(product: Product) =>
-                            product.description
+                            product.reference
                           }
                           style={{ width: 300 }}
                           renderInput={params => (

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const createProductsFields = {
-  description: yup.string().required(),
+  reference: yup.string().required(),
   price: yup.number().required(),
 };
 

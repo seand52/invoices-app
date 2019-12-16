@@ -20,7 +20,7 @@ export function prepareInvoiceDefaultValues<T extends Options>(data: T) {
     uuid: uuidv4(),
     quantity: product.quantity,
     price: parseFloat(product.price),
-    description: product.description,
+    reference: product.reference,
     discount: parseFloat(product.discount),
   }));
   return { settings, products };

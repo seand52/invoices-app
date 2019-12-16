@@ -26,7 +26,7 @@ export const prepareInvoiceData = (
       quantity: item.quantity,
       discount: item.discount,
       price: item.price,
-      description: item.description,
+      reference: item.reference,
     })),
   };
 };

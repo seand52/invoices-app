@@ -16,6 +16,6 @@ export interface ICreateInvoice {
     quantity: number;
     discount: number;
     price: number;
-    description: string;
+    reference: string;
   }[];
 }
