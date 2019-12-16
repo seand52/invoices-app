@@ -1,6 +1,7 @@
 export interface Product {
   id: number;
   reference: string;
+  description: string;
   price: string;
   userId: string;
   createdAt: string;

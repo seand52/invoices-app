@@ -17,6 +17,7 @@ export interface InvoiceProducts {
   discount: string;
   price: string;
   reference: string;
+  description: string;
 }
 
 export interface Invoice {

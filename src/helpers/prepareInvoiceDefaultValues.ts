@@ -21,6 +21,7 @@ export function prepareInvoiceDefaultValues<T extends Options>(data: T) {
     quantity: product.quantity,
     price: parseFloat(product.price),
     reference: product.reference,
+    description: product.description,
     discount: parseFloat(product.discount),
   }));
   return { settings, products };

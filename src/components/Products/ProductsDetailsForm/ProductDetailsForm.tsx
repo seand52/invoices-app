@@ -50,6 +50,18 @@ const ProductDetailsForm = ({
           variant='outlined'
         />
         <TextField
+          defaultValue={product && product.description}
+          error={errors['description'] ? true : false}
+          helperText={
+            errors['description'] ? errors['description'].message : null
+          }
+          inputRef={register}
+          name='description'
+          label='Description*'
+          margin='normal'
+          variant='outlined'
+        />
+        <TextField
           defaultValue={product && product.price}
           error={errors['price'] ? true : false}
           helperText={errors['price'] ? errors['price'].message : null}

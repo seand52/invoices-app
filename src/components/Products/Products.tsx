@@ -27,6 +27,7 @@ interface Props {
 interface Data {
   id: string;
   reference: string;
+  description: string;
   price: string;
   stock: string;
   actions: 'actions';
@@ -49,9 +50,15 @@ const headCells: ProductsHeadCell[] = [
   },
   {
     id: 'reference',
-    numeric: true,
+    numeric: false,
     disablePadding: true,
     label: 'Reference',
+  },
+  {
+    id: 'description',
+    numeric: false,
+    disablePadding: true,
+    label: 'Description',
   },
   {
     id: 'price',
