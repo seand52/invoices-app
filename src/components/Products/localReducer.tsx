@@ -2,6 +2,7 @@ export const initialState = {
   showModal: false,
   action: null as 'added' | 'modified' | 'deleted' | null,
   selectedProductId: null as string | null,
+  search: '' as string,
 };
 
 export type ProductsComponentState = typeof initialState;
@@ -27,12 +28,18 @@ interface EditProduct {
   payload: string;
 }
 
+interface SetSearch {
+  type: 'SET_SEARCH';
+  payload: string;
+}
+
 type Actions =
   | ToggleModal
   | AddProduct
   | DeleteProduct
   | EditProduct
-  | CloseModal;
+  | CloseModal
+  | SetSearch;
 
 export const reducer = (
   state: ProductsComponentState,
@@ -68,6 +75,11 @@ export const reducer = (
         ...state,
         action: 'deleted',
         showModal: false,
+      };
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        search: action.payload,
       };
   }
 };

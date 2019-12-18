@@ -3,6 +3,7 @@ export const initialState = {
   action: null as 'added' | 'modified' | 'deleted' | 'searching' | null,
   loading: false as boolean,
   selectedClientId: null as string | null,
+  search: '' as string,
 };
 
 export type ClientsComponentState = typeof initialState;
@@ -28,7 +29,18 @@ interface EditClient {
   payload: string;
 }
 
-type Actions = ToggleModal | AddClient | DeleteClient | EditClient | CloseModal;
+interface SetSearch {
+  type: 'SET_SEARCH';
+  payload: string;
+}
+
+type Actions =
+  | ToggleModal
+  | AddClient
+  | DeleteClient
+  | EditClient
+  | CloseModal
+  | SetSearch;
 
 export const reducer = (
   state: ClientsComponentState,
@@ -64,6 +76,11 @@ export const reducer = (
         ...state,
         action: 'deleted',
         showModal: false,
+      };
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        search: action.payload,
       };
   }
   return state;

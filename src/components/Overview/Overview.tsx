@@ -20,6 +20,7 @@ export type TableHeadOptions =
   | InvoicesHeadCell[];
 
 interface Props<T extends TableOptions, P extends TableHeadOptions> {
+  searchState?: string;
   onSearchChange: (e) => void;
   onSubmitSearch: (e) => void;
   onAddNew: (e) => void;
@@ -40,6 +41,7 @@ export default function Overview<
   T extends TableOptions,
   P extends TableHeadOptions
 >({
+  searchState,
   onSearchChange,
   onSubmitSearch,
   onAddNew,
@@ -59,6 +61,7 @@ export default function Overview<
   return (
     <div>
       <OverviewHeader
+        searchState={searchState}
         onSearchClear={onSearchClear}
         onAddNew={onAddNew}
         onSearchChange={onSearchChange}

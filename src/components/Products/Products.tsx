@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
 import Layout from 'components/Layout/Layout';
 import {
@@ -104,7 +104,6 @@ const Products = ({
   resetSuccess,
   deleteProduct: deleteProductAction,
 }: Props) => {
-  const [search, setSearch] = useState('');
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     searchAll({ url: 'http://localhost:3000/api/products?page=1&limit=10' });
@@ -125,14 +124,14 @@ const Products = ({
   }, [productState.success]);
 
   const onSearchChange = e => {
-    setSearch(e.target.value);
+    localDispatch({ type: 'SET_SEARCH', payload: e.target.value });
   };
 
   const submitSearch = e => {
     e.preventDefault();
-    if (search !== '') {
+    if (localState.search !== '') {
       searchAll({
-        url: `http://localhost:3000/api/products?page=1&limit=10&name=${search}`,
+        url: `http://localhost:3000/api/products?page=1&limit=10&name=${localState.search}`,
       });
     } else {
       searchAll({
@@ -142,7 +141,7 @@ const Products = ({
   };
 
   const onSearchClear = () => {
-    setSearch('');
+    localDispatch({ type: 'SET_SEARCH', payload: '' });
     searchAll({
       url: `http://localhost:3000/api/products?page=1&limit=10`,
     });
@@ -188,6 +187,7 @@ const Products = ({
       <Layout
         main={
           <Overview
+            searchState={localState.search}
             tableActions={tableActions}
             onSearchClear={onSearchClear}
             loading={productState.loading}

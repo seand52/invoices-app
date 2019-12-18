@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getToken } from 'selectors/userSelectors';
 
 const clientWithBaseUrl = axios.create({
   baseURL: 'http://localhost:3000/api',
@@ -7,8 +8,6 @@ const clientWithBaseUrl = axios.create({
 const clientWithoutBaseUrl = axios.create({
   baseURL: '',
 });
-
-const _token = window.sessionStorage.getItem('token');
 
 interface Options<T> {
   url: string;
@@ -19,6 +18,8 @@ interface Options<T> {
 }
 
 const request = function(options: Options<any>, headers: { auth: boolean }) {
+  console.log('inside request', options);
+
   const onSuccess = function(response) {
     console.debug('Request Successful!', response);
     return response.data;
@@ -54,7 +55,7 @@ const request = function(options: Options<any>, headers: { auth: boolean }) {
     ? {
         ...options,
         headers: {
-          Authorization: `Bearer ${_token}`,
+          Authorization: `Bearer ${getToken()}`,
         },
       }
     : options;

@@ -1,4 +1,5 @@
 import * as InvoiceActions from '../actions/invoiceActions';
+import * as InvoiceFormActions from '../actions/invoiceFormActions';
 import {
   InvoicesPaginated,
   FullInvoiceDetails,
@@ -45,7 +46,8 @@ type Actions =
   | InvoiceActions.NewInvoiceOk
   | InvoiceActions.NewInvoiceFailed
   | InvoiceActions.ResetSuccess
-  | InvoiceActions.UpdateBase64Invoice;
+  | InvoiceActions.UpdateBase64Invoice
+  | InvoiceFormActions.ClearInvoice;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -176,6 +178,10 @@ export const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         base64Invoice: action.payload,
+      };
+    case InvoiceFormActions.CLEAR_INVOICE:
+      return {
+        ...initialState,
       };
     default:
       return state;

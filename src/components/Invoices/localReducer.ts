@@ -2,6 +2,7 @@ export const initialState = {
   showModal: false,
   action: null as 'added' | 'modified' | 'deleted' | null,
   selectedInvoiceId: null as string | null,
+  search: '' as string,
 };
 
 export type InvoiceComponentState = typeof initialState;
@@ -18,7 +19,12 @@ interface DeleteInvoice {
   type: 'DELETE_INVOICE';
 }
 
-type Actions = ToggleModal | DeleteInvoice | CloseModal;
+interface SetSearch {
+  type: 'SET_SEARCH';
+  payload: string;
+}
+
+type Actions = ToggleModal | DeleteInvoice | CloseModal | SetSearch;
 
 export const reducer = (
   state: InvoiceComponentState,
@@ -40,6 +46,11 @@ export const reducer = (
         ...state,
         action: 'deleted',
         showModal: false,
+      };
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        search: action.payload,
       };
   }
 };

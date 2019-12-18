@@ -4,6 +4,7 @@ export const initialState = {
   showModal: false,
   action: null as Action | null,
   selectedSalesOrderId: null as string | null,
+  search: '' as string,
 };
 
 export type SalesOrderComponentState = typeof initialState;
@@ -24,7 +25,17 @@ interface SetAction {
   payload: Action;
 }
 
-type Actions = ToggleModal | DeleteSalesOrder | CloseModal | SetAction;
+interface SetSearch {
+  type: 'SET_SEARCH';
+  payload: string;
+}
+
+type Actions =
+  | ToggleModal
+  | DeleteSalesOrder
+  | CloseModal
+  | SetAction
+  | SetSearch;
 
 export const reducer = (
   state: SalesOrderComponentState,
@@ -51,6 +62,11 @@ export const reducer = (
       return {
         ...state,
         action: action.payload,
+      };
+    case 'SET_SEARCH':
+      return {
+        ...state,
+        search: action.payload,
       };
   }
 };

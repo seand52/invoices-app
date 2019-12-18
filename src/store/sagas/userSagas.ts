@@ -1,13 +1,19 @@
-import { all, takeLatest, put } from '@redux-saga/core/effects';
+import { all, takeLatest, put, call } from '@redux-saga/core/effects';
 import * as UserActions from 'store/actions/userActions';
 import * as api from 'api/user';
 import { BusinessInfoAPI } from 'api/responses/businessInfo.type';
 
-function* tryLogin({ payload }: any) {
+const setToken = token => {
+  console.log('inside setToken');
+  window.sessionStorage.setItem('token', token);
+};
+
+function* authenticate({ payload }: any) {
   try {
     const res = yield api.authenticateUser(payload);
     yield put(UserActions.loginOk(res.token));
-    window.sessionStorage.setItem('token', res.token);
+    yield call(setToken, res.token);
+    // yield window.sessionStorage.setItem('token', res.token);
   } catch (err) {
     if (err.data.statusCode === 401) {
       yield put(UserActions.loginFailed('Wrong credentials'));
@@ -38,7 +44,7 @@ function* submitBusinessDetails({ payload }: any) {
 
 function* sagas() {
   return all([
-    yield takeLatest(UserActions.LOGIN, tryLogin),
+    yield takeLatest(UserActions.LOGIN, authenticate),
     yield takeLatest(UserActions.REGISTER, registerUser),
     yield takeLatest(
       UserActions.SUBMIT_BUSINESS_DETAILS,
