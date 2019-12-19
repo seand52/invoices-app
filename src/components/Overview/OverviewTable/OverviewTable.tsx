@@ -191,7 +191,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
 }: Props<T, P>) {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  // const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
   //WIP: Need to add functionality for bulk delete first
@@ -228,7 +228,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const numberOfRows = event.target.value;
-    setRowsPerPage(parseInt(numberOfRows, 10));
+    // setRowsPerPage(parseInt(numberOfRows, 10));
     onChangeRowsPerPage(numberOfRows);
   };
 
@@ -359,7 +359,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
           rowsPerPageOptions={[10, 20, 30]}
           component='div'
           count={tableData.totalItems}
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={tableData.rowsPerPage}
           page={tableData.currentPage - 1}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}

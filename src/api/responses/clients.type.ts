@@ -24,4 +24,5 @@ export interface ClientsPaginated {
   next: string;
   previous: string;
   currentPage: number;
+  rowsPerPage: number;
 }

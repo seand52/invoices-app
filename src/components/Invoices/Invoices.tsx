@@ -167,7 +167,7 @@ const Invoices = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/invoices?page=${newPage}&limit=${invoiceState.invoices.itemCount}`,
+      url: `http://localhost:3000/api/invoices?page=${newPage}&limit=${invoiceState.invoices.rowsPerPage}`,
     });
   };
 

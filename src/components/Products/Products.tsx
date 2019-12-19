@@ -172,7 +172,7 @@ const Products = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/products?page=${newPage}&limit=${productState.products.itemCount}`,
+      url: `http://localhost:3000/api/products?page=${newPage}&limit=${productState.products.rowsPerPage}`,
     });
   };
 

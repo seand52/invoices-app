@@ -8,6 +8,7 @@ export interface InvoicesPaginated {
   next: string;
   previous: string;
   currentPage: number;
+  rowsPerPage: number;
 }
 
 export interface InvoiceProducts {

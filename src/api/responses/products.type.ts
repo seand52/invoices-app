@@ -16,4 +16,5 @@ export interface ProductsPaginated {
   next: string;
   previous: string;
   currentPage: number;
+  rowsPerPage: number;
 }

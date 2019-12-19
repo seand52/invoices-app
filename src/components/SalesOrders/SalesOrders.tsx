@@ -180,7 +180,7 @@ const SalesOrders = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/sales-orders?page=${newPage}&limit=${salesOrderState.salesOrders.itemCount}`,
+      url: `http://localhost:3000/api/sales-orders?page=${newPage}&limit=${salesOrderState.salesOrders.rowsPerPage}`,
     });
   };
 

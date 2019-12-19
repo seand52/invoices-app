@@ -158,7 +158,7 @@ const Clients = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/clients?page=${newPage}&limit=${clientState.clients.itemCount}`,
+      url: `http://localhost:3000/api/clients?page=${newPage}&limit=${clientState.clients.rowsPerPage}`,
     });
   };
 
