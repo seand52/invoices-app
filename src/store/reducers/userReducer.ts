@@ -19,6 +19,8 @@ import {
   SubmitBusinessDetailsOkAction,
   SUBMIT_BUSINESS_DETAILS_OK,
   SUBMIT_BUSINESS_DETAILS_FAILED,
+  LOGOUT,
+  ILogout,
 } from 'store/actions/userActions';
 import { BusinessInfoAPI } from 'api/responses/businessInfo.type';
 
@@ -46,7 +48,8 @@ type Actions =
   | ClearSuccessAction
   | SubmitBusinessDetailsAction
   | SubmitBusinessDetailsOkAction
-  | SubmitBusinessDetailsFailedAction;
+  | SubmitBusinessDetailsFailedAction
+  | ILogout;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -103,6 +106,10 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         error: 'There was a problem storing your business details',
         loading: false,
+      };
+    case LOGOUT:
+      return {
+        ...initialState,
       };
   }
   return state;

@@ -17,6 +17,7 @@ export const SUBMIT_BUSINESS_DETAILS_OK = 'USER::SUBMIT_BUSINESS_DETAILS_OK';
 export const SUBMIT_BUSINESS_DETAILS_FAILED =
   'USER::SUBMIT_BUSINESS_DETAILS_FAILED';
 
+export const LOGOUT = 'USER::LOGOUT';
 export const CLEAR_SUCCESS = 'USER::CLEAR_SUCCESS';
 
 export interface LoginAction {
@@ -113,4 +114,12 @@ export interface SubmitBusinessDetailsFailedAction {
 export const submitBusinessDetailsFailed = (message: string) => ({
   type: SUBMIT_BUSINESS_DETAILS_FAILED,
   payload: message,
+});
+
+export interface ILogout {
+  type: typeof LOGOUT;
+}
+
+export const logout = () => ({
+  type: LOGOUT,
 });

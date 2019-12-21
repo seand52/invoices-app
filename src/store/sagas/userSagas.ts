@@ -2,10 +2,15 @@ import { all, takeLatest, put, call } from '@redux-saga/core/effects';
 import * as UserActions from 'store/actions/userActions';
 import * as api from 'api/user';
 import { BusinessInfoAPI } from 'api/responses/businessInfo.type';
+import { navigate } from '@reach/router';
 
 const setToken = token => {
   console.log('inside setToken');
   window.sessionStorage.setItem('token', token);
+};
+
+const clearToken = () => {
+  window.sessionStorage.removeItem('token');
 };
 
 function* authenticate({ payload }: any) {
@@ -41,10 +46,16 @@ function* submitBusinessDetails({ payload }: any) {
   }
 }
 
+function* logout({ payload }: any) {
+  clearToken();
+  yield navigate('/');
+}
+
 function* sagas() {
   return all([
     yield takeLatest(UserActions.LOGIN, authenticate),
     yield takeLatest(UserActions.REGISTER, registerUser),
+    yield takeLatest(UserActions.LOGOUT, logout),
     yield takeLatest(
       UserActions.SUBMIT_BUSINESS_DETAILS,
       submitBusinessDetails,

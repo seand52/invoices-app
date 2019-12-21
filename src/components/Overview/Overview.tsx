@@ -8,6 +8,7 @@ import { ProductsPaginated } from 'api/responses/products.type';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
 import { InvoicesHeadCell } from 'components/Invoices/Invoices';
 import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
+import { CircularProgress } from '@material-ui/core';
 
 export type TableOptions =
   | ClientsPaginated
@@ -86,8 +87,16 @@ export default function Overview<
           tableData={tableData}
           editItem={editItem}
         />
+      ) : loading ? (
+        <CircularProgress size={75} />
       ) : (
-        <p>Loading...</p>
+        <p style={{ fontSize: '1.5rem' }}>
+          You do not have any {title}. Click{' '}
+          <a href='#' onClick={e => onAddNew(e)}>
+            Here
+          </a>{' '}
+          to make your first {title}
+        </p>
       )}
       {error ? <ErrorMessage>{error}</ErrorMessage> : null}
     </div>
