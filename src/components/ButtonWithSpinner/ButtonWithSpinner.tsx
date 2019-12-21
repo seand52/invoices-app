@@ -21,13 +21,16 @@ export default function ButtonWithSpinner({
       <div className={styles.wrapper}>
         <Button
           variant='contained'
-          color='primary'
           type={type}
           className={success ? styles.buttonSuccess : styles.button}
           disabled={loading}
         >
           {loading ? (
-            <CircularProgress size={24} className={styles.buttonProgress} />
+            <CircularProgress
+              size={24}
+              style={{ color: 'white' }}
+              className={styles.buttonProgress}
+            />
           ) : (
             text
           )}

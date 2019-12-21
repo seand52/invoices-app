@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './OverviewHeader.module.scss';
 import { TextField } from '@material-ui/core';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import ClearIcon from '@material-ui/icons/Clear';
 
 interface Props {
   onSearchChange: (e: any) => void;
@@ -30,12 +32,14 @@ export default function OverviewHeader({
               className={styles.textField}
               margin='normal'
             />
-            <span onClick={onSearchClear}>Clear</span>
+            <span onClick={onSearchClear}>
+              <ClearIcon style={{ fontSize: 35 }} className={styles.icon} />
+            </span>
           </form>
         </li>
         <li className={styles.add_new}>
           <a href='#new' onClick={onAddNew}>
-            Add
+            <AddBoxIcon style={{ fontSize: 55 }} className={styles.icon} />
           </a>
         </li>
       </ul>

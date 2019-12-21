@@ -3,13 +3,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import styles from './SimpleModal.module.scss';
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -54,10 +50,7 @@ export default function SimpleModal({ children, open, closeModal }: Props) {
         open={open}
         onClose={handleClose}
       >
-        <div
-          style={{ top: '30%', left: '40%', width: '800px' }}
-          className={classes.paper}
-        >
+        <div style={modalStyle} className={classes.paper}>
           {children}
         </div>
       </Modal>

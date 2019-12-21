@@ -156,12 +156,14 @@ const ClientDetailsForm = ({
           variant='outlined'
         />
       </div>
-      <ButtonWithSpinner
-        loading={false}
-        success={true}
-        type='submit'
-        text='Submit Details'
-      />
+      <div style={{ textAlign: 'center' }}>
+        <ButtonWithSpinner
+          loading={clientState.loading}
+          success={clientState.success}
+          type='submit'
+          text='Submit Details'
+        />
+      </div>
       {/* {apiError && <ErrorMessage>{apiError}</ErrorMessage>} */}
     </form>
   );

@@ -13,7 +13,6 @@
 
 .navbar {
   grid-area: navbar;
-  border: 1px solid $border;
   background-color: $navbar;
   color: white;
 }
@@ -22,6 +21,11 @@
   grid-area: sidebar;
   border-right: 1px solid $border;
   background-color: $sidebar;
+  color: white;
+  .list_item {
+    font-size: 2rem;
+    // background-color: red;
+  }
 }
 
 .sidebar_right {

@@ -21,6 +21,11 @@
 
 .add_new {
   margin-right: 20px;
+  & > a {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
 }
 
 .search_form {
@@ -29,6 +34,11 @@
   & > span {
     margin-left: 20px;
     cursor: pointer;
-    color: blue;
+    color: black;
   }
+}
+
+.icon {
+  color: $navbar;
+  font-size: 55px;
 }

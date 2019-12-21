@@ -23,15 +23,28 @@ const Layout = ({ main, logout }: Props) => {
       <div className={styles.sidebar_left}>
         <List style={{ paddingTop: 0 }} component='nav'>
           <ListItem onClick={() => navigate('/clients')} button>
-            <ListItemText primary='Clients' />
+            <ListItemText className={styles.list_item} primary='Clients' />
           </ListItem>
-          <ListItem onClick={() => navigate('/products')} button>
+          <ListItem
+            selected
+            className={styles.list_item}
+            onClick={() => navigate('/products')}
+            button
+          >
             <ListItemText primary='Products' />
           </ListItem>
-          <ListItem onClick={() => navigate('/invoices')} button>
+          <ListItem
+            className={styles.list_item}
+            onClick={() => navigate('/invoices')}
+            button
+          >
             <ListItemText primary='Invoices' />
           </ListItem>
-          <ListItem onClick={() => navigate('/sales-orders')} button>
+          <ListItem
+            className={styles.list_item}
+            onClick={() => navigate('/sales-orders')}
+            button
+          >
             <ListItemText primary='Sales Orders' />
           </ListItem>
         </List>

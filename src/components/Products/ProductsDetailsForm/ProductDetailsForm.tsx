@@ -74,12 +74,14 @@ const ProductDetailsForm = ({
           margin='normal'
         />
       </div>
-      <ButtonWithSpinner
-        loading={false}
-        success={true}
-        type='submit'
-        text='Submit Details'
-      />
+      <div className={styles.button_container}>
+        <ButtonWithSpinner
+          loading={productState.loading}
+          success={productState.success}
+          type='submit'
+          text='Submit Details'
+        />
+      </div>
       {/* {apiError && <ErrorMessage>{apiError}</ErrorMessage>} */}
     </form>
   );
