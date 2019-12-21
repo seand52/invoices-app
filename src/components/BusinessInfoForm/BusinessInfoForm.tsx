@@ -26,7 +26,6 @@ export default function BusinessInfoForm(props: Props) {
         <h1>Please fill in your business details</h1>
         <div className={styles.form_items}>
           <TextField
-            required
             error={props.errors['name'] ? true : false}
             helperText={
               props.errors['name'] ? props.errors['name'].message : null

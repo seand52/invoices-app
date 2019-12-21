@@ -36,6 +36,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   tableActions?: { label: string; value: string }[];
   newInvoice?: (id, name) => void;
   error: string | null;
+  title: string;
 }
 export default function Overview<
   T extends TableOptions,
@@ -57,6 +58,7 @@ export default function Overview<
   tableActions,
   newInvoice,
   error,
+  title,
 }: Props<T, P>) {
   return (
     <div>
@@ -66,7 +68,6 @@ export default function Overview<
         onAddNew={onAddNew}
         onSearchChange={onSearchChange}
         onSubmitSearch={onSubmitSearch}
-        title='Clients'
       />
       {tableData &&
       tableData.items &&
@@ -74,6 +75,7 @@ export default function Overview<
       !loading &&
       !error ? (
         <OverviewTable
+          title={title}
           newInvoice={newInvoice}
           tableActions={tableActions}
           transformToInvoice={transformToInvoice}
@@ -84,7 +86,9 @@ export default function Overview<
           tableData={tableData}
           editItem={editItem}
         />
-      ) : null}
+      ) : (
+        <p>Loading...</p>
+      )}
       {error ? <ErrorMessage>{error}</ErrorMessage> : null}
     </div>
   );

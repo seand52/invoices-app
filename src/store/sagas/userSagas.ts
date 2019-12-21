@@ -13,7 +13,6 @@ function* authenticate({ payload }: any) {
     const res = yield api.authenticateUser(payload);
     yield put(UserActions.loginOk(res.token));
     yield call(setToken, res.token);
-    // yield window.sessionStorage.setItem('token', res.token);
   } catch (err) {
     if (err.data.statusCode === 401) {
       yield put(UserActions.loginFailed('Wrong credentials'));
@@ -27,7 +26,7 @@ function* registerUser({ payload }: any) {
   try {
     const res = yield api.registerUser(payload);
     yield put(UserActions.registerOk(res.token));
-    window.sessionStorage.setItem('token', res.token);
+    yield call(setToken, res.token);
   } catch (err) {
     yield put(UserActions.registrationField(err.data.message));
   }

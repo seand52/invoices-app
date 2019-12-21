@@ -178,6 +178,7 @@ const Clients = ({
       <Layout
         main={
           <Overview
+            title='Clients'
             searchState={localState.search}
             newInvoice={makeNewInvoiceForClient}
             tableActions={tableActions}

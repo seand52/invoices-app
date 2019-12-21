@@ -90,6 +90,7 @@ const useToolbarStyles = makeStyles((theme: Theme) =>
 );
 
 interface EnhancedTableToolbarProps {
+  title: string;
   numSelected: number;
   deleteItem: (ids: string[]) => void;
 }
@@ -114,7 +115,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant='h4' id='tableTitle'>
-          Clients
+          {props.title}
         </Typography>
       )}
       {numSelected > 0 ? (
@@ -176,6 +177,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   onChangeRowsPerPage: (rowsPerPage: string) => void;
   tableActions?: { label: string; value: string }[];
   newInvoice?: (id, name) => void;
+  title: string;
 }
 
 function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
@@ -188,6 +190,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
   transformToInvoice,
   tableActions,
   newInvoice,
+  title,
 }: Props<T, P>) {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
@@ -259,6 +262,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar
+          title={title}
           deleteItem={() => deleteItem(selected)}
           numSelected={selected.length}
         />

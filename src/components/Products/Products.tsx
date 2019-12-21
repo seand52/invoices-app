@@ -187,6 +187,7 @@ const Products = ({
       <Layout
         main={
           <Overview
+            title='Products'
             searchState={localState.search}
             tableActions={tableActions}
             onSearchClear={onSearchClear}

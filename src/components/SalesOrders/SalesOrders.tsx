@@ -209,6 +209,7 @@ const SalesOrders = ({
       <Layout
         main={
           <Overview
+            title='Sales Orders'
             searchState={localState.search}
             tableActions={tableActions}
             transformToInvoice={transformToInvoice}

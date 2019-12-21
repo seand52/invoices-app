@@ -3,7 +3,6 @@ import styles from './OverviewHeader.module.scss';
 import { TextField } from '@material-ui/core';
 
 interface Props {
-  title: string;
   onSearchChange: (e: any) => void;
   onSubmitSearch: (e) => void;
   onAddNew: (e) => void;
@@ -11,7 +10,6 @@ interface Props {
   searchState?: string;
 }
 export default function OverviewHeader({
-  title,
   onSearchChange,
   onSubmitSearch,
   onAddNew,

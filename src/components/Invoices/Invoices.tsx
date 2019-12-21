@@ -181,6 +181,7 @@ const Invoices = ({
       <Layout
         main={
           <Overview<InvoicesPaginated, InvoicesHeadCell[]>
+            title='Invoices'
             searchState={localState.search}
             tableActions={tableActions}
             onSearchClear={onSearchClear}
