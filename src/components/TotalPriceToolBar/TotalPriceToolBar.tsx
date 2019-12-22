@@ -5,15 +5,18 @@ import {
 } from 'store/reducers/invoiceFormReducer';
 import styles from './TotalPriceToolbar.module.scss';
 import NumberFormatter from 'helpers/numberFormat';
+import {
+  calculateSubTotal,
+  calculateIva,
+  calculateRe,
+  calculateTransport,
+  roundedNumber,
+} from 'helpers/calculations';
 
 interface Props {
   products: InvoiceProducts;
   settings: InvoiceSettings;
 }
-
-const makeZero = number => (isNaN(number) ? 0 : number);
-
-const roundedNumber = number => Math.round(number * 100) / 100;
 
 const calculateTotalprice = (
   products: InvoiceProducts[],
@@ -22,16 +25,10 @@ const calculateTotalprice = (
   const ivaSettings = settings.tax.find(item => item.category === 'tax');
   const reSettings = settings.tax.find(item => item.category === 're');
 
-  const subTotal = products
-    .filter(item => item.reference !== '')
-    .reduce(
-      (accum, curr) =>
-        accum + curr.price * curr.quantity * (1 - makeZero(curr.discount)),
-      0,
-    );
-  const iva = ivaSettings ? subTotal * ivaSettings.value : 0;
-  const re = reSettings ? subTotal * reSettings.value : 0;
-  const transport = settings.transportPrice || 0;
+  const subTotal = calculateSubTotal(products);
+  const iva = calculateIva(ivaSettings, subTotal);
+  const re = calculateRe(reSettings, subTotal);
+  const transport = calculateTransport(settings);
   const invoiceTotal = subTotal + iva + re + transport;
   return {
     subTotal: roundedNumber(subTotal),
