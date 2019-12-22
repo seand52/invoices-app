@@ -5,12 +5,15 @@ import { navigate } from '@reach/router';
 import Navbar from 'components/Navbar/Navbar';
 import { logout } from 'store/actions/userActions';
 import { connect } from 'react-redux';
+import { getNavigationState } from 'selectors/navigationSelector';
+import { NavigationState } from 'store/reducers/navigationReducer';
 
 interface Props {
   main?: JSX.Element;
   logout: () => void;
+  navigationState: NavigationState;
 }
-const Layout = ({ main, logout }: Props) => {
+const Layout = ({ main, logout, navigationState }: Props) => {
   const userLogout = e => {
     e.preventDefault();
     logout();
@@ -22,11 +25,15 @@ const Layout = ({ main, logout }: Props) => {
       </div>
       <div className={styles.sidebar_left}>
         <List style={{ paddingTop: 0 }} component='nav'>
-          <ListItem onClick={() => navigate('/clients')} button>
+          <ListItem
+            selected={navigationState.currentPage === 'clients'}
+            onClick={() => navigate('/clients')}
+            button
+          >
             <ListItemText className={styles.list_item} primary='Clients' />
           </ListItem>
           <ListItem
-            selected
+            selected={navigationState.currentPage === 'products'}
             className={styles.list_item}
             onClick={() => navigate('/products')}
             button
@@ -34,6 +41,7 @@ const Layout = ({ main, logout }: Props) => {
             <ListItemText primary='Products' />
           </ListItem>
           <ListItem
+            selected={navigationState.currentPage === 'invoices'}
             className={styles.list_item}
             onClick={() => navigate('/invoices')}
             button
@@ -41,6 +49,7 @@ const Layout = ({ main, logout }: Props) => {
             <ListItemText primary='Invoices' />
           </ListItem>
           <ListItem
+            selected={navigationState.currentPage === 'salesOrders'}
             className={styles.list_item}
             onClick={() => navigate('/sales-orders')}
             button
@@ -54,10 +63,15 @@ const Layout = ({ main, logout }: Props) => {
   );
 };
 
+const mapStateToProps = (state: any) => {
+  return {
+    navigationState: getNavigationState(state),
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => dispatch(logout()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

@@ -17,6 +17,7 @@ import { alertProp, confirmationAlert } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
 import { makeInvoiceClient } from 'store/actions/invoiceFormActions';
 import { navigate } from '@reach/router';
+import { useSetNavigation } from 'hooks/useSetNavigation';
 
 interface Props {
   path: string;
@@ -90,7 +91,9 @@ const Clients = ({
   deleteClient: deleteClientAction,
   makeInvoiceForClient,
 }: Props) => {
+  useSetNavigation('clients');
   const [localState, localDispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
     searchAll({ url: 'http://localhost:3000/api/clients?page=1&limit=10' });
   }, []);
