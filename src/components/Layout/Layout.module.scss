@@ -29,9 +29,12 @@
 }
 
 .sidebar_right {
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid $border;
   grid-area: content;
   background-color: white;
+  max-height: 100vh;
 }
 
 @media (max-width: 768px) {

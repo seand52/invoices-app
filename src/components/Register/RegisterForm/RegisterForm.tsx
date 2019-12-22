@@ -67,7 +67,7 @@ export default function RegisterForm({
         loading={user.loading}
         success={user.isLoggedIn}
         type='submit'
-        text='Log in'
+        text='Register'
       />
       <Link className={styles.login_link} to='/login'>
         Log in

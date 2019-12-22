@@ -8,7 +8,7 @@ export const alertProp = (data: AlertProps) => {
   return {
     type: data.type,
     title: data.title,
-    confirmButtonColor: '#0f0',
+    confirmButtonColor: '#4ea5d9',
     text: data.text,
   };
 };
@@ -34,7 +34,7 @@ export const confirmationAlert = (data: ConfirmData): ConfirmationModal => {
     text: data.text || "You won't be able to revert this!",
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
+    confirmButtonColor: '#4ea5d9',
     cancelButtonColor: '#d33',
     confirmButtonText: data.confirmButtonText,
   };

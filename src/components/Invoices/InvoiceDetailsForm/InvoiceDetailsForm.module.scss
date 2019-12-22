@@ -1,6 +1,5 @@
 .top_area {
   min-height: 50px;
-  background: red;
   display: flex;
   justify-content: flex-end;
   & button {
@@ -9,25 +8,36 @@
   }
 }
 
-.main_form_container {
-  & .form_settings {
-    min-height: 100px;
-    margin: 20px 0;
-    background-color: aliceblue;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: 10px;
-    grid-row-gap: 20px;
-    padding: 20px;
-  }
+.form_settings {
+  min-height: 100px;
+  margin: 20px 0;
+  // background-color: aliceblue;
+  border: 1px solid #ccc;
+  display: grid;
+  grid-template-columns: 20% 20% 20%;
+  grid-column-gap: 15%;
+  grid-row-gap: 20px;
+  padding: 30px;
+}
 
-  & .form_products {
-    // height: 800px;
-    overflow: auto;
-    background-color: beige;
-  }
+.form_products {
+  flex: 1;
+  overflow: auto;
 }
 
 .quantity {
   width: 100px;
+}
+
+.add_icon {
+  color: green;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.delete_icon {
+  color: red;
+  cursor: pointer;
+  font-size: 25px;
+  margin-left: 20px;
 }

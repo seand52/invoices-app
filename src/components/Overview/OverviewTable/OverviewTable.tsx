@@ -319,6 +319,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
                                 labelId='demo-simple-select-outlined-label'
                                 id='demo-simple-select-outlined'
                                 value=''
+                                variant='standard'
                                 onChange={e =>
                                   handleAction(e, {
                                     id: row.id.toString(),
