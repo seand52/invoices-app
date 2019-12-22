@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { navigate } from '@reach/router';
 
 import styles from './RegisterContainer.module.scss';
-import RegisterForm from './RegisterForm/RegisterForm';
+import RegisterForm from '../../components/Register/RegisterForm/RegisterForm';
 import { getUserState } from 'selectors/userSelectors';
 import {
   register,

@@ -2,11 +2,11 @@ import React from 'react';
 import OverviewHeader from './OverviewHeader/OverviewHeader';
 import OverviewTable from './OverviewTable/OverviewTable';
 import { ClientsPaginated } from 'api/responses/clients.type';
-import { HeadCell } from 'components/Clients/Clients';
-import { ProductsHeadCell } from 'components/Products/Products';
+import { HeadCell } from 'pages/Clients/Clients';
+import { ProductsHeadCell } from 'pages/Products/Products';
 import { ProductsPaginated } from 'api/responses/products.type';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
-import { InvoicesHeadCell } from 'components/Invoices/Invoices';
+import { InvoicesHeadCell } from 'pages/Invoices/Invoices';
 import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
 import { CircularProgress } from '@material-ui/core';
 

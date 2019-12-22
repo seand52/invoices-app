@@ -3,78 +3,65 @@ import { connect } from 'react-redux';
 import Layout from 'components/Layout/Layout';
 import {
   searchAll,
-  deleteProduct,
+  deleteClient,
   resetSuccess,
-} from 'store/actions/productsActions';
+} from 'store/actions/clientActions';
 import { InitialState } from 'store';
-import { getProductState } from 'selectors/products';
-import { ProductState } from 'store/reducers/productsReducer';
+import { getClientsState } from 'selectors/clients';
+import { ClientState } from 'store/reducers/clientsReducer';
 import Overview from 'components/Overview/Overview';
 import SimpleModal from 'components/SimpleModal/SimpleModal';
-import ProductDetailsForm from './ProductsDetailsForm/ProductDetailsForm';
+import ClientDetailsForm from '../../components/Clients/ClientDetailsForm/ClientDetailsForm';
 import Swal from 'sweetalert2';
 import { alertProp, confirmationAlert } from 'utils/swal';
 import { initialState, reducer } from './localReducer';
+import { makeInvoiceClient } from 'store/actions/invoiceFormActions';
+import { navigate } from '@reach/router';
+import { useSetNavigation } from 'hooks/useSetNavigation';
 
 interface Props {
   path: string;
   searchAll: ({ url: string }) => void;
-  deleteProduct: (id: string) => void;
+  deleteClient: (id: string) => void;
   resetSuccess: () => void;
-  productState: ProductState;
+  makeInvoiceForClient: (id, name) => void;
+  clientState: ClientState;
 }
 
 interface Data {
-  id: string;
-  reference: string;
-  description: string;
-  price: string;
-  stock: string;
+  name: string;
+  email: string;
+  telephone1: string;
+  telephone2: string;
+  address: string;
+  city: string;
   actions: 'actions';
 }
 
-export interface ProductsHeadCell {
+export interface HeadCell {
   disablePadding: boolean;
   id: keyof Data;
   label: string;
   numeric: boolean;
-  currency?: boolean;
 }
 
-const headCells: ProductsHeadCell[] = [
+const headCells: HeadCell[] = [
   {
-    id: 'id',
-    numeric: true,
-    disablePadding: true,
-    label: 'ID',
-  },
-  {
-    id: 'reference',
+    id: 'name',
     numeric: false,
     disablePadding: true,
-    label: 'Reference',
+    label: 'Name',
   },
+  { id: 'email', numeric: false, disablePadding: true, label: 'Email' },
   {
-    id: 'description',
+    id: 'telephone1',
     numeric: false,
     disablePadding: true,
-    label: 'Description',
-  },
-  {
-    id: 'price',
-    numeric: false,
-    currency: true,
-    disablePadding: true,
-    label: 'Price',
+    label: 'Telephone',
   },
 
-  {
-    id: 'stock',
-    numeric: false,
-    disablePadding: true,
-    label: 'Stock',
-  },
-
+  { id: 'address', numeric: false, disablePadding: true, label: 'Address' },
+  { id: 'city', numeric: false, disablePadding: true, label: 'City' },
   { id: 'actions', numeric: false, disablePadding: true, label: '' },
 ];
 
@@ -92,36 +79,38 @@ const tableActions = [
     value: 'delete',
   },
   {
-    label: 'View',
-    value: 'view',
+    label: 'New Invoice',
+    value: 'newInvoice',
   },
 ];
 
-const Products = ({
-  path,
+const Clients = ({
   searchAll,
-  productState,
+  clientState,
   resetSuccess,
-  deleteProduct: deleteProductAction,
+  deleteClient: deleteClientAction,
+  makeInvoiceForClient,
 }: Props) => {
+  useSetNavigation('clients');
   const [localState, localDispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
-    searchAll({ url: 'http://localhost:3000/api/products?page=1&limit=10' });
+    searchAll({ url: 'http://localhost:3000/api/clients?page=1&limit=10' });
   }, []);
 
   useEffect(() => {
-    if (productState.success) {
+    if (clientState.success) {
       localDispatch({ type: 'CLOSE_MODAL' });
       Swal.fire(
         alertProp({
           type: 'success',
           title: 'Success!',
-          text: `Product ${localState.action} correctly`,
+          text: `Client ${localState.action} correctly`,
         }),
       );
       resetSuccess();
     }
-  }, [productState.success]);
+  }, [clientState.success]);
 
   const onSearchChange = e => {
     localDispatch({ type: 'SET_SEARCH', payload: e.target.value });
@@ -131,11 +120,11 @@ const Products = ({
     e.preventDefault();
     if (localState.search !== '') {
       searchAll({
-        url: `http://localhost:3000/api/products?page=1&limit=10&name=${localState.search}`,
+        url: `http://localhost:3000/api/clients?page=1&limit=10&name=${localState.search}`,
       });
     } else {
       searchAll({
-        url: `http://localhost:3000/api/products?page=1&limit=10`,
+        url: `http://localhost:3000/api/clients?page=1&limit=10`,
       });
     }
   };
@@ -143,16 +132,16 @@ const Products = ({
   const onSearchClear = () => {
     localDispatch({ type: 'SET_SEARCH', payload: '' });
     searchAll({
-      url: `http://localhost:3000/api/products?page=1&limit=10`,
+      url: `http://localhost:3000/api/clients?page=1&limit=10`,
     });
   };
 
-  const addNewProduct = e => {
+  const onAddNewClient = e => {
     e.preventDefault();
-    localDispatch({ type: 'ADD_PRODUCT' });
+    localDispatch({ type: 'ADD_CLIENT' });
   };
 
-  const deleteProduct = (ids: string[]) => {
+  const deleteClient = (ids: string[]) => {
     Swal.fire(
       confirmationAlert({
         title: 'Are you sure you want to delete the client?',
@@ -160,48 +149,54 @@ const Products = ({
       }),
     ).then(result => {
       if (result.value) {
-        deleteProductAction(ids[0]);
-        localDispatch({ type: 'DELETE_PRODUCT' });
+        deleteClientAction(ids[0]);
+        localDispatch({ type: 'DELETE_CLIENT' });
       }
     });
   };
 
-  const editProduct = (id: string) => {
-    localDispatch({ type: 'EDIT_PRODUCT', payload: id });
+  const editClient = (id: string) => {
+    localDispatch({ type: 'EDIT_CLIENT', payload: id });
   };
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/products?page=${newPage}&limit=${productState.products.rowsPerPage}`,
+      url: `http://localhost:3000/api/clients?page=${newPage}&limit=${clientState.clients.rowsPerPage}`,
     });
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
     searchAll({
-      url: `http://localhost:3000/api/products?page=${productState.products.currentPage}&limit=${rowsPerPage}`,
+      url: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${rowsPerPage}`,
     });
   };
 
+  const makeNewInvoiceForClient = (id, name) => {
+    makeInvoiceForClient(id, name);
+    navigate('invoices/new');
+  };
+  console.log(localState);
   return (
     <div>
       <Layout
         main={
           <Overview
-            title='Products'
+            title='Clients'
             searchState={localState.search}
+            newInvoice={makeNewInvoiceForClient}
             tableActions={tableActions}
             onSearchClear={onSearchClear}
-            loading={productState.loading}
-            editItem={editProduct}
-            deleteItem={deleteProduct}
+            loading={clientState.loading}
+            editItem={editClient}
+            deleteItem={deleteClient}
             tableHeader={headCells}
-            tableData={productState.products}
-            onAddNew={addNewProduct}
+            tableData={clientState.clients}
+            onAddNew={onAddNewClient}
             onSearchChange={onSearchChange}
             onSubmitSearch={submitSearch}
             onNextPage={onNextPage}
             onChangeRowsPerPage={onChangeRowsPerPage}
-            error={productState.error}
+            error={clientState.error}
           />
         }
       />
@@ -209,7 +204,7 @@ const Products = ({
         open={localState.showModal}
         closeModal={() => localDispatch({ type: 'TOGGLE_MODAL' })}
       >
-        <ProductDetailsForm selectedProduct={localState.selectedProductId} />
+        <ClientDetailsForm selectedClient={localState.selectedClientId} />
       </SimpleModal>
     </div>
   );
@@ -217,15 +212,16 @@ const Products = ({
 
 const mapStateToProps = (state: InitialState) => {
   return {
-    productState: getProductState(state),
+    clientState: getClientsState(state),
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     searchAll: ({ url }) => dispatch(searchAll({ url })),
-    deleteProduct: id => dispatch(deleteProduct(id)),
+    deleteClient: id => dispatch(deleteClient(id)),
     resetSuccess: () => dispatch(resetSuccess()),
+    makeInvoiceForClient: (id, name) => dispatch(makeInvoiceClient(id, name)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Products);
+export default connect(mapStateToProps, mapDispatchToProps)(Clients);

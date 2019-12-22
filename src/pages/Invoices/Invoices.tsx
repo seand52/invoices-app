@@ -16,6 +16,7 @@ import { initialState, reducer } from './localReducer';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { navigate } from '@reach/router';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
+import { useSetNavigation } from 'hooks/useSetNavigation';
 
 interface Props {
   path: string;
@@ -98,6 +99,7 @@ const Invoices = ({
   resetSuccess,
   deleteInvoice: deleteInvoiceAction,
 }: Props) => {
+  useSetNavigation('invoices');
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     searchAll({ url: 'http://localhost:3000/api/invoices?page=1&limit=10' });

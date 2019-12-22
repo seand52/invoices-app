@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { InitialState } from 'store';
 import { getUserState, isLoggedIn } from 'selectors/userSelectors';
 import { UserState } from 'store/reducers/userReducer';
-import LoginContainer from 'components/Login/LoginContainer';
+import LoginContainer from 'pages/Login/LoginContainer';
 
 interface Props {
   user: UserState;

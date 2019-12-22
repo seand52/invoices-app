@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import ButtonWithSpinner from 'components/ButtonWithSpinner';
+import ButtonWithSpinner from 'components/ButtonWithSpinner/ButtonWithSpinner';
 
 import styles from './LoginForm.module.scss';
 import { UserState } from 'store/reducers/userReducer';

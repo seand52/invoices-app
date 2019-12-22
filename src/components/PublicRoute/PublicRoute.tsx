@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { InitialState } from 'store';
 import { getUserState, isLoggedIn } from 'selectors/userSelectors';
 import { UserState } from 'store/reducers/userReducer';
-import Clients from 'components/Clients/Clients';
+import Clients from 'pages/Clients/Clients';
 
 interface Props {
   user: UserState;

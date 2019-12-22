@@ -1,16 +1,16 @@
 import React from 'react';
 import { Router } from '@reach/router';
 import 'App.scss';
-import LoginContainer from 'components/Login/LoginContainer';
-import RegisterContainer from 'components/Register/RegisterContainer';
+import LoginContainer from 'pages/Login/LoginContainer';
+import RegisterContainer from 'pages/Register/RegisterContainer';
 import PrivateRoute from 'components/PrivateRoute/PrivateRoute';
-import Clients from 'components/Clients/Clients';
+import Clients from 'pages/Clients/Clients';
 import PublicRoute from 'components/PublicRoute/PublicRoute';
-import Products from 'components/Products/Products';
-import Invoices from 'components/Invoices/Invoices';
+import Products from 'pages/Products/Products';
+import Invoices from 'pages/Invoices/Invoices';
 import NewInvoice from 'components/Invoices/NewInvoice/NewInvoice';
 import EditInvoice from 'components/Invoices/EditInvoice/EditInvoice';
-import SalesOrders from 'components/SalesOrders/SalesOrders';
+import SalesOrders from 'pages/SalesOrders/SalesOrders';
 import NewSalesOrder from 'components/SalesOrders/NewSalesOrder/NewSalesOrder';
 import EditSalesOrder from 'components/SalesOrders/EditSalesOrder/EditSalesOrder';
 

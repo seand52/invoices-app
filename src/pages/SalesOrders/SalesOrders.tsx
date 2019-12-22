@@ -19,6 +19,7 @@ import { navigate } from '@reach/router';
 import { getInvoiceState } from 'selectors/invoices';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { makeDownloadLink } from 'helpers/makeDownloadLink';
+import { useSetNavigation } from 'hooks/useSetNavigation';
 
 interface Props {
   path: string;
@@ -104,6 +105,7 @@ const SalesOrders = ({
   transformToInvoice: transformToInvoiceAction,
   invoiceState,
 }: Props) => {
+  useSetNavigation('salesOrders');
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     searchAll({
