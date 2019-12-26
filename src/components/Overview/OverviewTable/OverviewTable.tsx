@@ -177,6 +177,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   onChangeRowsPerPage: (rowsPerPage: string) => void;
   tableActions?: { label: string; value: string }[];
   newInvoice?: (id, name) => void;
+  newSalesOrder?: (id, name) => void;
   title: string;
 }
 
@@ -190,6 +191,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
   transformToInvoice,
   tableActions,
   newInvoice,
+  newSalesOrder,
   title,
 }: Props<T, P>) {
   const classes = useStyles();
@@ -254,6 +256,10 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
           newInvoice(clientData.id, clientData.name);
         }
         break;
+      case 'newSalesOrder':
+        if (newSalesOrder) {
+          newSalesOrder(clientData.id, clientData.name);
+        }
     }
   };
 

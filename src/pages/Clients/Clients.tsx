@@ -82,6 +82,10 @@ const tableActions = [
     label: 'New Invoice',
     value: 'newInvoice',
   },
+  {
+    label: 'New Sales Order',
+    value: 'newSalesOrder',
+  },
 ];
 
 const Clients = ({
@@ -175,7 +179,12 @@ const Clients = ({
     makeInvoiceForClient(id, name);
     navigate('invoices/new');
   };
-  console.log(localState);
+
+  const makeNewSalesOrderForClient = (id, name) => {
+    makeInvoiceForClient(id, name);
+    navigate('sales-order/new');
+  };
+
   return (
     <div>
       <Layout
@@ -184,6 +193,7 @@ const Clients = ({
             title='Clients'
             searchState={localState.search}
             newInvoice={makeNewInvoiceForClient}
+            newSalesOrder={makeNewSalesOrderForClient}
             tableActions={tableActions}
             onSearchClear={onSearchClear}
             loading={clientState.loading}

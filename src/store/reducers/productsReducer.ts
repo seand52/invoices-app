@@ -6,7 +6,9 @@ import { alertProp } from 'utils/swal';
 export const initialState = {
   products: {} as ProductsPaginated,
   loading: false as boolean,
+  formLoading: false as boolean,
   error: null as string | null,
+  formError: null as string | null,
   success: false as boolean,
 };
 
@@ -75,52 +77,38 @@ export const reducer = (state = initialState, action: Actions) => {
     case ProductsActions.NEW_PRODUCT:
       return {
         ...state,
-        loading: true,
+        formLoading: true,
       };
     case ProductsActions.NEW_PRODUCT_OK:
       return {
         ...state,
-        loading: false,
+        formLoading: false,
         success: true,
       };
     case ProductsActions.NEW_PRODUCT_FAILED:
-      Swal.fire(
-        alertProp({
-          text: action.payload,
-          title: 'Gee whiz',
-          type: 'error',
-        }),
-      );
       return {
         ...state,
-        loading: false,
+        formLoading: false,
         success: false,
-        error: action.payload,
+        formError: action.payload,
       };
     case ProductsActions.UPDATE_PRODUCT:
       return {
         ...state,
-        loading: true,
+        formLoading: true,
       };
     case ProductsActions.UPDATE_PRODUCT_OK:
       return {
         ...state,
-        loading: false,
+        formLoading: false,
         success: true,
       };
     case ProductsActions.UPDATE_PRODUCT_FAILED:
-      Swal.fire(
-        alertProp({
-          text: action.payload,
-          title: 'Gee whiz',
-          type: 'error',
-        }),
-      );
       return {
         ...state,
-        loading: false,
+        formLoading: false,
         success: false,
-        error: action.payload,
+        formError: action.payload,
       };
     case ProductsActions.RESET_SUCCESS:
       return {

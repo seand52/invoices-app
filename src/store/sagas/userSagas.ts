@@ -5,7 +5,6 @@ import { BusinessInfoAPI } from 'api/responses/businessInfo.type';
 import { navigate } from '@reach/router';
 
 const setToken = token => {
-  console.log('inside setToken');
   window.sessionStorage.setItem('token', token);
 };
 
@@ -19,11 +18,7 @@ function* authenticate({ payload }: any) {
     yield put(UserActions.loginOk(res.token));
     yield call(setToken, res.token);
   } catch (err) {
-    if (err.data.statusCode === 401) {
-      yield put(UserActions.loginFailed('Wrong credentials'));
-      return;
-    }
-    yield put(UserActions.loginFailed());
+    yield put(UserActions.loginFailed(err.message));
   }
 }
 
@@ -33,7 +28,7 @@ function* registerUser({ payload }: any) {
     yield put(UserActions.registerOk(res.token));
     yield call(setToken, res.token);
   } catch (err) {
-    yield put(UserActions.registrationField(err.data.message));
+    yield put(UserActions.registrationField(err.message));
   }
 }
 
@@ -42,7 +37,7 @@ function* submitBusinessDetails({ payload }: any) {
     const res: BusinessInfoAPI = yield api.saveBusinessInfo(payload);
     yield put(UserActions.submitBusinessDetailsOk(res));
   } catch (err) {
-    yield put(UserActions.submitBusinessDetailsFailed(err.data.message));
+    yield put(UserActions.submitBusinessDetailsFailed(err.message));
   }
 }
 

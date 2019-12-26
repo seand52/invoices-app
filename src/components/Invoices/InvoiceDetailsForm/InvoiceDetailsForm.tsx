@@ -171,7 +171,7 @@ export default function InvoiceDetailsForm({
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             disableToolbar
-            variant='inline'
+            variant='dialog'
             format='dd/MM/yyyy'
             id='date-picker-inline'
             label='Expiration Date'

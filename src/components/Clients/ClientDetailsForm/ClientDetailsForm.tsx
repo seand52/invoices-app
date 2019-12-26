@@ -158,13 +158,15 @@ const ClientDetailsForm = ({
       </div>
       <div style={{ textAlign: 'center' }}>
         <ButtonWithSpinner
-          loading={clientState.loading}
+          loading={clientState.formLoading}
           success={clientState.success}
           type='submit'
           text='Submit Details'
         />
       </div>
-      {/* {apiError && <ErrorMessage>{apiError}</ErrorMessage>} */}
+      {clientState.formError && (
+        <ErrorMessage>{clientState.formError}</ErrorMessage>
+      )}
     </form>
   );
 };

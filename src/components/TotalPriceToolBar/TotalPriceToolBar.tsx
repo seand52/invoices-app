@@ -47,7 +47,7 @@ export default function TotalPriceToolBar({ products, settings }) {
   return (
     <div className={styles.price_bar}>
       <p>SubTotal: {NumberFormatter.format(subTotal)}</p>
-      <p>IVA: {NumberFormatter.format(roundedNumber(iva + re))}</p>
+      <p>Taxes: {NumberFormatter.format(roundedNumber(iva + re))}</p>
       <p>Transport: {NumberFormatter.format(transport)}</p>
       <p>Total: {NumberFormatter.format(invoiceTotal)}</p>
     </div>

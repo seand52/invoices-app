@@ -34,19 +34,20 @@ const request = function(options: Options<any>, headers: { auth: boolean }) {
       console.error('Status:', error.response.status);
       console.error('Data:', error.response.data);
       console.error('Headers:', error.response.headers);
+      if (error.response.status && error.response.status === 400) {
+        return Promise.reject(
+          'You have made a bad request. Check that all the data is correct',
+        );
+      }
+      if (error.response.status && error.response.status !== 500) {
+        return Promise.reject(error.response.data.message);
+      }
     } else {
       // Something else happened while setting up the request
       // triggered the error
       console.error('Error Message:', error.message);
     }
-    if (error.status && error.status === 400) {
-      return Promise.reject(
-        'You have made a bad request. Check that all the data is correct',
-      );
-    }
-    if (error.status && error.status !== 500) {
-      return Promise.reject(error.response || error.message);
-    }
+
     return Promise.reject(
       'Sorry, there was an unexpected error. Please try again later',
     );

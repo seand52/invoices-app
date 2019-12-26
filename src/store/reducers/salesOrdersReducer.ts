@@ -186,7 +186,6 @@ export const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         loading: false,
-        error: action.payload,
         success: false,
       };
     case SalesOrderActions.RESET_SUCCESS:

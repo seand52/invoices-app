@@ -206,7 +206,7 @@ export interface TransformToInvoiceFailed {
 
 export const transformToInvoiceFailed = message => ({
   type: TRANSFORM_TO_INVOICE_FAILED,
-  payload: 'Fail',
+  payload: message,
 });
 
 export interface ResetSuccess {

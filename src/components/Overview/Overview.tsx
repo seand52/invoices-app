@@ -36,6 +36,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   transformToInvoice?: (id) => void;
   tableActions?: { label: string; value: string }[];
   newInvoice?: (id, name) => void;
+  newSalesOrder?: (id, name) => void;
   error: string | null;
   title: string;
 }
@@ -58,6 +59,7 @@ export default function Overview<
   transformToInvoice,
   tableActions,
   newInvoice,
+  newSalesOrder,
   error,
   title,
 }: Props<T, P>) {
@@ -78,6 +80,7 @@ export default function Overview<
         <OverviewTable
           title={title}
           newInvoice={newInvoice}
+          newSalesOrder={newSalesOrder}
           tableActions={tableActions}
           transformToInvoice={transformToInvoice}
           onChangeRowsPerPage={onChangeRowsPerPage}

@@ -7,6 +7,8 @@ export const initialState = {
   clients: {} as ClientsPaginated,
   loading: false as boolean,
   error: null as string | null,
+  formLoading: false as boolean,
+  formError: null as string | null,
   success: false as boolean,
 };
 
@@ -81,52 +83,38 @@ export const reducer = (state = initialState, action: Actions) => {
     case ClientActions.NEW_CLIENT:
       return {
         ...state,
-        loading: true,
+        formLoading: true,
       };
     case ClientActions.NEW_CLIENT_OK:
       return {
         ...state,
-        loading: false,
+        formLoading: false,
         success: true,
       };
     case ClientActions.NEW_CLIENT_FAILED:
-      Swal.fire(
-        alertProp({
-          text: action.payload,
-          title: 'Gee whiz',
-          type: 'error',
-        }),
-      );
       return {
         ...state,
-        loading: false,
+        formLoading: false,
         success: false,
-        error: action.payload,
+        formError: action.payload,
       };
     case ClientActions.UPDATE_CLIENT:
       return {
         ...state,
-        loading: true,
+        formLoading: true,
       };
     case ClientActions.UPDATE_CLIENT_OK:
       return {
         ...state,
-        loading: false,
+        formLoading: false,
         success: true,
       };
     case ClientActions.UPDATE_CLIENT_FAILED:
-      Swal.fire(
-        alertProp({
-          text: action.payload,
-          title: 'Gee whiz',
-          type: 'error',
-        }),
-      );
       return {
         ...state,
-        loading: false,
+        formLoading: false,
         success: false,
-        error: action.payload,
+        formError: action.payload,
       };
     case ClientActions.RESET_SUCCESS:
       return {
