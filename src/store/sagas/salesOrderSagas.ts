@@ -38,7 +38,7 @@ function* deleteSalesOrder({ payload }: any) {
     const res = yield api.deleteSalesOrder(payload);
     yield put(SalesOrderActions.deleteSalesOrderOk(res));
     yield call(searchSalesOrders, {
-      payload: `http://localhost:3000/api/sales-orders?page=${salesOrderState.salesOrders.currentPage}&limit=${salesOrderState.salesOrders.itemCount}`,
+      payload: `${process.env.REACT_APP_API_URL}/sales-orders?page=${salesOrderState.salesOrders.currentPage}&limit=${salesOrderState.salesOrders.itemCount}`,
     });
   } catch (err) {
     yield put(SalesOrderActions.deleteSalesOrderFailed(err));

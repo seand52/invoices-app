@@ -19,7 +19,7 @@ function* deleteProduct({ payload }: any) {
     const res = yield api.deleteProduct(payload);
     yield put(ProductActions.deleteProductOk(res));
     yield call(searchProducts, {
-      payload: `http://localhost:3000/api/products?page=${productState.products.currentPage}&limit=${productState.products.rowsPerPage}`,
+      payload: `${process.env.REACT_APP_API_URL}/products?page=${productState.products.currentPage}&limit=${productState.products.rowsPerPage}`,
     });
     // yield put(ProductActions.)
   } catch (err) {
@@ -34,7 +34,7 @@ function* createProduct({ payload }: any) {
     const res = yield api.createProduct(payload);
     yield put(ProductActions.newProductOk(res));
     yield call(searchProducts, {
-      payload: `http://localhost:3000/api/products?page=${productState.products.currentPage}&limit=${productState.products.rowsPerPage}`,
+      payload: `${process.env.REACT_APP_API_URL}/products?page=${productState.products.currentPage}&limit=${productState.products.rowsPerPage}`,
     });
   } catch (err) {
     yield put(ProductActions.newProductFailed(err));
@@ -48,7 +48,7 @@ function* updateProduct({ payload }: any) {
     const res = yield api.updateProduct(payload.data, payload.id);
     yield put(ProductActions.updateProductOk(res));
     yield call(searchProducts, {
-      payload: `http://localhost:3000/api/products?page=${productState.products.currentPage}&limit=${productState.products.rowsPerPage}`,
+      payload: `${process.env.REACT_APP_API_URL}/products?page=${productState.products.currentPage}&limit=${productState.products.rowsPerPage}`,
     });
   } catch (err) {
     yield put(ProductActions.updateProductFailed(err));

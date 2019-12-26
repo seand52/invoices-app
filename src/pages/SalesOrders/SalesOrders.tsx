@@ -109,7 +109,7 @@ const SalesOrders = ({
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     searchAll({
-      url: 'http://localhost:3000/api/sales-orders?page=1&limit=10',
+      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=10`,
     });
   }, []);
 
@@ -141,11 +141,11 @@ const SalesOrders = ({
     e.preventDefault();
     if (localState.search !== '') {
       searchAll({
-        url: `http://localhost:3000/api/sales-orders?page=1&limit=10&clientName=${localState.search}`,
+        url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=10&clientName=${localState.search}`,
       });
     } else {
       searchAll({
-        url: `http://localhost:3000/api/sales-orders?page=1&limit=10`,
+        url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=10`,
       });
     }
   };
@@ -153,7 +153,7 @@ const SalesOrders = ({
   const onSearchClear = () => {
     localDispatch({ type: 'SET_SEARCH', payload: '' });
     searchAll({
-      url: `http://localhost:3000/api/sales-orders?page=1&limit=10`,
+      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=10`,
     });
   };
 
@@ -182,13 +182,13 @@ const SalesOrders = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/sales-orders?page=${newPage}&limit=${salesOrderState.salesOrders.rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=${newPage}&limit=${salesOrderState.salesOrders.rowsPerPage}`,
     });
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
     searchAll({
-      url: `http://localhost:3000/api/sales-orders?page=${salesOrderState.salesOrders.currentPage}&limit=${rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=${salesOrderState.salesOrders.currentPage}&limit=${rowsPerPage}`,
     });
   };
 

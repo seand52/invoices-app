@@ -38,7 +38,7 @@ function* deleteInvoice({ payload }: any) {
     const res = yield api.deleteInvoice(payload);
     yield put(InvoiceActions.deleteInvoiceOk(res));
     yield call(searchInvoices, {
-      payload: `http://localhost:3000/api/invoices?page=${invoiceState.invoices.currentPage}&limit=${invoiceState.invoices.itemCount}`,
+      payload: `${process.env.REACT_APP_API_URL}/invoices?page=${invoiceState.invoices.currentPage}&limit=${invoiceState.invoices.itemCount}`,
     });
     // yield put(InvoiceActions.)
   } catch (err) {

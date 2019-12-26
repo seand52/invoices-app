@@ -108,7 +108,9 @@ const Products = ({
   useSetNavigation('products');
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    searchAll({ url: 'http://localhost:3000/api/products?page=1&limit=10' });
+    searchAll({
+      url: `${process.env.REACT_APP_API_URL}/products?page=1&limit=10`,
+    });
   }, []);
 
   useEffect(() => {
@@ -133,11 +135,11 @@ const Products = ({
     e.preventDefault();
     if (localState.search !== '') {
       searchAll({
-        url: `http://localhost:3000/api/products?page=1&limit=10&name=${localState.search}`,
+        url: `${process.env.REACT_APP_API_URL}/products?page=1&limit=10&name=${localState.search}`,
       });
     } else {
       searchAll({
-        url: `http://localhost:3000/api/products?page=1&limit=10`,
+        url: `${process.env.REACT_APP_API_URL}/products?page=1&limit=10`,
       });
     }
   };
@@ -145,7 +147,7 @@ const Products = ({
   const onSearchClear = () => {
     localDispatch({ type: 'SET_SEARCH', payload: '' });
     searchAll({
-      url: `http://localhost:3000/api/products?page=1&limit=10`,
+      url: `${process.env.REACT_APP_API_URL}/products?page=1&limit=10`,
     });
   };
 
@@ -174,13 +176,13 @@ const Products = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/products?page=${newPage}&limit=${productState.products.rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/products?page=${newPage}&limit=${productState.products.rowsPerPage}`,
     });
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
     searchAll({
-      url: `http://localhost:3000/api/products?page=${productState.products.currentPage}&limit=${rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/products?page=${productState.products.currentPage}&limit=${rowsPerPage}`,
     });
   };
 

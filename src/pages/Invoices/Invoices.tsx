@@ -102,7 +102,9 @@ const Invoices = ({
   useSetNavigation('invoices');
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    searchAll({ url: 'http://localhost:3000/api/invoices?page=1&limit=10' });
+    searchAll({
+      url: `${process.env.REACT_APP_API_URL}/invoices?page=1&limit=10`,
+    });
   }, []);
 
   useEffect(() => {
@@ -128,11 +130,11 @@ const Invoices = ({
     e.preventDefault();
     if (localState.search !== '') {
       searchAll({
-        url: `http://localhost:3000/api/invoices?page=1&limit=10&clientName=${localState.search}`,
+        url: `${process.env.REACT_APP_API_URL}/invoices?page=1&limit=10&clientName=${localState.search}`,
       });
     } else {
       searchAll({
-        url: `http://localhost:3000/api/invoices?page=1&limit=10`,
+        url: `${process.env.REACT_APP_API_URL}/invoices?page=1&limit=10`,
       });
     }
   };
@@ -140,7 +142,7 @@ const Invoices = ({
   const onSearchClear = () => {
     localDispatch({ type: 'SET_SEARCH', payload: '' });
     searchAll({
-      url: `http://localhost:3000/api/invoices?page=1&limit=10`,
+      url: `${process.env.REACT_APP_API_URL}/invoices?page=1&limit=10`,
     });
   };
 
@@ -169,13 +171,13 @@ const Invoices = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/invoices?page=${newPage}&limit=${invoiceState.invoices.rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/invoices?page=${newPage}&limit=${invoiceState.invoices.rowsPerPage}`,
     });
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
     searchAll({
-      url: `http://localhost:3000/api/invoices?page=${invoiceState.invoices.currentPage}&limit=${rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/invoices?page=${invoiceState.invoices.currentPage}&limit=${rowsPerPage}`,
     });
   };
   return (

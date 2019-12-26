@@ -99,7 +99,9 @@ const Clients = ({
   const [localState, localDispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    searchAll({ url: 'http://localhost:3000/api/clients?page=1&limit=10' });
+    searchAll({
+      url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=10`,
+    });
   }, []);
 
   useEffect(() => {
@@ -124,11 +126,11 @@ const Clients = ({
     e.preventDefault();
     if (localState.search !== '') {
       searchAll({
-        url: `http://localhost:3000/api/clients?page=1&limit=10&name=${localState.search}`,
+        url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=10&name=${localState.search}`,
       });
     } else {
       searchAll({
-        url: `http://localhost:3000/api/clients?page=1&limit=10`,
+        url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=10`,
       });
     }
   };
@@ -136,7 +138,7 @@ const Clients = ({
   const onSearchClear = () => {
     localDispatch({ type: 'SET_SEARCH', payload: '' });
     searchAll({
-      url: `http://localhost:3000/api/clients?page=1&limit=10`,
+      url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=10`,
     });
   };
 
@@ -165,13 +167,13 @@ const Clients = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `http://localhost:3000/api/clients?page=${newPage}&limit=${clientState.clients.rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/clients?page=${newPage}&limit=${clientState.clients.rowsPerPage}`,
     });
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
     searchAll({
-      url: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/clients?page=${clientState.clients.currentPage}&limit=${rowsPerPage}`,
     });
   };
 

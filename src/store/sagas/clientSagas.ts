@@ -19,7 +19,7 @@ function* deleteClient({ payload }: any) {
     const res = yield api.deleteClient(payload);
     yield put(ClientActions.deleteClientOk(res));
     yield call(searchClients, {
-      payload: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${clientState.clients.rowsPerPage}`,
+      payload: `${process.env.REACT_APP_API_URL}/clients?page=${clientState.clients.currentPage}&limit=${clientState.clients.rowsPerPage}`,
     });
     // yield put(ClientActions.)
   } catch (err) {
@@ -34,7 +34,7 @@ function* createClient({ payload }: any) {
     const res = yield api.createClient(payload);
     yield put(ClientActions.newClientOk(res));
     yield call(searchClients, {
-      payload: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${clientState.clients.rowsPerPage}`,
+      payload: `${process.env.REACT_APP_API_URL}/clients?page=${clientState.clients.currentPage}&limit=${clientState.clients.rowsPerPage}`,
     });
   } catch (err) {
     yield put(ClientActions.newClientFailed(err));
@@ -48,7 +48,7 @@ function* updateClient({ payload }: any) {
     const res = yield api.updateClient(payload.data, payload.id);
     yield put(ClientActions.updateClientOk(res));
     yield call(searchClients, {
-      payload: `http://localhost:3000/api/clients?page=${clientState.clients.currentPage}&limit=${clientState.clients.rowsPerPage}`,
+      payload: `${process.env.REACT_APP_API_URL}/clients?page=${clientState.clients.currentPage}&limit=${clientState.clients.rowsPerPage}`,
     });
   } catch (err) {
     yield put(ClientActions.updateClientFailed(err));
