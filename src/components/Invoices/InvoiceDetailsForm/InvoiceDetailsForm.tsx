@@ -255,9 +255,10 @@ export default function InvoiceDetailsForm({
                         onChange={e =>
                           changeDiscount(
                             row.uuid,
-                            Math.round(
-                              (parseFloat(e.target.value) / 100) * 100,
-                            ) / 100,
+                            (parseFloat(e.target.value) / 100).toFixed(4),
+                            // Math.round(
+                            //   (parseFloat(e.target.value) / 100) * 100,
+                            // ) / 100,
                           )
                         }
                         name='discount'
