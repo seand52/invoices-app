@@ -33,7 +33,7 @@ export default function OverviewHeader({
               margin='normal'
             />
             <span onClick={onSearchClear}>
-              <ClearIcon style={{ fontSize: 35 }} className={styles.icon} />
+              <ClearIcon style={{ fontSize: 25 }} className={styles.icon} />
             </span>
           </form>
         </li>

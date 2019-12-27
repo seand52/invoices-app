@@ -31,8 +31,11 @@
 .search_form {
   display: flex;
   align-items: center;
+  position: relative;
   & > span {
-    margin-left: 20px;
+    position: absolute;
+    right: 8px;
+    top: 30px;
     cursor: pointer;
     color: black;
   }

@@ -94,11 +94,11 @@ export default function Overview<
         <CircularProgress size={75} />
       ) : (
         <p style={{ fontSize: '1.5rem' }}>
-          You do not have any {title}. Click{' '}
-          <a href='#' onClick={e => onAddNew(e)}>
+          No {title} were found... Click{' '}
+          <a style={{ color: 'blue' }} href='#' onClick={e => onAddNew(e)}>
             Here
           </a>{' '}
-          to make your first {title}
+          to create some {title}
         </p>
       )}
       {error ? <ErrorMessage>{error}</ErrorMessage> : null}
