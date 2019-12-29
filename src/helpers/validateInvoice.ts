@@ -4,7 +4,9 @@ import {
 } from 'store/reducers/invoiceFormReducer';
 
 const isTransportInvoice = (settings, products) => {
-  return settings.transportPrice && settings.transportPrice > 0;
+  return (
+    !products.length && settings.transportPrice && settings.transportPrice > 0
+  );
 };
 export const validateInvoice = (
   products: InvoiceProducts[],
@@ -17,16 +19,17 @@ export const validateInvoice = (
         'You must complete the required fields before saving your invoice. Check that you have selected a client and payment type',
     };
   }
-  // const filteredProducts = products.filter(item => item.reference !== '');
-  // if (
-  //   !filteredProducts.length &&
-  //   isTransportInvoice(settings, filteredProducts)
-  // ) {
-  //   return {
-  //     type: 'error',
-  //     message: 'You cannot create an invoice without any products!',
-  //   };
-  // }
+
+  const filteredProducts = products.filter(item => item.reference !== '');
+  if (
+    !filteredProducts.length &&
+    !isTransportInvoice(settings, filteredProducts)
+  ) {
+    return {
+      type: 'error',
+      message: 'You cannot create an invoice without any products!',
+    };
+  }
   return {
     message: 'ok',
     type: 'success',

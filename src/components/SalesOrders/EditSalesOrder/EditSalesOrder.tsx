@@ -81,9 +81,7 @@ const EditSalesOrder = ({
     const data = prepareInvoiceData(products, settings);
     updateSalesOrder(data, salesOrderId);
   };
-  if (salesOrderState.loading) {
-    return <p>Loading...</p>;
-  }
+
   return (
     <InvoiceDetailsFormContainer
       invoiceLoading={salesOrderState.loading}

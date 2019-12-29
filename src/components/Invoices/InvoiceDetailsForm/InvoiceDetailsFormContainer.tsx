@@ -13,6 +13,7 @@ import { InvoiceDetailsState } from 'store/reducers/invoiceFormReducer';
 import { getInvoiceFormState } from 'selectors/invoiceForm';
 import { getInvoiceState } from 'selectors/invoices';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
+import { CircularProgress } from '@material-ui/core';
 
 interface Props {
   searchAll: ({ url: string }) => void;
@@ -135,22 +136,28 @@ const InvoiceDetailsFormContainer = ({
       <Layout
         main={
           <React.Fragment>
-            <InvoiceDetailsForm
-              invoiceLoading={invoiceLoading}
-              changeDiscount={changeDiscount}
-              saveInvoice={saveInvoice}
-              onClientInputChange={onClientInputChange}
-              onSelectTax={onSelectTax}
-              clientsLoading={invoiceFormState.clientLoading}
-              options={invoiceFormState.clientsFound}
-              onSelectInvoiceSetting={onSelectInvoiceSetting}
-              products={productState.products.items}
-              invoiceState={invoiceFormState}
-              addProductRow={addProductRow}
-              deleteProductRow={deleteProductRow}
-              onSelectProduct={onSelectProduct}
-              onChangeProductQuantity={onChangeProductQuantity}
-            />
+            {!invoiceLoading ? (
+              <InvoiceDetailsForm
+                invoiceLoading={invoiceLoading}
+                changeDiscount={changeDiscount}
+                saveInvoice={saveInvoice}
+                onClientInputChange={onClientInputChange}
+                onSelectTax={onSelectTax}
+                clientsLoading={invoiceFormState.clientLoading}
+                options={invoiceFormState.clientsFound}
+                onSelectInvoiceSetting={onSelectInvoiceSetting}
+                products={productState.products.items}
+                invoiceState={invoiceFormState}
+                addProductRow={addProductRow}
+                deleteProductRow={deleteProductRow}
+                onSelectProduct={onSelectProduct}
+                onChangeProductQuantity={onChangeProductQuantity}
+              />
+            ) : (
+              <div style={{ margin: '30px auto' }}>
+                <CircularProgress size={75} />
+              </div>
+            )}
             <TotalPriceToolBar
               settings={invoiceFormState.settings}
               products={invoiceFormState.products}

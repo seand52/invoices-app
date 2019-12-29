@@ -1,3 +1,4 @@
+@import '../../../styles/variables';
 .top_area {
   min-height: 50px;
   display: flex;
@@ -22,17 +23,18 @@
 
 .form_products {
   flex: 1;
-  overflow: auto;
+  overflow: scroll;
   max-height: 750px;
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
-  }
+}
+
+.form_products::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+.form_products::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
 .quantity {
@@ -50,4 +52,11 @@
   cursor: pointer;
   font-size: 25px;
   margin-left: 20px;
+}
+
+.btn {
+  margin-top: 20px !important;
+  width: 20%;
+  background-color: $primary-button !important;
+  color: white !important;
 }

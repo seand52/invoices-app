@@ -81,9 +81,7 @@ const EditInvoice = ({
     const data = prepareInvoiceData(products, settings);
     updateInvoice(data, invoiceId);
   };
-  if (invoiceState.loading) {
-    return <p>Loading...</p>;
-  }
+
   return (
     <InvoiceDetailsFormContainer
       invoiceLoading={invoiceState.loading}

@@ -18,16 +18,12 @@ interface Options<T> {
 }
 
 const request = function(options: Options<any>, headers: { auth: boolean }) {
-  console.log('inside request', options);
-
   const onSuccess = function(response) {
-    console.debug('Request Successful!', response);
     return response.data;
   };
 
   const onError = function(error) {
     console.error('Request Failed:', error.config);
-    console.log('full error is', error.response);
     if (error.response) {
       // Request was made but server responded with something
       // other than 2xx

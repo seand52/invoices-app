@@ -186,7 +186,13 @@ export default function InvoiceDetailsForm({
       <div className={styles.form_products}>
         {/* <div className={styles.product}> */}
         {!invoiceState.products.length ? (
-          <button onClick={addProductRow}>Add a product</button>
+          <Button
+            variant='contained'
+            onClick={addProductRow}
+            className={styles.btn}
+          >
+            Add a product
+          </Button>
         ) : (
           <Table aria-label='simple table'>
             <TableHead>

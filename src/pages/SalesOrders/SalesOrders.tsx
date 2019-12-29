@@ -91,8 +91,8 @@ const tableActions = [
     value: 'delete',
   },
   {
-    label: 'Generate PDF',
-    value: 'makePDF',
+    label: 'Make invoice',
+    value: 'transform',
   },
 ];
 
