@@ -151,7 +151,7 @@ const ClientDetailsForm = ({
           error={errors['email'] ? true : false}
           helperText={errors['email'] ? errors['email'].message : null}
           name='email'
-          label='Email*'
+          label='Email'
           margin='normal'
           variant='outlined'
         />

@@ -10,14 +10,11 @@ export const createClientFields = {
     .string()
     .required()
     .max(7),
-  numNif: yup.string().max(12),
-  numCif: yup.string().max(12),
+  numNif: yup.string(),
+  numCif: yup.string(),
   telephone1: yup.string(),
   telephone2: yup.string(),
-  email: yup
-    .string()
-    .email()
-    .required(),
+  email: yup.string().email(),
 };
 
 export type ICreateClient = typeof createClientFields;
