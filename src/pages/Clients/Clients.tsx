@@ -62,7 +62,7 @@ const headCells: HeadCell[] = [
 
   { id: 'address', numeric: false, disablePadding: true, label: 'Address' },
   { id: 'city', numeric: false, disablePadding: true, label: 'City' },
-  { id: 'actions', numeric: false, disablePadding: true, label: '' },
+  { id: 'actions', numeric: false, disablePadding: true, label: 'Actions' },
 ];
 
 const tableActions = [

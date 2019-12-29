@@ -184,121 +184,121 @@ export default function InvoiceDetailsForm({
         </MuiPickersUtilsProvider>
       </div>
       <div className={styles.form_products}>
-        <div className={styles.product}>
-          {!invoiceState.products.length ? (
-            <button onClick={addProductRow}>Add a product</button>
-          ) : (
-            <Table aria-label='simple table'>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Product</TableCell>
-                  <TableCell align='left'>Quantity</TableCell>
-                  <TableCell align='left'>Price</TableCell>
-                  <TableCell align='left'>Disc. %</TableCell>
-                  <TableCell align='left'>Total</TableCell>
-                  <TableCell align='left'></TableCell>
+        {/* <div className={styles.product}> */}
+        {!invoiceState.products.length ? (
+          <button onClick={addProductRow}>Add a product</button>
+        ) : (
+          <Table aria-label='simple table'>
+            <TableHead>
+              <TableRow>
+                <TableCell>Product</TableCell>
+                <TableCell align='left'>Quantity</TableCell>
+                <TableCell align='left'>Price</TableCell>
+                <TableCell align='left'>Disc. %</TableCell>
+                <TableCell align='left'>Total</TableCell>
+                <TableCell align='left'></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {invoiceState.products.map((row, index) => (
+                <TableRow key={row.uuid}>
+                  <TableCell component='th' scope='row'>
+                    <Autocomplete
+                      freeSolo
+                      defaultValue={row}
+                      options={products}
+                      onChange={(e, newProduct: Product) =>
+                        onSelectProduct(newProduct, row.uuid)
+                      }
+                      getOptionLabel={(product: Product) => product.reference}
+                      style={{ width: 300 }}
+                      renderInput={params => (
+                        <TextField
+                          {...params}
+                          label='Product'
+                          variant='outlined'
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </TableCell>
+                  <TableCell align='left'>
+                    <TextField
+                      onChange={e =>
+                        onChangeProductQuantity(
+                          parseInt(e.target.value),
+                          row.uuid,
+                        )
+                      }
+                      id='outlined-number'
+                      label='Number'
+                      defaultValue={row.quantity}
+                      className={styles.quantity}
+                      type='number'
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      margin='normal'
+                      variant='outlined'
+                    />
+                  </TableCell>
+                  <TableCell align='left'>
+                    {!!row.price
+                      ? NumberFormatter.format(row.price)
+                      : NumberFormatter.format(0)}
+                  </TableCell>
+                  <TableCell align='left'>
+                    <TextField
+                      defaultValue={
+                        isNaN(row.discount) ? 0 : row.discount * 100
+                      }
+                      onChange={e =>
+                        changeDiscount(
+                          row.uuid,
+                          (parseFloat(e.target.value) / 100).toFixed(4),
+                          // Math.round(
+                          //   (parseFloat(e.target.value) / 100) * 100,
+                          // ) / 100,
+                        )
+                      }
+                      name='discount'
+                      label='Disc. %'
+                      variant='outlined'
+                      type='number'
+                    />
+                  </TableCell>
+                  <TableCell align='left'>
+                    {row.price
+                      ? NumberFormatter.format(
+                          makeZero(
+                            Math.round(
+                              row.quantity *
+                                row.price *
+                                (1 - row.discount) *
+                                100,
+                            ) / 100,
+                          ),
+                        )
+                      : NumberFormatter.format(0)}
+                  </TableCell>
+                  <TableCell align='left'>
+                    <span onClick={addProductRow}>
+                      <AddIcon
+                        className={`${styles.icon} ${styles.add_icon}`}
+                      />
+                    </span>
+                    <span onClick={() => deleteProductRow(row.uuid)}>
+                      <DeleteIcon
+                        className={`${styles.icon} ${styles.delete_icon}`}
+                      />
+                    </span>
+                  </TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {invoiceState.products.map((row, index) => (
-                  <TableRow key={row.uuid}>
-                    <TableCell component='th' scope='row'>
-                      <Autocomplete
-                        freeSolo
-                        defaultValue={row}
-                        options={products}
-                        onChange={(e, newProduct: Product) =>
-                          onSelectProduct(newProduct, row.uuid)
-                        }
-                        getOptionLabel={(product: Product) => product.reference}
-                        style={{ width: 300 }}
-                        renderInput={params => (
-                          <TextField
-                            {...params}
-                            label='Product'
-                            variant='outlined'
-                            fullWidth
-                          />
-                        )}
-                      />
-                    </TableCell>
-                    <TableCell align='left'>
-                      <TextField
-                        onChange={e =>
-                          onChangeProductQuantity(
-                            parseInt(e.target.value),
-                            row.uuid,
-                          )
-                        }
-                        id='outlined-number'
-                        label='Number'
-                        defaultValue={row.quantity}
-                        className={styles.quantity}
-                        type='number'
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        margin='normal'
-                        variant='outlined'
-                      />
-                    </TableCell>
-                    <TableCell align='left'>
-                      {!!row.price
-                        ? NumberFormatter.format(row.price)
-                        : NumberFormatter.format(0)}
-                    </TableCell>
-                    <TableCell align='left'>
-                      <TextField
-                        defaultValue={
-                          isNaN(row.discount) ? 0 : row.discount * 100
-                        }
-                        onChange={e =>
-                          changeDiscount(
-                            row.uuid,
-                            (parseFloat(e.target.value) / 100).toFixed(4),
-                            // Math.round(
-                            //   (parseFloat(e.target.value) / 100) * 100,
-                            // ) / 100,
-                          )
-                        }
-                        name='discount'
-                        label='Disc. %'
-                        variant='outlined'
-                        type='number'
-                      />
-                    </TableCell>
-                    <TableCell align='left'>
-                      {row.price
-                        ? NumberFormatter.format(
-                            makeZero(
-                              Math.round(
-                                row.quantity *
-                                  row.price *
-                                  (1 - row.discount) *
-                                  100,
-                              ) / 100,
-                            ),
-                          )
-                        : NumberFormatter.format(0)}
-                    </TableCell>
-                    <TableCell align='left'>
-                      <span onClick={addProductRow}>
-                        <AddIcon
-                          className={`${styles.icon} ${styles.add_icon}`}
-                        />
-                      </span>
-                      <span onClick={() => deleteProductRow(row.uuid)}>
-                        <DeleteIcon
-                          className={`${styles.icon} ${styles.delete_icon}`}
-                        />
-                      </span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </div>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+        {/* </div> */}
       </div>
       {/* </div> */}
     </React.Fragment>

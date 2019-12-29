@@ -76,7 +76,7 @@ const headCells: ProductsHeadCell[] = [
     label: 'Stock',
   },
 
-  { id: 'actions', numeric: false, disablePadding: true, label: '' },
+  { id: 'actions', numeric: false, disablePadding: true, label: 'Actions' },
 ];
 
 const tableActions = [

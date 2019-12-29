@@ -69,7 +69,7 @@ const headCells: InvoicesHeadCell[] = [
 
   { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
   { id: 'paymentType', numeric: false, disablePadding: true, label: 'Payment' },
-  { id: 'actions', numeric: false, disablePadding: true, label: '' },
+  { id: 'actions', numeric: false, disablePadding: true, label: 'Actions' },
 ];
 
 const tableActions = [
