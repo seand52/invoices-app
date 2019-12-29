@@ -367,7 +367,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
           </Table>
         </div>
         <TablePagination
-          rowsPerPageOptions={[10, 20, 30]}
+          rowsPerPageOptions={[15, 30, 45]}
           component='div'
           count={tableData.totalItems}
           rowsPerPage={tableData.rowsPerPage}

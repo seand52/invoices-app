@@ -100,7 +100,7 @@ const Clients = ({
 
   useEffect(() => {
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=10`,
+      url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=15`,
     });
   }, []);
 
@@ -126,11 +126,11 @@ const Clients = ({
     e.preventDefault();
     if (localState.search !== '') {
       searchAll({
-        url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=10&name=${localState.search}`,
+        url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=15&name=${localState.search}`,
       });
     } else {
       searchAll({
-        url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=10`,
+        url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=15`,
       });
     }
   };
@@ -138,7 +138,7 @@ const Clients = ({
   const onSearchClear = () => {
     localDispatch({ type: 'SET_SEARCH', payload: '' });
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=10`,
+      url: `${process.env.REACT_APP_API_URL}/clients?page=1&limit=15`,
     });
   };
 

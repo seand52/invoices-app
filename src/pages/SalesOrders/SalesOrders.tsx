@@ -91,8 +91,8 @@ const tableActions = [
     value: 'delete',
   },
   {
-    label: 'Make invoice',
-    value: 'transform',
+    label: 'Generate PDF',
+    value: 'makePDF',
   },
 ];
 
@@ -109,7 +109,7 @@ const SalesOrders = ({
   const [localState, localDispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=10`,
+      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=15`,
     });
   }, []);
 
@@ -141,11 +141,11 @@ const SalesOrders = ({
     e.preventDefault();
     if (localState.search !== '') {
       searchAll({
-        url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=10&clientName=${localState.search}`,
+        url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=15&clientName=${localState.search}`,
       });
     } else {
       searchAll({
-        url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=10`,
+        url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=15`,
       });
     }
   };
@@ -153,7 +153,7 @@ const SalesOrders = ({
   const onSearchClear = () => {
     localDispatch({ type: 'SET_SEARCH', payload: '' });
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=10`,
+      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=15`,
     });
   };
 
