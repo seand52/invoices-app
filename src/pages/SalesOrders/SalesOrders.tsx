@@ -187,8 +187,15 @@ const SalesOrders = ({
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
+    const newPageCount = Math.ceil(
+      salesOrderState.salesOrders.totalItems / rowsPerPage,
+    );
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=${salesOrderState.salesOrders.currentPage}&limit=${rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=${
+        salesOrderState.salesOrders.currentPage > newPageCount
+          ? newPageCount
+          : salesOrderState.salesOrders.currentPage
+      }&limit=${rowsPerPage}`,
     });
   };
 

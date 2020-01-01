@@ -181,8 +181,15 @@ const Products = ({
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
+    const newPageCount = Math.ceil(
+      productState.products.totalItems / rowsPerPage,
+    );
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/products?page=${productState.products.currentPage}&limit=${rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/products?page=${
+        productState.products.currentPage > newPageCount
+          ? newPageCount
+          : productState.products.currentPage
+      }&limit=${rowsPerPage}`,
     });
   };
 

@@ -172,8 +172,15 @@ const Clients = ({
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
+    const newPageCount = Math.ceil(
+      clientState.clients.totalItems / rowsPerPage,
+    );
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/clients?page=${clientState.clients.currentPage}&limit=${rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/clients?page=${
+        clientState.clients.currentPage > newPageCount
+          ? newPageCount
+          : clientState.clients.currentPage
+      }&limit=${rowsPerPage}`,
     });
   };
 

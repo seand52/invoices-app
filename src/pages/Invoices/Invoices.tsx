@@ -176,8 +176,15 @@ const Invoices = ({
   };
 
   const onChangeRowsPerPage = rowsPerPage => {
+    const newPageCount = Math.ceil(
+      invoiceState.invoices.totalItems / rowsPerPage,
+    );
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/invoices?page=${invoiceState.invoices.currentPage}&limit=${rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/invoices?page=${
+        invoiceState.invoices.currentPage > newPageCount
+          ? newPageCount
+          : invoiceState.invoices.currentPage
+      }&limit=${rowsPerPage}`,
     });
   };
   return (
