@@ -37,6 +37,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   tableActions?: { label: string; value: string }[];
   newInvoice?: (id, name) => void;
   newSalesOrder?: (id, name) => void;
+  generatePdf?: (id) => void;
   error: string | null;
   title: string;
 }
@@ -62,6 +63,7 @@ export default function Overview<
   newSalesOrder,
   error,
   title,
+  generatePdf,
 }: Props<T, P>) {
   return (
     <div>
@@ -78,6 +80,7 @@ export default function Overview<
       !loading &&
       !error ? (
         <OverviewTable
+          generatePdf={generatePdf}
           title={title}
           newInvoice={newInvoice}
           newSalesOrder={newSalesOrder}

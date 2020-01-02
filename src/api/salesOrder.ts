@@ -81,3 +81,14 @@ export const transformToInvoice = (id: string): Promise<any> => {
     { auth: true },
   );
 };
+
+export const generatePdf = id => {
+  return request(
+    {
+      method: 'GET',
+      useBaseUrl: true,
+      url: `/sales-orders/pdf/${id}`,
+    },
+    { auth: true },
+  );
+};

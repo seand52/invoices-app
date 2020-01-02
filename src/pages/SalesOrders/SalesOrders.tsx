@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import * as api from 'api/salesOrder';
 import { connect } from 'react-redux';
 import Layout from 'components/Layout/Layout';
 import {
@@ -93,6 +94,10 @@ const tableActions = [
   {
     label: 'Make invoice',
     value: 'transform',
+  },
+  {
+    label: 'Generate PDF',
+    value: 'makePDF',
   },
 ];
 
@@ -213,6 +218,23 @@ const SalesOrders = ({
       }
     });
   };
+
+  const generatePdf = id => {
+    api
+      .generatePdf(id)
+      .then(res => {
+        makeDownloadLink(res);
+      })
+      .catch(err => {
+        Swal.fire(
+          alertProp({
+            type: 'error',
+            title: 'Gee Whiz!',
+            text: err.message,
+          }),
+        );
+      });
+  };
   return (
     <div>
       <Layout
@@ -231,6 +253,7 @@ const SalesOrders = ({
             onAddNew={onAddNewSalesOrder}
             onSearchChange={onSearchChange}
             onSubmitSearch={submitSearch}
+            generatePdf={generatePdf}
             onNextPage={onNextPage}
             onChangeRowsPerPage={onChangeRowsPerPage}
             error={salesOrderState.error}

@@ -70,3 +70,14 @@ export const updateInvoice = (
     { auth: true },
   );
 };
+
+export const generatePdf = id => {
+  return request(
+    {
+      method: 'GET',
+      useBaseUrl: true,
+      url: `/invoices/pdf/${id}`,
+    },
+    { auth: true },
+  );
+};

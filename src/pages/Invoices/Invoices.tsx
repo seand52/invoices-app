@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import * as api from 'api/invoice';
 import { connect } from 'react-redux';
 import Layout from 'components/Layout/Layout';
 import {
@@ -17,6 +18,7 @@ import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { navigate } from '@reach/router';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
 import { useSetNavigation } from 'hooks/useSetNavigation';
+import { makeDownloadLink } from 'helpers/makeDownloadLink';
 
 interface Props {
   path: string;
@@ -187,6 +189,23 @@ const Invoices = ({
       }&limit=${rowsPerPage}`,
     });
   };
+
+  const generatePdf = id => {
+    api
+      .generatePdf(id)
+      .then(res => {
+        makeDownloadLink(res);
+      })
+      .catch(err => {
+        Swal.fire(
+          alertProp({
+            type: 'error',
+            title: 'Gee Whiz!',
+            text: err.message,
+          }),
+        );
+      });
+  };
   return (
     <div>
       <Layout
@@ -204,6 +223,7 @@ const Invoices = ({
             onAddNew={onAddNewInvoice}
             onSearchChange={onSearchChange}
             onSubmitSearch={submitSearch}
+            generatePdf={generatePdf}
             onNextPage={onNextPage}
             onChangeRowsPerPage={onChangeRowsPerPage}
             error={invoiceState.error}

@@ -178,6 +178,7 @@ interface Props<T extends TableOptions, P extends TableHeadOptions> {
   tableActions?: { label: string; value: string }[];
   newInvoice?: (id, name) => void;
   newSalesOrder?: (id, name) => void;
+  generatePdf?: (id) => void;
   title: string;
 }
 
@@ -193,6 +194,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
   newInvoice,
   newSalesOrder,
   title,
+  generatePdf,
 }: Props<T, P>) {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
@@ -259,6 +261,11 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
       case 'newSalesOrder':
         if (newSalesOrder) {
           newSalesOrder(clientData.id, clientData.name);
+        }
+        break;
+      case 'makePDF':
+        if (generatePdf) {
+          generatePdf(clientData.id);
         }
     }
   };
