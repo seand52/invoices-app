@@ -13,7 +13,10 @@ export const initialState = {
   error: null as string | null,
   success: false as boolean,
   selectedInvoiceDetails: {} as FullInvoiceDetails,
-  base64Invoice: '' as string,
+  downloadedInvoice: {
+    base64invoice: '' as string,
+    id: null as number | null,
+  },
 };
 
 export enum InvoiceSettingKeys {
@@ -126,7 +129,10 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         success: true,
-        base64Invoice: action.payload,
+        downloadedInvoice: {
+          base64invoice: action.payload.base64invoice,
+          id: action.payload.id,
+        },
       };
     case InvoiceActions.NEW_INVOICE_FAILED:
       Swal.fire(
@@ -152,7 +158,10 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         success: true,
-        base64Invoice: action.payload,
+        downloadedInvoice: {
+          base64invoice: action.payload.base64invoice,
+          id: action.payload.id,
+        },
       };
     case InvoiceActions.UPDATE_INVOICE_FAILED:
       Swal.fire(
@@ -177,7 +186,10 @@ export const reducer = (state = initialState, action: Actions) => {
     case InvoiceActions.UPDATE_BASE64_INVOICE:
       return {
         ...state,
-        base64Invoice: action.payload,
+        downloadedInvoice: {
+          base64invoice: action.payload.base64invoice,
+          id: action.payload.id,
+        },
       };
     case InvoiceFormActions.CLEAR_INVOICE:
       return {

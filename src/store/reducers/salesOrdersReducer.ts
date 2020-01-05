@@ -13,7 +13,10 @@ export const initialState = {
   error: null as string | null,
   success: false as boolean,
   selectedSalesOrderDetails: {} as FullSalesOrderDetails,
-  base64SalesOrder: '' as string,
+  downloadedSalesOrder: {
+    base64salesOrder: '' as string,
+    id: null as number | null,
+  },
 };
 
 export enum SalesOrderSettingKeys {
@@ -120,7 +123,10 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         success: true,
-        base64SalesOrder: action.payload,
+        downloadedSalesOrder: {
+          base64salesOrder: action.payload.base64salesOrder,
+          id: action.payload.id,
+        },
       };
     case SalesOrderActions.NEW_SALES_ORDER_FAILED:
       Swal.fire(
@@ -146,7 +152,10 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         success: true,
-        base64SalesOrder: action.payload,
+        downloadedSalesOrder: {
+          base64salesOrder: action.payload.base64salesOrder,
+          id: action.payload.id,
+        },
       };
     case SalesOrderActions.UPDATE_SALES_ORDER_FAILED:
       Swal.fire(

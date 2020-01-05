@@ -20,7 +20,7 @@ import { getSalesOrderState } from 'selectors/salesOrders';
 import { SalesOrderState } from 'store/reducers/salesOrdersReducer';
 import { clearInvoice } from 'store/actions/invoiceFormActions';
 import { navigate } from '@reach/router';
-import { makeDownloadLink } from 'helpers/makeDownloadLink';
+import { downloadSalesOrder } from 'helpers/makeDownloadLink';
 
 interface Props {
   updateSalesOrder: (data: ICreateSalesOrder, id) => void;
@@ -42,7 +42,10 @@ const EditSalesOrder = ({
 }: Props) => {
   useEffect(() => {
     if (salesOrderState.success) {
-      makeDownloadLink(salesOrderState.base64SalesOrder);
+      downloadSalesOrder(
+        salesOrderState.downloadedSalesOrder.base64salesOrder,
+        salesOrderState.downloadedSalesOrder.id,
+      );
       resetSuccess();
       Swal.fire(
         alertProp({

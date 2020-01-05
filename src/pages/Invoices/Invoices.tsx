@@ -18,7 +18,7 @@ import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { navigate } from '@reach/router';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
 import { useSetNavigation } from 'hooks/useSetNavigation';
-import { makeDownloadLink } from 'helpers/makeDownloadLink';
+import { downloadInvoice } from 'helpers/makeDownloadLink';
 
 interface Props {
   path: string;
@@ -194,7 +194,7 @@ const Invoices = ({
     api
       .generatePdf(id)
       .then(res => {
-        makeDownloadLink(res);
+        downloadInvoice(res.base64, res.id);
       })
       .catch(err => {
         Swal.fire(

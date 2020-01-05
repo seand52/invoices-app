@@ -49,7 +49,7 @@ function* deleteInvoice({ payload }: any) {
 function* createInvoice({ payload }: any) {
   try {
     const res = yield api.createInvoice(payload);
-    yield put(InvoiceActions.newInvoiceOk(res));
+    yield put(InvoiceActions.newInvoiceOk(res.base64, res.id));
   } catch (err) {
     yield put(InvoiceActions.newInvoiceFailed(err));
   }
@@ -58,7 +58,7 @@ function* createInvoice({ payload }: any) {
 function* updateInvoice({ payload }: any) {
   try {
     const res = yield api.updateInvoice(payload.data, payload.id);
-    yield put(InvoiceActions.updateInvoiceOk(res));
+    yield put(InvoiceActions.updateInvoiceOk(res.base64, res.id));
   } catch (err) {
     yield put(InvoiceActions.updateInvoiceFailed(err));
   }

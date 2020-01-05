@@ -19,7 +19,7 @@ import { SalesOrderState } from 'store/reducers/salesOrdersReducer';
 import { navigate } from '@reach/router';
 import { getInvoiceState } from 'selectors/invoices';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
-import { makeDownloadLink } from 'helpers/makeDownloadLink';
+import { downloadSalesOrder, downloadInvoice } from 'helpers/makeDownloadLink';
 import { useSetNavigation } from 'hooks/useSetNavigation';
 
 interface Props {
@@ -129,8 +129,11 @@ const SalesOrders = ({
         }),
       );
       resetSuccess();
-      if (invoiceState.base64Invoice) {
-        makeDownloadLink(invoiceState.base64Invoice);
+      if (invoiceState.downloadedInvoice.base64invoice) {
+        downloadInvoice(
+          invoiceState.downloadedInvoice.base64invoice,
+          invoiceState.downloadedInvoice.id,
+        );
         navigate('/invoices');
         return;
       }
@@ -223,7 +226,7 @@ const SalesOrders = ({
     api
       .generatePdf(id)
       .then(res => {
-        makeDownloadLink(res);
+        downloadSalesOrder(res.base64, res.id);
       })
       .catch(err => {
         Swal.fire(

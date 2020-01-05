@@ -126,12 +126,18 @@ export const newInvoice = (data: ICreateInvoice) => ({
 
 export interface NewInvoiceOk {
   type: typeof NEW_INVOICE_OK;
-  payload: string;
+  payload: {
+    base64invoice: string;
+    id: number;
+  };
 }
 
-export const newInvoiceOk = (data: string) => ({
+export const newInvoiceOk = (data: string, id: number) => ({
   type: NEW_INVOICE_OK,
-  payload: data,
+  payload: {
+    base64invoice: data,
+    id,
+  },
 });
 
 export interface NewInvoiceFailed {
@@ -156,12 +162,18 @@ export const updateInvoice = (data: ICreateInvoice, id: string) => ({
 
 export interface UpdateInvoiceOk {
   type: typeof UPDATE_INVOICE_OK;
-  payload: any;
+  payload: {
+    base64invoice: string;
+    id: number;
+  };
 }
 
-export const updateInvoiceOk = (data: string) => ({
+export const updateInvoiceOk = (data: string, id: number) => ({
   type: UPDATE_INVOICE_OK,
-  payload: data,
+  payload: {
+    base64invoice: data,
+    id,
+  },
 });
 
 export interface UpdateInvoiceFailed {
@@ -184,10 +196,16 @@ export const resetSuccess = () => ({
 
 export interface UpdateBase64Invoice {
   type: typeof UPDATE_BASE64_INVOICE;
-  payload: string;
+  payload: {
+    base64invoice: string;
+    id: number;
+  };
 }
 
-export const updateBase64Invoice = base64 => ({
+export const updateBase64Invoice = (base64, id) => ({
   type: UPDATE_BASE64_INVOICE,
-  payload: base64,
+  payload: {
+    base64invoice: base64,
+    id,
+  },
 });

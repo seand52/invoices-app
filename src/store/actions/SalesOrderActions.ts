@@ -131,12 +131,18 @@ export const newSalesOrder = (data: ICreateSalesOrder) => ({
 
 export interface NewSalesOrderOk {
   type: typeof NEW_SALES_ORDER_OK;
-  payload: any;
+  payload: {
+    base64salesOrder: string;
+    id: number;
+  };
 }
 
-export const newSalesOrderOk = (data: string) => ({
+export const newSalesOrderOk = (data: string, id: number) => ({
   type: NEW_SALES_ORDER_OK,
-  payload: data,
+  payload: {
+    base64salesOrder: data,
+    id,
+  },
 });
 
 export interface NewSalesOrderFailed {
@@ -161,12 +167,18 @@ export const updateSalesOrder = (data: ICreateSalesOrder, id: string) => ({
 
 export interface UpdateSalesOrderOk {
   type: typeof UPDATE_SALES_ORDER_OK;
-  payload: any;
+  payload: {
+    base64salesOrder: string;
+    id: number;
+  };
 }
 
-export const updateSalesOrderOk = (data: string) => ({
+export const updateSalesOrderOk = (data: string, id) => ({
   type: UPDATE_SALES_ORDER_OK,
-  payload: data,
+  payload: {
+    base64salesOrder: data,
+    id,
+  },
 });
 
 export interface UpdateSalesOrderFailed {
@@ -191,12 +203,18 @@ export const transformToInvoice = id => ({
 
 export interface TransformToInvoiceOk {
   type: typeof TRANSFORM_TO_INVOICE_OK;
-  payload: string;
+  payload: {
+    base64salesOrder: string;
+    id: number;
+  };
 }
 
-export const transformToInvoiceOk = base64invoice => ({
+export const transformToInvoiceOk = (base64invoice, id) => ({
   type: TRANSFORM_TO_INVOICE_OK,
-  payload: base64invoice,
+  payload: {
+    base64salesOrder: base64invoice,
+    id,
+  },
 });
 
 export interface TransformToInvoiceFailed {

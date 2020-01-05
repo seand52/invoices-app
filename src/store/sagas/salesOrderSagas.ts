@@ -48,7 +48,7 @@ function* deleteSalesOrder({ payload }: any) {
 function* createSalesOrder({ payload }: any) {
   try {
     const res = yield api.createSalesOrder(payload);
-    yield put(SalesOrderActions.newSalesOrderOk(res));
+    yield put(SalesOrderActions.newSalesOrderOk(res.base64, res.id));
   } catch (err) {
     yield put(SalesOrderActions.newSalesOrderFailed(err));
   }
@@ -57,7 +57,7 @@ function* createSalesOrder({ payload }: any) {
 function* updateSalesOrder({ payload }: any) {
   try {
     const res = yield api.updateSalesOrder(payload.data, payload.id);
-    yield put(SalesOrderActions.updateSalesOrderOk(res));
+    yield put(SalesOrderActions.updateSalesOrderOk(res.base64, res.id));
   } catch (err) {
     yield put(SalesOrderActions.updateSalesOrderFailed(err));
   }
@@ -66,8 +66,8 @@ function* updateSalesOrder({ payload }: any) {
 function* transformToInvoice({ payload }: any) {
   try {
     const res = yield api.transformToInvoice(payload);
-    yield put(InvoiceActions.updateBase64Invoice(res));
-    yield put(SalesOrderActions.transformToInvoiceOk(res));
+    yield put(InvoiceActions.updateBase64Invoice(res.base64, res.id));
+    yield put(SalesOrderActions.transformToInvoiceOk(res.base64, res.id));
   } catch (err) {
     yield put(SalesOrderActions.transformToInvoiceFailed(err));
   }
