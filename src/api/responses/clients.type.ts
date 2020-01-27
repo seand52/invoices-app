@@ -1,3 +1,8 @@
+export enum DocumentType {
+  NIF = 'NIF',
+  CIF = 'CIF',
+  INTRA = 'INTRA',
+}
 export interface Client {
   id: number;
   name: string;
@@ -12,8 +17,8 @@ export interface Client {
   userId: number;
   createdAt: string;
   updatedAt: string;
-  numNif: string;
-  numCif: string;
+  documentType: DocumentType,
+  documentNum: string;
 }
 
 export interface ClientsPaginated {

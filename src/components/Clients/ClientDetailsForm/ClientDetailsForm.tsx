@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useFormBuilder from 'hooks/useFormBuilder';
 import { ICreateClient } from 'forms/formValidations/add-client';
 import styles from './ClientDetailsForm.module.scss';
-import { TextField } from '@material-ui/core';
-import { Link } from '@reach/router';
+import { TextField, Select, MenuItem, FormControl, FormHelperText } from '@material-ui/core';
 import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
 import ButtonWithSpinner from 'components/ButtonWithSpinner/ButtonWithSpinner';
 import { newClient, updateClient } from 'store/actions/clientActions';
 import { connect } from 'react-redux';
-import { getClientsState } from 'selectors/clients';
+import { getClientsState, getDocumentType, getDocumentNumber } from 'selectors/clients';
 import { ClientState } from 'store/reducers/clientsReducer';
 
 interface Props {
@@ -25,17 +24,33 @@ const ClientDetailsForm = ({
 }: Props) => {
   const clients = clientState.clients.items;
   const client = clients.find(item => item.id.toString() === selectedClient);
-  const { register, handleSubmit, errors } = useFormBuilder({
+  const { register, handleSubmit, errors, setValue, setError, watch } = useFormBuilder({
     key: 'createClientFields',
   });
+  useEffect(() => {
+    register({ name: 'documentType' })
+    if (client) {
+      setValue('documentType', getDocumentType(client))
+    }
+
+
+  }, [])
 
   const onSubmit = (data: ICreateClient) => {
+    //@ts-ignore
+    if (!!data.documentNum && !data.documentType) {
+      setError('documentType', 'required', 'Document Type is required')
+      return
+    }
+    debugger
     if (!client) {
       createClient(data);
     } else {
       updateClient(data, client.id.toString());
     }
   };
+
+
   return (
     //@ts-ignore
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form_wrapper}>
@@ -101,26 +116,39 @@ const ClientDetailsForm = ({
           margin='normal'
           variant='outlined'
         />
-        <TextField
-          defaultValue={client && client.numCif}
-          inputRef={register}
-          error={errors['numCif'] ? true : false}
-          helperText={errors['numCif'] ? errors['numCif'].message : null}
-          name='numCif'
-          label='CIF'
-          margin='normal'
-          variant='outlined'
-        />
-        <TextField
-          defaultValue={client && client.numNif}
-          inputRef={register}
-          error={errors['numNif'] ? true : false}
-          helperText={errors['numNif'] ? errors['numNif'].message : null}
-          name='numNif'
-          label='NIF'
-          margin='normal'
-          variant='outlined'
-        />
+        <FormControl className={styles.document}>
+          <div className={styles.input_wrapper}>
+            <Select
+              variant='outlined'
+              defaultValue={getDocumentType(client) || ''}
+              labelId="demo-customized-select-label"
+              error={errors['documentType'] ? true : false}
+              inputRef={register}
+              onChange={(e) => setValue('documentType', e.target.value)}
+              name='documentType'
+
+            >
+              <MenuItem value='NIF'>NIF</MenuItem>
+              <MenuItem value='CIF'>CIF</MenuItem>
+              <MenuItem value='INTRA'>INTRA</MenuItem>
+            </Select>
+
+
+            <TextField
+              style={{ marginTop: 0, marginBottom: 0, maxHeight: '56px' }}
+              defaultValue={client && getDocumentNumber(client)}
+              inputRef={register}
+              error={errors['documentNum'] ? true : false}
+              helperText={errors['documentNum'] ? errors['documentNum'].message : null}
+              name='documentNum'
+              label='NIF/CIF/INTRA'
+              margin='normal'
+              variant='outlined'
+            />
+          </div>
+          {errors['documentType'] ? <FormHelperText style={{ color: 'red' }}>Select Document Type</FormHelperText> : null}
+          {/* <FormHelperText style={{ color: 'red', display: 'block' }}>Select Document Type</FormHelperText> */}
+        </FormControl>
         <TextField
           defaultValue={client && client.telephone1}
           inputRef={register}

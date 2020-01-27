@@ -10,8 +10,7 @@ export const createClientFields = {
     .string()
     .required()
     .max(7),
-  numNif: yup.string(),
-  numCif: yup.string(),
+  documentNum: yup.string(),
   telephone1: yup.string(),
   telephone2: yup.string(),
   email: yup.string().email(),
