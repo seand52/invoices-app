@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Router } from '@reach/router';
 import 'App.scss';
 import LoginContainer from 'pages/Login/LoginContainer';
@@ -13,6 +13,7 @@ import EditInvoice from 'components/Invoices/EditInvoice/EditInvoice';
 import SalesOrders from 'pages/SalesOrders/SalesOrders';
 import NewSalesOrder from 'components/SalesOrders/NewSalesOrder/NewSalesOrder';
 import EditSalesOrder from 'components/SalesOrders/EditSalesOrder/EditSalesOrder';
+import BusinessInfo from 'pages/BusinessInfo/BusinessInfo';
 
 const App: React.FC = () => {
   return (
@@ -36,6 +37,8 @@ const App: React.FC = () => {
           path='/sales-order/:salesOrderId/edit'
           component={EditSalesOrder}
         />
+
+        <PrivateRoute path='/business-info' component={BusinessInfo} />
       </Router>
     </div>
   );

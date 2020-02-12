@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import styles from './ButtonWithSpinner.module.scss';
 
-interface Props {
+export interface ButtonWithSpinnerProps {
   loading: boolean;
   type: 'submit' | 'button';
   success: boolean;
@@ -17,11 +17,12 @@ export default function ButtonWithSpinner({
   success,
   text,
   onClick,
-}: Props) {
+}: ButtonWithSpinnerProps) {
   return (
     <div className={styles.root}>
       <div className={styles.wrapper}>
         <Button
+          data-testid='button-component_btn'
           onClick={onClick}
           variant='contained'
           type={type}
@@ -30,6 +31,7 @@ export default function ButtonWithSpinner({
         >
           {loading ? (
             <CircularProgress
+              data-testid='button-component_spinner'
               size={24}
               style={{ color: 'white' }}
               className={styles.buttonProgress}

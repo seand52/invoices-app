@@ -14,6 +14,8 @@ interface Props {
   errors: any;
   user: UserState;
   apiError: null | string;
+  showSkipStep: boolean;
+  parentStyles?: any;
 }
 
 export default function BusinessInfoForm(props: Props) {
@@ -21,7 +23,7 @@ export default function BusinessInfoForm(props: Props) {
     <React.Fragment>
       <form
         onSubmit={props.handleSubmit(props.onSubmit)}
-        className={styles.form_wrapper}
+        className={`${styles.form_wrapper} ${props.parentStyles}`}
       >
         <h1>Please fill in your business details</h1>
         <div className={styles.form_items}>
@@ -118,16 +120,18 @@ export default function BusinessInfoForm(props: Props) {
         </div>
         <ButtonWithSpinner
           loading={props.user.loading}
-          success={props.user.isLoggedIn}
+          success={props.user.success}
           type='submit'
           text='Submit Details'
         />
-        <p>
-          Skip this step?{' '}
-          <Link className={styles.skip_link} to='/clients'>
-            Click here
-          </Link>
-        </p>
+        {props.showSkipStep ? (
+          <p>
+            Skip this step?{' '}
+            <Link className={styles.skip_link} to='/clients'>
+              Click here
+            </Link>
+          </p>
+        ) : null}
         {props.apiError && <ErrorMessage>{props.apiError}</ErrorMessage>}
       </form>
     </React.Fragment>

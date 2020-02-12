@@ -21,7 +21,7 @@ const Layout = ({ main, logout, navigationState }: Props) => {
   return (
     <div className={styles.app_layout}>
       <div className={styles.navbar}>
-        <Navbar userLogout={userLogout} />
+        <Navbar navigationState={navigationState} userLogout={userLogout} />
       </div>
       <div className={styles.sidebar_left}>
         <List style={{ paddingTop: 0 }} component='nav'>

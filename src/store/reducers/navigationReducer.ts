@@ -1,6 +1,11 @@
 import * as NavigationActions from '../actions/navigationActions';
 
-export type Pages = 'clients' | 'products' | 'invoices' | 'salesOrders';
+export type Pages =
+  | 'clients'
+  | 'products'
+  | 'invoices'
+  | 'salesOrders'
+  | 'business-info';
 
 export const initialState = {
   currentPage: null as Pages | null,

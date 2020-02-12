@@ -76,6 +76,8 @@ const RegisterContainer = ({
       )}
       {user.registerStep === RegisterSteps.BUSINESSINFO && (
         <BusinessInfoForm
+          parentStyles={styles.businessform}
+          showSkipStep
           register={businessInfoRegister}
           errors={businessInfoErrors}
           handleSubmit={businessInfoHandleSubmit}
