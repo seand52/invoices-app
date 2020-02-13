@@ -1,6 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
+import { persistStore, persistReducer } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
 
 import * as users from 'store/reducers/userReducer';
 import * as clients from 'store/reducers/clientsReducer';
@@ -34,6 +36,14 @@ const initialState = {
   [navigation.key]: navigation.initialState,
 };
 
+// persist store setup
+
+const persistConfig = {
+  key: 'root',
+  storage: storageSession,
+  whitelist: [users.key], // only navigation will be persisted
+};
+
 export type InitialState = typeof initialState;
 
 const composeEnhancers = composeWithDevTools({
@@ -42,10 +52,14 @@ const composeEnhancers = composeWithDevTools({
 
 const sagaMiddleware = createSagaMiddleware();
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = createStore(
-  rootReducer,
+  persistedReducer,
+  //@ts-ignore
   initialState,
   composeEnhancers(applyMiddleware(sagaMiddleware)),
 );
+
+export const persistor = persistStore(store);
 
 sagaMiddleware.run(sagas);
