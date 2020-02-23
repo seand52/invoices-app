@@ -87,6 +87,7 @@ const EditSalesOrder = ({
 
   return (
     <InvoiceDetailsFormContainer
+      title='Edit Sales Order'
       invoiceLoading={salesOrderState.loading}
       dispatch={dispatch}
       onSubmitInvoice={onSubmitSalesOrder}

@@ -2,10 +2,13 @@
 .top_area {
   min-height: 50px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   & button {
     margin-right: 50px;
     width: 150px;
+  }
+  & h1 {
+    margin-left: 50px;
   }
 }
 

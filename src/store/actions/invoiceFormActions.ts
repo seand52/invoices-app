@@ -14,6 +14,7 @@ export const UPDATE_TAXES = 'UPDATE_TAXES';
 export const ADD_PRODUCT = 'ADD_PRODUCT';
 export const DELETE_PRODUCT = 'DELETE_PRODUCT';
 export const SELECT_PRODUCT = 'SELECT_PRODUCT';
+export const SELECT_CUSTOM_PRODUCT = 'SELECT_CUSTOM_PRODUCT';
 export const CHANGE_QUANTITY = 'CHANGE_QUANTITY';
 export const DEFAULT_VALUES = 'DEFAULT_VALES';
 export const CLEAR_INVOICE = 'CLEAR_INVOICE';
@@ -64,6 +65,15 @@ export interface SelectProduct {
   type: typeof SELECT_PRODUCT;
   payload: {
     product: InvoiceProducts;
+    uuid: string;
+  };
+}
+
+export interface SelectCustomProduct {
+  type: typeof SELECT_CUSTOM_PRODUCT;
+  payload: {
+    key: string;
+    value: string;
     uuid: string;
   };
 }

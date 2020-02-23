@@ -73,7 +73,8 @@ type Actions =
   | InvoiceFormActions.InsertDefaultValues
   | InvoiceFormActions.ClearInvoice
   | InvoiceFormActions.SetDiscount
-  | InvoiceFormActions.MakeInvoiceClient;
+  | InvoiceFormActions.MakeInvoiceClient
+  | InvoiceFormActions.SelectCustomProduct;
 
 export const reducer = (
   state: InvoiceDetailsState = initialState,
@@ -119,6 +120,7 @@ export const reducer = (
         },
       };
     case InvoiceFormActions.ADD_PRODUCT:
+      debugger;
       return {
         ...state,
         products: [
@@ -158,6 +160,17 @@ export const reducer = (
         ...state,
         products: productsCopy,
       };
+    case InvoiceFormActions.SELECT_CUSTOM_PRODUCT: {
+      const productIndex = state.products.findIndex(
+        item => item.uuid === action.payload.uuid,
+      );
+      const productsCopy = state.products.map(a => Object.assign({}, a));
+      productsCopy[productIndex][action.payload.key] = action.payload.value;
+      return {
+        ...state,
+        products: productsCopy,
+      };
+    }
     case InvoiceFormActions.CHANGE_QUANTITY: {
       const productIndex = state.products.findIndex(
         item => item.uuid === action.payload.uuid,

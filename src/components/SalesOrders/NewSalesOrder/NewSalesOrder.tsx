@@ -76,6 +76,7 @@ const NewSalesOrder = ({
   };
   return (
     <InvoiceDetailsFormContainer
+      title='New Sales Order'
       invoiceLoading={salesOrderState.loading}
       dispatch={dispatch}
       onSubmitInvoice={onSubmitSalesOrder}

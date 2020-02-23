@@ -42,6 +42,8 @@ interface Props {
   saveInvoice: () => void;
   changeDiscount: (id, value) => void;
   invoiceLoading: boolean;
+  onSelectCustomProduct: (key, value, uuid) => void;
+  title: string;
 }
 export default function InvoiceDetailsForm({
   clientsLoading,
@@ -58,6 +60,8 @@ export default function InvoiceDetailsForm({
   saveInvoice,
   changeDiscount,
   invoiceLoading,
+  onSelectCustomProduct,
+  title = '',
 }: Props) {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date(invoiceState.settings.date) || new Date(),
@@ -88,6 +92,7 @@ export default function InvoiceDetailsForm({
   return (
     <React.Fragment>
       <div className={styles.top_area}>
+        <h1>{title}</h1>
         <ButtonWithSpinner
           loading={invoiceLoading}
           success={false}
@@ -220,6 +225,13 @@ export default function InvoiceDetailsForm({
                       style={{ width: 300 }}
                       renderInput={params => (
                         <TextField
+                          onChange={e =>
+                            onSelectCustomProduct(
+                              'reference',
+                              e.target.value,
+                              row.uuid,
+                            )
+                          }
                           {...params}
                           label='Product'
                           variant='outlined'
@@ -249,10 +261,23 @@ export default function InvoiceDetailsForm({
                     />
                   </TableCell>
                   <TableCell align='left'>
-                    {!!row.price
-                      ? NumberFormatter.format(row.price)
-                      : NumberFormatter.format(0)}
+                    <TextField
+                      id='outlined-number'
+                      label='Price'
+                      value={row.price}
+                      onChange={e =>
+                        onSelectCustomProduct('price', e.target.value, row.uuid)
+                      }
+                      className={styles.quantity}
+                      type='number'
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      margin='normal'
+                      variant='outlined'
+                    />
                   </TableCell>
+                  {console.log(row.price)}
                   <TableCell align='left'>
                     <TextField
                       defaultValue={

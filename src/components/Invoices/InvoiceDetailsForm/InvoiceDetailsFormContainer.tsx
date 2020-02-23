@@ -22,6 +22,7 @@ interface Props {
   invoiceFormState: InvoiceDetailsState;
   invoiceLoading: boolean;
   dispatch?: any;
+  title: string;
 }
 
 const InvoiceDetailsFormContainer = ({
@@ -31,6 +32,7 @@ const InvoiceDetailsFormContainer = ({
   invoiceFormState,
   invoiceLoading,
   dispatch,
+  title,
 }: Props) => {
   useEffect(() => {
     searchAll({
@@ -114,6 +116,17 @@ const InvoiceDetailsFormContainer = ({
     });
   };
 
+  const onSelectCustomProduct = (key, value, uuid) => {
+    dispatch({
+      type: 'SELECT_CUSTOM_PRODUCT',
+      payload: {
+        key,
+        value: value || '',
+        uuid,
+      },
+    });
+  };
+
   const onChangeProductQuantity = (newQuantity, uuid) => {
     dispatch({
       type: 'CHANGE_QUANTITY',
@@ -138,6 +151,7 @@ const InvoiceDetailsFormContainer = ({
           <React.Fragment>
             {!invoiceLoading ? (
               <InvoiceDetailsForm
+                title={title}
                 invoiceLoading={invoiceLoading}
                 changeDiscount={changeDiscount}
                 saveInvoice={saveInvoice}
@@ -152,6 +166,7 @@ const InvoiceDetailsFormContainer = ({
                 deleteProductRow={deleteProductRow}
                 onSelectProduct={onSelectProduct}
                 onChangeProductQuantity={onChangeProductQuantity}
+                onSelectCustomProduct={onSelectCustomProduct}
               />
             ) : (
               <div style={{ margin: '30px auto' }}>
