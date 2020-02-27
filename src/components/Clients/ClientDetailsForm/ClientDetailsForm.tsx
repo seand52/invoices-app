@@ -2,12 +2,22 @@ import React, { useEffect } from 'react';
 import useFormBuilder from 'hooks/useFormBuilder';
 import { ICreateClient } from 'forms/formValidations/add-client';
 import styles from './ClientDetailsForm.module.scss';
-import { TextField, Select, MenuItem, FormControl, FormHelperText } from '@material-ui/core';
+import {
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  FormHelperText,
+} from '@material-ui/core';
 import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
 import ButtonWithSpinner from 'components/ButtonWithSpinner/ButtonWithSpinner';
 import { newClient, updateClient } from 'store/actions/clientActions';
 import { connect } from 'react-redux';
-import { getClientsState, getDocumentType, getDocumentNumber } from 'selectors/clients';
+import {
+  getClientsState,
+  getDocumentType,
+  getDocumentNumber,
+} from 'selectors/clients';
 import { ClientState } from 'store/reducers/clientsReducer';
 
 interface Props {
@@ -24,32 +34,35 @@ const ClientDetailsForm = ({
 }: Props) => {
   const clients = clientState.clients.items;
   const client = clients.find(item => item.id.toString() === selectedClient);
-  const { register, handleSubmit, errors, setValue, setError, watch } = useFormBuilder({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    setValue,
+    setError,
+    watch,
+  } = useFormBuilder({
     key: 'createClientFields',
   });
   useEffect(() => {
-    register({ name: 'documentType' })
+    register({ name: 'documentType' });
     if (client) {
-      setValue('documentType', getDocumentType(client))
+      setValue('documentType', getDocumentType(client));
     }
-
-
-  }, [])
+  }, []);
 
   const onSubmit = (data: ICreateClient) => {
     //@ts-ignore
     if (!!data.documentNum && !data.documentType) {
-      setError('documentType', 'required', 'Document Type is required')
-      return
+      setError('documentType', 'required', 'Document Type is required');
+      return;
     }
-    debugger
     if (!client) {
       createClient(data);
     } else {
       updateClient(data, client.id.toString());
     }
   };
-
 
   return (
     //@ts-ignore
@@ -119,34 +132,40 @@ const ClientDetailsForm = ({
         <FormControl className={styles.document}>
           <div className={styles.input_wrapper}>
             <Select
+              className={styles.select}
               variant='outlined'
               defaultValue={getDocumentType(client) || ''}
-              labelId="demo-customized-select-label"
+              labelId='demo-customized-select-label'
               error={errors['documentType'] ? true : false}
               inputRef={register}
-              onChange={(e) => setValue('documentType', e.target.value)}
+              onChange={e => setValue('documentType', e.target.value)}
               name='documentType'
-
             >
               <MenuItem value='NIF'>NIF</MenuItem>
               <MenuItem value='CIF'>CIF</MenuItem>
               <MenuItem value='INTRA'>INTRA</MenuItem>
+              <MenuItem value='PASSPORT'>PASSPORT</MenuItem>
             </Select>
-
 
             <TextField
               style={{ marginTop: 0, marginBottom: 0, maxHeight: '56px' }}
               defaultValue={client && getDocumentNumber(client)}
               inputRef={register}
               error={errors['documentNum'] ? true : false}
-              helperText={errors['documentNum'] ? errors['documentNum'].message : null}
+              helperText={
+                errors['documentNum'] ? errors['documentNum'].message : null
+              }
               name='documentNum'
-              label='NIF/CIF/INTRA'
+              label='NIF/CIF/INTRA/PPT'
               margin='normal'
               variant='outlined'
             />
           </div>
-          {errors['documentType'] ? <FormHelperText style={{ color: 'red' }}>Select Document Type</FormHelperText> : null}
+          {errors['documentType'] ? (
+            <FormHelperText style={{ color: 'red' }}>
+              Select Document Type
+            </FormHelperText>
+          ) : null}
           {/* <FormHelperText style={{ color: 'red', display: 'block' }}>Select Document Type</FormHelperText> */}
         </FormControl>
         <TextField
