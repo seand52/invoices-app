@@ -1,6 +1,7 @@
 import { FormControl, MenuItem, Select } from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
 import Paper from '@material-ui/core/Paper';
 import {
   createStyles,
@@ -198,11 +199,6 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
 }: Props<T, P>) {
   const classes = useStyles();
   const [selected, setSelected] = useState<string[]>([]);
-  // const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  // const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //WIP: Need to add functionality for bulk delete first
-  // };
 
   const handleClick = (event: React.MouseEvent<unknown>, id: string) => {
     const selectedIndex = selected.indexOf(id);
@@ -235,7 +231,6 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const numberOfRows = event.target.value;
-    // setRowsPerPage(parseInt(numberOfRows, 10));
     onChangeRowsPerPage(numberOfRows);
   };
 
@@ -288,7 +283,6 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
           >
             <EnhancedTableHead
               numSelected={selected.length}
-              // onSelectAllClick={handleSelectAllClick}
               rowCount={tableData.totalItems}
               headCells={tableHeader}
             />
@@ -358,6 +352,13 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
                             {row[i.key][i.property]}
                           </TableCell>
                         ));
+                      }
+                      if (item.id === 'transport') {
+                        return (
+                          <TableCell key={item.id} padding='none' align='left'>
+                            {row.isTransport ? <CheckIcon /> : null}
+                          </TableCell>
+                        );
                       }
                       return (
                         <TableCell key={item.id} padding='none' align='left'>

@@ -36,6 +36,7 @@ interface Data {
   date: string;
   paymentType: string;
   actions: 'actions';
+  transport: string;
 }
 
 export interface InvoicesHeadCell {
@@ -60,6 +61,12 @@ const headCells: InvoicesHeadCell[] = [
     disablePadding: true,
     label: 'Client',
     nested: [{ key: 'client', property: 'name' }],
+  },
+  {
+    id: 'transport',
+    numeric: false,
+    disablePadding: true,
+    label: 'Transport',
   },
   {
     id: 'totalPrice',
