@@ -9,15 +9,24 @@ import { UserState } from 'store/reducers/userReducer';
 import {
   updateBusinessDetails,
   submitBusinessDetails,
+  clearSuccess,
 } from 'store/actions/userActions';
 import { getUserState } from 'selectors/userSelectors';
+import { alertProp } from 'utils/swal';
+import Swal from 'sweetalert2';
 
 interface Props {
   updateInfo: (data) => void;
   createInfo: (data) => void;
   userState: UserState;
+  clearSuccess: () => void;
 }
-const BusinessInfo = ({ updateInfo, createInfo, userState }: Props) => {
+const BusinessInfo = ({
+  updateInfo,
+  createInfo,
+  userState,
+  clearSuccess,
+}: Props) => {
   const user: UserState = useSelector((state: InitialState) => state.userInfo);
   const { register, handleSubmit, errors } = useFormBuilder({
     key: 'businessInfoFields',
@@ -30,6 +39,19 @@ const BusinessInfo = ({ updateInfo, createInfo, userState }: Props) => {
       createInfo(data);
     }
   };
+
+  useEffect(() => {
+    if (user.success === true) {
+      Swal.fire(
+        alertProp({
+          text: 'Your details have been saved correctly',
+          title: 'Success!',
+          type: 'success',
+        }),
+      );
+      clearSuccess();
+    }
+  }, [user.success, clearSuccess]);
 
   useSetNavigation('business-info');
   return (
@@ -59,6 +81,7 @@ const mapDispatchToProps = dispatch => {
   return {
     updateInfo: data => dispatch(updateBusinessDetails(data)),
     createInfo: data => dispatch(submitBusinessDetails(data)),
+    clearSuccess: () => dispatch(clearSuccess()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BusinessInfo);
