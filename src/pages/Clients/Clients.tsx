@@ -44,6 +44,7 @@ export interface HeadCell {
   disablePadding: boolean;
   id: keyof Data;
   label: string;
+  isLink?: boolean;
   numeric: boolean;
 }
 
@@ -53,6 +54,7 @@ const headCells: HeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: 'Name',
+    isLink: true,
   },
   { id: 'email', numeric: false, disablePadding: true, label: 'Email' },
   {

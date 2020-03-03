@@ -26,6 +26,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { searchAll, searchAllOk } from 'store/actions/clientActions';
 import { TableHeadOptions, TableOptions } from '../Overview';
+import { Link } from '@reach/router';
+import styles from './OverviewTable.module.scss';
 
 interface EnhancedTableProps<P extends TableHeadOptions> {
   numSelected: number;
@@ -362,9 +364,18 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
                       }
                       return (
                         <TableCell key={item.id} padding='none' align='left'>
-                          {item.currency
-                            ? NumberFormatter.format(row[item.id])
-                            : row[item.id]}
+                          {item.currency ? (
+                            NumberFormatter.format(row[item.id])
+                          ) : item.isLink ? (
+                            <Link
+                              className={styles.link}
+                              to={`/clients/${row.id}`}
+                            >
+                              {row[item.id]}
+                            </Link>
+                          ) : (
+                            row[item.id]
+                          )}
                         </TableCell>
                       );
                     })}
