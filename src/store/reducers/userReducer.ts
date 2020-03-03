@@ -13,6 +13,9 @@ import {
   RegisterOk,
   ClearSuccessAction,
   CLEAR_SUCCESS,
+  UPDATE_BUSINESS_DETAILS,
+  UPDATE_BUSINESS_DETAILS_OK,
+  UPDATE_BUSINESS_DETAILS_FAILED,
   SubmitBusinessDetailsAction,
   SUBMIT_BUSINESS_DETAILS,
   SubmitBusinessDetailsFailedAction,
@@ -21,6 +24,9 @@ import {
   SUBMIT_BUSINESS_DETAILS_FAILED,
   LOGOUT,
   ILogout,
+  UpdateBusinessDetailsAction,
+  UpdateBusinessDetailsOkAction,
+  UpdateBusinessDetailsFailedAction,
 } from 'store/actions/userActions';
 import { BusinessInfoAPI } from 'api/responses/businessInfo.type';
 
@@ -49,6 +55,9 @@ type Actions =
   | SubmitBusinessDetailsAction
   | SubmitBusinessDetailsOkAction
   | SubmitBusinessDetailsFailedAction
+  | UpdateBusinessDetailsAction
+  | UpdateBusinessDetailsOkAction
+  | UpdateBusinessDetailsFailedAction
   | ILogout;
 
 export const reducer = (state = initialState, action: Actions) => {
@@ -65,7 +74,8 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         loading: false,
         isLoggedIn: true,
-        token: action.payload,
+        token: action.payload.token,
+        businessInfo: action.payload.businessInfo,
       };
     case REGISTER_FAILED:
     case LOGIN_FAILED:
@@ -88,11 +98,13 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         success: false,
       };
+    case UPDATE_BUSINESS_DETAILS:
     case SUBMIT_BUSINESS_DETAILS:
       return {
         ...state,
         loading: true,
       };
+    case UPDATE_BUSINESS_DETAILS_OK:
     case SUBMIT_BUSINESS_DETAILS_OK:
       return {
         ...state,
@@ -101,6 +113,7 @@ export const reducer = (state = initialState, action: Actions) => {
         loading: false,
         errors: null,
       };
+    case UPDATE_BUSINESS_DETAILS_FAILED:
     case SUBMIT_BUSINESS_DETAILS_FAILED:
       return {
         ...state,

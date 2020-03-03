@@ -18,7 +18,10 @@ interface Props {
   parentStyles?: any;
 }
 
+const hasBusinessInfo = businessInfo => !!Object.keys(businessInfo).length;
+
 export default function BusinessInfoForm(props: Props) {
+  const { businessInfo } = props.user;
   return (
     <React.Fragment>
       <form
@@ -32,6 +35,7 @@ export default function BusinessInfoForm(props: Props) {
             helperText={
               props.errors['name'] ? props.errors['name'].message : null
             }
+            defaultValue={businessInfo && businessInfo.name}
             inputRef={props.register}
             name='name'
             label='Business name'
@@ -44,6 +48,7 @@ export default function BusinessInfoForm(props: Props) {
             helperText={
               props.errors['cif'] ? props.errors['cif'].message : null
             }
+            defaultValue={businessInfo && businessInfo.cif}
             name='cif'
             label='CIF'
             margin='normal'
@@ -55,6 +60,7 @@ export default function BusinessInfoForm(props: Props) {
             helperText={
               props.errors['address'] ? props.errors['address'].message : null
             }
+            defaultValue={businessInfo && businessInfo.address}
             name='address'
             label='Address'
             margin='normal'
@@ -66,6 +72,7 @@ export default function BusinessInfoForm(props: Props) {
             helperText={
               props.errors['postcode'] ? props.errors['postcode'].message : null
             }
+            defaultValue={businessInfo && businessInfo.postcode}
             name='postcode'
             label='Post Code'
             margin='normal'
@@ -77,6 +84,7 @@ export default function BusinessInfoForm(props: Props) {
             helperText={
               props.errors['city'] ? props.errors['city'].message : null
             }
+            defaultValue={businessInfo && businessInfo.city}
             name='city'
             label='City'
             margin='normal'
@@ -88,6 +96,7 @@ export default function BusinessInfoForm(props: Props) {
             helperText={
               props.errors['country'] ? props.errors['country'].message : null
             }
+            defaultValue={businessInfo && businessInfo.country}
             name='country'
             label='Country'
             margin='normal'
@@ -101,6 +110,7 @@ export default function BusinessInfoForm(props: Props) {
                 ? props.errors['telephone'].message
                 : null
             }
+            defaultValue={businessInfo && businessInfo.telephone}
             name='telephone'
             label='Telephone'
             margin='normal'
@@ -112,18 +122,21 @@ export default function BusinessInfoForm(props: Props) {
             helperText={
               props.errors['email'] ? props.errors['email'].message : null
             }
+            defaultValue={businessInfo && businessInfo.email}
             name='email'
             label='Email'
             margin='normal'
             variant='outlined'
           />
         </div>
-        <ButtonWithSpinner
-          loading={props.user.loading}
-          success={props.user.success}
-          type='submit'
-          text='Submit Details'
-        />
+        <div className={styles.btn_container}>
+          <ButtonWithSpinner
+            loading={props.user.loading}
+            success={props.user.success}
+            type='submit'
+            text='Submit Details'
+          />
+        </div>
         {props.showSkipStep ? (
           <p>
             Skip this step?{' '}

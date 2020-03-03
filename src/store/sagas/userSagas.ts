@@ -15,7 +15,7 @@ const clearToken = () => {
 function* authenticate({ payload }: any) {
   try {
     const res = yield api.authenticateUser(payload);
-    yield put(UserActions.loginOk(res.token));
+    yield put(UserActions.loginOk(res));
     yield call(setToken, res.token);
   } catch (err) {
     yield put(UserActions.loginFailed(err.message));
@@ -41,6 +41,16 @@ function* submitBusinessDetails({ payload }: any) {
   }
 }
 
+function* updateBusinessDetails({ payload }: any) {
+  try {
+    const res: BusinessInfoAPI = yield api.updateBusinessInfo(payload);
+    debugger;
+    yield put(UserActions.updateBusinessDetailsOk(res));
+  } catch (err) {
+    yield put(UserActions.updateBusinessDetailsFailed(err.message));
+  }
+}
+
 function* logout({ payload }: any) {
   clearToken();
   yield navigate('/');
@@ -54,6 +64,10 @@ function* sagas() {
     yield takeLatest(
       UserActions.SUBMIT_BUSINESS_DETAILS,
       submitBusinessDetails,
+    ),
+    yield takeLatest(
+      UserActions.UPDATE_BUSINESS_DETAILS,
+      updateBusinessDetails,
     ),
   ]);
 }

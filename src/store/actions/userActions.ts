@@ -3,6 +3,7 @@ import {
   IRegisterFields,
 } from 'forms/formValidations/authentication';
 import { IBusinessInfo } from 'forms/formValidations/business-info';
+import { BusinessInfoAPI } from 'api/responses/businessInfo.type';
 
 export const LOGIN = 'USER::LOGIN';
 export const LOGIN_OK = 'USER::LOGIN_OK';
@@ -16,6 +17,11 @@ export const SUBMIT_BUSINESS_DETAILS = 'USER::SUBMIT_BUSINESS_DETAILS';
 export const SUBMIT_BUSINESS_DETAILS_OK = 'USER::SUBMIT_BUSINESS_DETAILS_OK';
 export const SUBMIT_BUSINESS_DETAILS_FAILED =
   'USER::SUBMIT_BUSINESS_DETAILS_FAILED';
+
+export const UPDATE_BUSINESS_DETAILS = 'USER::UPDATE_BUSINESS_DETAILS';
+export const UPDATE_BUSINESS_DETAILS_OK = 'USER::UPDATE_BUSINESS_DETAILS_OK';
+export const UPDATE_BUSINESS_DETAILS_FAILED =
+  'USER::UPDATE_BUSINESS_DETAILS_FAILED';
 
 export const LOGOUT = 'USER::LOGOUT';
 export const CLEAR_SUCCESS = 'USER::CLEAR_SUCCESS';
@@ -31,11 +37,20 @@ export const login = (data: ILoginFields) => ({
 
 export interface LoginOkAction {
   type: typeof LOGIN_OK;
-  payload: string;
+  payload: {
+    token: string;
+    businessInfo: BusinessInfoAPI;
+  };
 }
-export const loginOk = (token: string) => ({
+export const loginOk = (data: {
+  token: string;
+  businessInfo: BusinessInfoAPI;
+}) => ({
   type: LOGIN_OK,
-  payload: token,
+  payload: {
+    token: data.token,
+    businessInfo: data.businessInfo,
+  },
 });
 
 export interface LoginFailedAction {
@@ -113,6 +128,38 @@ export interface SubmitBusinessDetailsFailedAction {
 
 export const submitBusinessDetailsFailed = (message: string) => ({
   type: SUBMIT_BUSINESS_DETAILS_FAILED,
+  payload: message,
+});
+
+//
+
+export interface UpdateBusinessDetailsAction {
+  type: typeof UPDATE_BUSINESS_DETAILS;
+  payload: IBusinessInfo;
+}
+
+export const updateBusinessDetails = (data: IBusinessInfo) => ({
+  type: UPDATE_BUSINESS_DETAILS,
+  payload: data,
+});
+
+export interface UpdateBusinessDetailsOkAction {
+  type: typeof UPDATE_BUSINESS_DETAILS_OK;
+  payload: IBusinessInfo;
+}
+
+export const updateBusinessDetailsOk = data => ({
+  type: UPDATE_BUSINESS_DETAILS_OK,
+  payload: data,
+});
+
+export interface UpdateBusinessDetailsFailedAction {
+  type: typeof UPDATE_BUSINESS_DETAILS_FAILED;
+  payload: IBusinessInfo;
+}
+
+export const updateBusinessDetailsFailed = (message: string) => ({
+  type: UPDATE_BUSINESS_DETAILS_FAILED,
   payload: message,
 });
 
