@@ -369,7 +369,7 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
                           ) : item.isLink ? (
                             <Link
                               className={styles.link}
-                              to={`/clients/${row.id}`}
+                              to={`/client/${row.id}`}
                             >
                               {row[item.id]}
                             </Link>

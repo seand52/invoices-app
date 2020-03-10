@@ -40,7 +40,7 @@ const App: React.FC = () => {
         />
 
         <PrivateRoute path='/business-info' component={BusinessInfo} />
-        <PrivateRoute path='/clients/:clientId' component={ClientInfo} />
+        <PrivateRoute path='/client/:clientId' component={ClientInfo} />
       </Router>
     </div>
   );
