@@ -5,6 +5,7 @@ import {
   searchAll,
   deleteClient,
   resetSuccess,
+  resetError,
 } from 'store/actions/clientActions';
 import { InitialState } from 'store';
 import { getClientsState } from 'selectors/clients';
@@ -24,6 +25,7 @@ interface Props {
   searchAll: ({ url: string }) => void;
   deleteClient: (id: string) => void;
   resetSuccess: () => void;
+  resetError: () => void;
   makeInvoiceForClient: (id, name) => void;
   clientState: ClientState;
 }
@@ -94,6 +96,7 @@ const Clients = ({
   resetSuccess,
   deleteClient: deleteClientAction,
   makeInvoiceForClient,
+  resetError,
 }: Props) => {
   useSetNavigation('clients');
   const [localState, localDispatch] = useReducer(reducer, initialState);
@@ -145,6 +148,7 @@ const Clients = ({
   const onAddNewClient = e => {
     e.preventDefault();
     localDispatch({ type: 'ADD_CLIENT' });
+    resetError();
   };
 
   const deleteClient = (ids: string[]) => {
@@ -240,6 +244,7 @@ const mapDispatchToProps = dispatch => {
     searchAll: ({ url }) => dispatch(searchAll({ url })),
     deleteClient: id => dispatch(deleteClient(id)),
     resetSuccess: () => dispatch(resetSuccess()),
+    resetError: () => dispatch(resetError()),
     makeInvoiceForClient: (id, name) => dispatch(makeInvoiceClient(id, name)),
   };
 };

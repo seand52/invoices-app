@@ -29,7 +29,8 @@ type Actions =
   | ProductsActions.ResetSuccess
   | ProductsActions.UpdateProduct
   | ProductsActions.UpdateProductOk
-  | ProductsActions.UpdateProductFailed;
+  | ProductsActions.UpdateProductFailed
+  | ProductsActions.ResetError;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -115,7 +116,11 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         success: false,
       };
-
+    case ProductsActions.RESET_ERROR:
+      return {
+        ...state,
+        formError: null,
+      };
     default:
       return state;
   }

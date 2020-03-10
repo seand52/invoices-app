@@ -30,7 +30,8 @@ type Actions =
   | ClientActions.UpdateClient
   | ClientActions.UpdateClientOk
   | ClientActions.UpdateClientFailed
-  | ClientActions.SearchByName;
+  | ClientActions.SearchByName
+  | ClientActions.ResetError;
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
     case ClientActions.SEARCH_ALL:
@@ -120,6 +121,12 @@ export const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         success: false,
+      };
+
+    case ClientActions.RESET_ERROR:
+      return {
+        ...state,
+        formError: null,
       };
 
     default:

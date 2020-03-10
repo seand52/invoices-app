@@ -18,6 +18,7 @@ export const UPDATE_CLIENT_OK = 'CLIENTS::UPDATE_CLIENT_OK';
 export const UPDATE_CLIENT_FAILED = 'CLIENTS::UPDATE_CLIENT_FAILED';
 
 export const RESET_SUCCESS = 'CLIENTS::RESET_SUCCESS';
+export const RESET_ERROR = 'CLIENTS::RESET_ERROR';
 export interface SearchAll {
   type: typeof SEARCH_ALL;
 }
@@ -153,4 +154,12 @@ export interface ResetSuccess {
 
 export const resetSuccess = () => ({
   type: RESET_SUCCESS,
+});
+
+export interface ResetError {
+  type: typeof RESET_ERROR;
+}
+
+export const resetError = () => ({
+  type: RESET_ERROR,
 });

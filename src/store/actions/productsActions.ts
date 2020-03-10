@@ -18,6 +18,7 @@ export const UPDATE_PRODUCT_OK = 'PRODUCTS::UPDATE_PRODUCT_OK';
 export const UPDATE_PRODUCT_FAILED = 'PRODUCTS::UPDATE_PRODUCT_FAILED';
 
 export const RESET_SUCCESS = 'PRODUCTS::RESET_SUCCESS';
+export const RESET_ERROR = 'PRODUCTS::RESET_ERROR';
 export interface SearchAll {
   type: typeof SEARCH_ALL;
 }
@@ -143,4 +144,12 @@ export interface ResetSuccess {
 
 export const resetSuccess = () => ({
   type: RESET_SUCCESS,
+});
+
+export interface ResetError {
+  type: typeof RESET_ERROR;
+}
+
+export const resetError = () => ({
+  type: RESET_ERROR,
 });

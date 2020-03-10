@@ -5,6 +5,7 @@ import {
   searchAll,
   deleteProduct,
   resetSuccess,
+  resetError,
 } from 'store/actions/productsActions';
 import { InitialState } from 'store';
 import { getProductState } from 'selectors/products';
@@ -22,6 +23,7 @@ interface Props {
   searchAll: ({ url: string }) => void;
   deleteProduct: (id: string) => void;
   resetSuccess: () => void;
+  resetError: () => void;
   productState: ProductState;
 }
 
@@ -104,6 +106,7 @@ const Products = ({
   productState,
   resetSuccess,
   deleteProduct: deleteProductAction,
+  resetError,
 }: Props) => {
   useSetNavigation('products');
   const [localState, localDispatch] = useReducer(reducer, initialState);
@@ -154,6 +157,7 @@ const Products = ({
   const addNewProduct = e => {
     e.preventDefault();
     localDispatch({ type: 'ADD_PRODUCT' });
+    resetError();
   };
 
   const deleteProduct = (ids: string[]) => {
@@ -237,6 +241,7 @@ const mapDispatchToProps = dispatch => {
     searchAll: ({ url }) => dispatch(searchAll({ url })),
     deleteProduct: id => dispatch(deleteProduct(id)),
     resetSuccess: () => dispatch(resetSuccess()),
+    resetError: () => dispatch(resetError()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Products);

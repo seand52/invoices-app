@@ -8,6 +8,7 @@ import { getProductState } from 'selectors/products';
 import { newProduct, updateProduct } from 'store/actions/productsActions';
 import { ProductState } from 'store/reducers/productsReducer';
 import styles from './ProductDetailsForm.module.scss';
+import ErrorMessage from 'components/ErrorMessage/ErrorMessage';
 
 interface Props {
   createProduct: (data: ICreateProduct) => void;
@@ -82,7 +83,9 @@ const ProductDetailsForm = ({
           text='Submit Details'
         />
       </div>
-      {/* {apiError && <ErrorMessage>{apiError}</ErrorMessage>} */}
+      {productState.formError && (
+        <ErrorMessage>{productState.formError}</ErrorMessage>
+      )}
     </form>
   );
 };
