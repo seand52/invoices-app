@@ -1,5 +1,7 @@
-import { ClientsPaginated } from 'api/responses/clients.type';
+import { ClientsPaginated, Client } from 'api/responses/clients.type';
 import { ICreateClient } from 'forms/formValidations/add-client';
+import { SpendData } from 'store/reducers/clientsReducer';
+import { PopularProducts } from 'components/Charts/RadarChart/RadarChart';
 
 export const SEARCH_ALL = 'CLIENTS:SEARCH_ALL';
 export const SEARCH_ALL_OK = 'CLIENTS:SEARCH_ALL_OK';
@@ -19,6 +21,11 @@ export const UPDATE_CLIENT_FAILED = 'CLIENTS::UPDATE_CLIENT_FAILED';
 
 export const RESET_SUCCESS = 'CLIENTS::RESET_SUCCESS';
 export const RESET_ERROR = 'CLIENTS::RESET_ERROR';
+
+export const SEARCH_BY_ID = 'CLIENTS::SEARCH_BY_ID';
+export const SEARCH_BY_ID_OK = 'CLIENTS::SEARCH_BY_ID_OK';
+export const SEARCH_BY_ID_FAILED = 'CLIENTS::SEARCH_BY_ID_FAILED';
+
 export interface SearchAll {
   type: typeof SEARCH_ALL;
 }
@@ -162,4 +169,52 @@ export interface ResetError {
 
 export const resetError = () => ({
   type: RESET_ERROR,
+});
+
+export interface searchById {
+  type: typeof SEARCH_BY_ID;
+  payload: string;
+}
+
+export const searchById = (id: string) => ({
+  type: SEARCH_BY_ID,
+  payload: id,
+});
+
+export interface searchByIdOk {
+  type: typeof SEARCH_BY_ID_OK;
+  payload: {
+    clientInfo: Client;
+    spendData: SpendData;
+    popularProducts: PopularProducts;
+  };
+}
+
+export const searchByIdOk = ({
+  data,
+  spendData,
+  popularProducts,
+}: {
+  data: Client;
+  spendData: SpendData;
+  popularProducts: PopularProducts;
+}) => {
+  return {
+    type: SEARCH_BY_ID_OK,
+    payload: {
+      clientInfo: data,
+      spendData,
+      popularProducts,
+    },
+  };
+};
+
+export interface searchByIdFailed {
+  type: typeof SEARCH_BY_ID_FAILED;
+  payload: string;
+}
+
+export const searchByIdFailed = (message: string) => ({
+  type: SEARCH_BY_ID_FAILED,
+  payload: message,
 });

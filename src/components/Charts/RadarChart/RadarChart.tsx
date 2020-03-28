@@ -46,28 +46,28 @@ const data = [
   },
 ];
 
-const RadarChartComponent = () => {
+export type PopularProducts = ReadonlyArray<{
+  fullMark: number;
+  A: number;
+  reference: string;
+}>;
+type RadarChartProps = {
+  data: PopularProducts;
+};
+const RadarChartComponent = ({ data }: RadarChartProps) => {
+  debugger;
+  if (!data.length) {
+    return <h2>No data was found for this client yet</h2>;
+  }
+  const maxValue = data.length && data[0].fullMark;
   return (
     <div>
       <h2>Popular Products</h2>
       <RadarChart outerRadius={90} width={870} height={250} data={data}>
         <PolarGrid />
-        <PolarAngleAxis dataKey='subject' />
-        <PolarRadiusAxis angle={30} domain={[0, 150]} />
-        <Radar
-          name='Mike'
-          dataKey='A'
-          stroke='#8884d8'
-          fill='#8884d8'
-          fillOpacity={0.6}
-        />
-        <Radar
-          name='Lily'
-          dataKey='B'
-          stroke='#82ca9d'
-          fill='#82ca9d'
-          fillOpacity={0.6}
-        />
+        <PolarAngleAxis dataKey='reference' />
+        <PolarRadiusAxis angle={30} domain={[0, maxValue]} />
+        <Radar dataKey='A' stroke='#8884d8' fill='#8884d8' fillOpacity={0.6} />
         <Legend />
       </RadarChart>
     </div>

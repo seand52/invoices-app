@@ -9,63 +9,77 @@ import {
   Legend,
   Bar,
 } from 'recharts';
+import { SpendData } from 'store/reducers/clientsReducer';
 const data = [
   {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
+    name: 'January',
+    spend: 0,
+  },
+
+  {
+    name: 'February',
+    spend: 0,
   },
   {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
+    name: 'March',
+    spend: 112,
   },
   {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
+    name: 'April',
+    spend: 50,
   },
   {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
+    name: 'May',
+    spend: 0,
   },
   {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
+    name: 'June',
+    spend: 0,
   },
   {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
+    name: 'July',
+    spend: 0,
   },
   {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
+    name: 'August',
+    spend: 0,
+  },
+  {
+    name: 'September',
+    spend: 0,
+  },
+  {
+    name: 'October',
+    spend: 0,
+  },
+  {
+    name: 'November',
+    spend: 0,
+  },
+  {
+    name: 'December',
+    spend: 0,
   },
 ];
 
-const BarChartComponent = () => {
+interface Props {
+  barChartData: SpendData;
+}
+const BarChartComponent = ({ barChartData }: Props) => {
+  if (!barChartData) {
+    return <h2>No data was found for this client yet</h2>;
+  }
+  console.log(barChartData);
   return (
     <div>
       <h2>Client Sales</h2>
-      <BarChart width={1400} height={500} data={data}>
+      <BarChart width={1400} height={500} data={barChartData}>
         <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='name' />
+        <XAxis style={{ marginTop: '50x' }} dataKey='name' />
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey='pv' fill='#8884d8' />
-        <Bar dataKey='uv' fill='#82ca9d' />
+        <Bar dataKey='spend' fill='#8884d8' />
       </BarChart>
     </div>
   );

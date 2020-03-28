@@ -14,7 +14,7 @@ import * as navigation from 'store/reducers/navigationReducer';
 import sagas from './sagas/index';
 
 //@ts-ignore
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   //@ts-ignore
   [users.key]: users.reducer,
   [clients.key]: clients.reducer,
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
   [navigation.key]: navigation.reducer,
 });
 
-const initialState = {
+export const initialState = {
   [users.key]: users.initialState,
   [clients.key]: clients.initialState,
   [products.key]: products.initialState,
@@ -52,7 +52,7 @@ const composeEnhancers = composeWithDevTools({
 
 const sagaMiddleware = createSagaMiddleware();
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+export const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = createStore(
   persistedReducer,
   //@ts-ignore

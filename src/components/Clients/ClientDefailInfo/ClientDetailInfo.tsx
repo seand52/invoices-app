@@ -1,37 +1,49 @@
 import React from 'react';
 import styles from './ClientDetailInfo.module.scss';
+import { Client } from 'api/responses/clients.type';
+import { ErrorTypes } from 'pages/ClientInfo/ClientInfo';
 
-export default function ClientDetailInfo() {
+interface Props {
+  clientInfo: Client;
+  clientErr: string | null;
+}
+export default function ClientDetailInfo({ clientInfo, clientErr }: Props) {
+  console.log('insie client info');
+  if (clientErr === ErrorTypes.CLIENT_LOAD) {
+    return <p>There was an error loading client data</p>;
+  }
+  console.log('clientErr is', clientErr);
   return (
     <div className={styles.wrapper}>
       <h2>Client Info</h2>
       <div className={styles.details}>
-        <p>
-          <span>Name</span>: Sean Daryanani
+        <p data-testid='name'>
+          <span>Name</span>: {clientInfo.name || '---'}
         </p>
         <p>
-          <span>Company</span>: The Company
+          <span>Company</span>: {clientInfo.shopName || '---'}
+        </p>
+        <p data-testid='address'>
+          <span>Address</span>: {clientInfo.address || '---'}
+        </p>
+        <p data-testid='city'>
+          <span>City</span>: {clientInfo.city || '---'}
         </p>
         <p>
-          <span>Address</span>: The Address
+          <span>Post Code</span>: {clientInfo.postcode || '---'}
         </p>
         <p>
-          <span>City</span>: The City
+          <span>Document</span>: {clientInfo.documentType}{' '}
+          {clientInfo.documentNum || '---'}
         </p>
         <p>
-          <span>Post</span> Code: 08015
+          <span>Telephone 2</span>: {clientInfo.telephone1 || '---'}
         </p>
         <p>
-          <span>Document</span>: 47919191
+          <span>Telephone 2</span>: {clientInfo.telephone2 || '---'}
         </p>
         <p>
-          <span>Telephone</span> 1: 47919191
-        </p>
-        <p>
-          <span>Telephone</span> 2: 47919191
-        </p>
-        <p>
-          <span>Email</span>: 47919191
+          <span>Email</span>: {clientInfo.email || '---'}
         </p>
       </div>
     </div>
