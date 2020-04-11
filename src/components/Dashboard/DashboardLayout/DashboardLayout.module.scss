@@ -4,6 +4,11 @@
   grid-row-gap: 10px;
   & .main {
     grid-column: 1/-1;
+    min-height: 400px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   & .left_item {
@@ -12,5 +17,8 @@
 
   & .right_item {
     border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

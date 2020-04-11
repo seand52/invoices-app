@@ -5,7 +5,7 @@ import { alertProp } from 'utils/swal';
 import { ErrorTypes } from 'pages/ClientInfo/ClientInfo';
 import { PopularProducts } from 'components/Charts/RadarChart/RadarChart';
 
-interface ChartData {
+export interface ChartData {
   name: string;
   spend: number;
 }
