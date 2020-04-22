@@ -8,11 +8,9 @@ interface Props {
   clientErr: string | null;
 }
 export default function ClientDetailInfo({ clientInfo, clientErr }: Props) {
-  console.log('insie client info');
   if (clientErr === ErrorTypes.CLIENT_LOAD) {
     return <p>There was an error loading client data</p>;
   }
-  console.log('clientErr is', clientErr);
   return (
     <div className={styles.wrapper}>
       <h2>Client Info</h2>

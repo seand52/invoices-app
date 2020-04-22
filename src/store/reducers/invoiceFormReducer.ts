@@ -120,7 +120,6 @@ export const reducer = (
         },
       };
     case InvoiceFormActions.ADD_PRODUCT:
-      debugger;
       return {
         ...state,
         products: [

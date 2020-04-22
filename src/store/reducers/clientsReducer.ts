@@ -142,6 +142,7 @@ export const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         formError: null,
+        error: null,
       };
     case ClientActions.SEARCH_BY_ID:
       return {

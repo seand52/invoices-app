@@ -44,7 +44,6 @@ function* submitBusinessDetails({ payload }: any) {
 function* updateBusinessDetails({ payload }: any) {
   try {
     const res: BusinessInfoAPI = yield api.updateBusinessInfo(payload);
-    debugger;
     yield put(UserActions.updateBusinessDetailsOk(res));
   } catch (err) {
     yield put(UserActions.updateBusinessDetailsFailed(err.message));

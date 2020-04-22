@@ -10,10 +10,8 @@ import { prepareInvoiceDefaultValues } from 'helpers/prepareInvoiceDefaultValues
 function* searchInvoices({ payload }: any) {
   try {
     const res = yield api.searchInvoices(payload);
-    debugger;
     yield put(InvoiceActions.searchAllOk(res));
   } catch (err) {
-    debugger;
     yield put(InvoiceActions.searchAllFailed(err));
   }
 }

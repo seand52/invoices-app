@@ -166,7 +166,6 @@ const ClientDetailsForm = ({
               Select Document Type
             </FormHelperText>
           ) : null}
-          {/* <FormHelperText style={{ color: 'red', display: 'block' }}>Select Document Type</FormHelperText> */}
         </FormControl>
         <TextField
           defaultValue={client && client.telephone1}

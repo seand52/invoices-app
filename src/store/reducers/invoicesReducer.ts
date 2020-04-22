@@ -55,7 +55,6 @@ type Actions =
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
     case InvoiceActions.SEARCH_ALL:
-      debugger;
       return {
         ...state,
         loading: true,
