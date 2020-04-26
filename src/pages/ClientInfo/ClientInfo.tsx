@@ -28,6 +28,9 @@ import SimpleModal from 'components/SimpleModal/SimpleModal';
 import ClientDetailsForm from 'components/Clients/ClientDetailsForm/ClientDetailsForm';
 import Swal from 'sweetalert2';
 import { alertProp } from 'utils/swal';
+import { downloadSalesOrder, downloadInvoice } from 'helpers/makeDownloadLink';
+import * as invoicesApi from 'api/invoice';
+import * as salesOrderApi from 'api/salesOrder';
 
 interface Props {
   clientId: string;
@@ -52,6 +55,21 @@ enum TabsOptions {
   INVOICES = 1,
   SALES_ORDERS = 2,
 }
+
+const tableActions = [
+  {
+    label: '',
+    value: '',
+  },
+  {
+    label: 'Edit',
+    value: 'edit',
+  },
+  {
+    label: 'Generate PDF',
+    value: 'makePDF',
+  },
+];
 
 export const ClientInfo = ({
   clientId,
@@ -113,6 +131,40 @@ export const ClientInfo = ({
     });
   };
 
+  const generatePdfInvoice = id => {
+    invoicesApi
+      .generatePdf(id)
+      .then(res => {
+        downloadInvoice(res.base64, res.id);
+      })
+      .catch(err => {
+        Swal.fire(
+          alertProp({
+            type: 'error',
+            title: 'Gee Whiz!',
+            text: err.message,
+          }),
+        );
+      });
+  };
+
+  const generatePdfSalesOrder = id => {
+    salesOrderApi
+      .generatePdf(id)
+      .then(res => {
+        downloadSalesOrder(res.base64, res.id);
+      })
+      .catch(err => {
+        Swal.fire(
+          alertProp({
+            type: 'error',
+            title: 'Gee Whiz!',
+            text: err.message,
+          }),
+        );
+      });
+  };
+
   return (
     <Layout
       main={
@@ -133,11 +185,13 @@ export const ClientInfo = ({
             <DashboardLayout
               main={<SpendData barChartData={clientState.spendData} />}
               leftItem={
-                <div onClick={() => setShowModal(true)}>
-                  <ClientDetailInfo
-                    clientErr={clientState.error}
-                    clientInfo={clientState.selectedClient}
-                  />
+                <>
+                  <div onClick={() => setShowModal(true)}>
+                    <ClientDetailInfo
+                      clientErr={clientState.error}
+                      clientInfo={clientState.selectedClient}
+                    />
+                  </div>
                   {clientId && (
                     <SimpleModal
                       open={showModal}
@@ -146,7 +200,7 @@ export const ClientInfo = ({
                       <ClientDetailsForm selectedClient={clientId} />
                     </SimpleModal>
                   )}
-                </div>
+                </>
               }
               rightItem={
                 <RadarChartComponent data={clientState.popularProducts} />
@@ -155,20 +209,24 @@ export const ClientInfo = ({
           )}
           {tab === 1 && (
             <>
-              <h2>Invoices</h2>
+              <h2>{clientState.selectedClient.name} Invoices</h2>
               <SimpleTable
                 rows={invoicesState.invoices}
-                goToItem={id => navigate(`/invoice/${id}/edit`)}
+                tableActions={tableActions}
                 searchMore={searchMoreInvoices}
+                generatePdf={generatePdfInvoice}
+                handleEdit={id => navigate(`/invoice/${id}/edit`)}
               />
             </>
           )}
           {tab === 2 && (
             <>
-              <h2>Sales Orders</h2>
+              <h2>{clientState.selectedClient.name} Sales Orders</h2>
               <SimpleTable
                 rows={salesOrderState.salesOrders}
-                goToItem={id => navigate(`/sales-order/${id}/edit`)}
+                handleEdit={id => navigate(`/sales-order/${id}/edit`)}
+                generatePdf={generatePdfSalesOrder}
+                tableActions={tableActions}
                 searchMore={searchMoreSalesOrders}
               />
             </>

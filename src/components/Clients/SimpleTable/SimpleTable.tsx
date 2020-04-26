@@ -14,6 +14,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TableHead from '@material-ui/core/TableHead';
+import { MenuItem, Select } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -124,8 +125,16 @@ const useStyles2 = makeStyles({
   },
 });
 
-const header = ['id', 'Name', 'Price', 'Payment Type', 'Date'];
-export default function SimpleTable({ rows = [], goToItem, searchMore }: any) {
+const header = ['id', 'Name', 'Price', 'Payment Type', 'Date', ''];
+export default function SimpleTable({
+  rows = [],
+  goToItem,
+  searchMore,
+  tableActions,
+  transformToInvoice,
+  generatePdf,
+  handleEdit,
+}: any) {
   const classes = useStyles2();
 
   const handleChangePage = (
@@ -139,6 +148,25 @@ export default function SimpleTable({ rows = [], goToItem, searchMore }: any) {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     console.log('hola');
+  };
+
+  const handleAction = (e, id) => {
+    const action = e.target.value;
+    switch (action) {
+      case 'transform':
+        if (transformToInvoice) {
+          transformToInvoice(id);
+        }
+        break;
+      case 'makePDF':
+        if (generatePdf) {
+          generatePdf(id);
+        }
+        break;
+      case 'edit':
+        handleEdit(id);
+        break;
+    }
   };
   return (
     <Paper className={classes.paper}>
@@ -154,11 +182,7 @@ export default function SimpleTable({ rows = [], goToItem, searchMore }: any) {
           {rows &&
             rows.items &&
             rows.items.map(row => (
-              <TableRow
-                className={classes.tablerow}
-                onClick={() => goToItem(row.id)}
-                key={row.name}
-              >
+              <TableRow className={classes.tablerow} key={row.name}>
                 <TableCell align='center'>{row.id}</TableCell>
                 <TableCell align='center'>{row.client.name}</TableCell>
                 <TableCell align='center'>
@@ -166,6 +190,23 @@ export default function SimpleTable({ rows = [], goToItem, searchMore }: any) {
                 </TableCell>
                 <TableCell align='center'>{row.paymentType}</TableCell>
                 <TableCell align='center'>{row.date}</TableCell>
+                <TableCell>
+                  <Select
+                    labelId='demo-simple-select-outlined-label'
+                    id='demo-simple-select-outlined'
+                    value=''
+                    variant='standard'
+                    onChange={e => handleAction(e, row.id.toString())}
+                    labelWidth={50}
+                  >
+                    {tableActions &&
+                      tableActions.map((item, index) => (
+                        <MenuItem key={index} value={item.value}>
+                          {item.label}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </TableCell>
               </TableRow>
             ))}
           <TableRow>

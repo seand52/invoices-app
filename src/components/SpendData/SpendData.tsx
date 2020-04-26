@@ -18,7 +18,6 @@ export default function SpendData({ barChartData }: Props) {
   console.log(year);
   return (
     <div>
-      <h2>Client Sales</h2>
       <ButtonGroup size='large' color='primary' aria-label='Spend data years'>
         {years &&
           years.length > 1 &&
