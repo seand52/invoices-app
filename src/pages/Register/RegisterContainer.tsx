@@ -17,6 +17,7 @@ import {
 import { UserState } from 'store/reducers/userReducer';
 import BusinessInfoForm from 'components/BusinessInfoForm/BusinessInfoForm';
 import { IBusinessInfo } from 'forms/formValidations/business-info';
+import useClearError from 'hooks/useClearError';
 
 interface Props {
   path: string;
@@ -37,6 +38,7 @@ const RegisterContainer = ({
   resetSuccess,
   user,
 }: Props) => {
+  useClearError();
   const { register, handleSubmit, errors } = useFormBuilder({
     key: 'registerValidationFields',
   });

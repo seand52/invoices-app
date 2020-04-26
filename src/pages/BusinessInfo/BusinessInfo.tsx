@@ -14,6 +14,7 @@ import {
 import { getUserState } from 'selectors/userSelectors';
 import { alertProp } from 'utils/swal';
 import Swal from 'sweetalert2';
+import useClearError from 'hooks/useClearError';
 
 interface Props {
   updateInfo: (data) => void;
@@ -27,6 +28,7 @@ const BusinessInfo = ({
   userState,
   clearSuccess,
 }: Props) => {
+  useClearError();
   const user: UserState = useSelector((state: InitialState) => state.userInfo);
   const { register, handleSubmit, errors } = useFormBuilder({
     key: 'businessInfoFields',

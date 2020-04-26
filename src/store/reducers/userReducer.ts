@@ -13,6 +13,7 @@ import {
   RegisterOk,
   ClearSuccessAction,
   CLEAR_SUCCESS,
+  CLEAR_ERROR,
   UPDATE_BUSINESS_DETAILS,
   UPDATE_BUSINESS_DETAILS_OK,
   UPDATE_BUSINESS_DETAILS_FAILED,
@@ -27,6 +28,7 @@ import {
   UpdateBusinessDetailsAction,
   UpdateBusinessDetailsOkAction,
   UpdateBusinessDetailsFailedAction,
+  ClearError,
 } from 'store/actions/userActions';
 import { BusinessInfoAPI } from 'api/responses/businessInfo.type';
 
@@ -58,6 +60,7 @@ type Actions =
   | UpdateBusinessDetailsAction
   | UpdateBusinessDetailsOkAction
   | UpdateBusinessDetailsFailedAction
+  | ClearError
   | ILogout;
 
 export const reducer = (state = initialState, action: Actions) => {
@@ -111,7 +114,7 @@ export const reducer = (state = initialState, action: Actions) => {
         businessInfo: action.payload,
         success: true,
         loading: false,
-        errors: null,
+        error: null,
       };
     case UPDATE_BUSINESS_DETAILS_FAILED:
     case SUBMIT_BUSINESS_DETAILS_FAILED:
@@ -119,6 +122,12 @@ export const reducer = (state = initialState, action: Actions) => {
         ...state,
         error: 'There was a problem storing your business details',
         loading: false,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+        // errors: null,
       };
     case LOGOUT:
       return {

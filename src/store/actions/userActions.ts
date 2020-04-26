@@ -25,6 +25,7 @@ export const UPDATE_BUSINESS_DETAILS_FAILED =
 
 export const LOGOUT = 'USER::LOGOUT';
 export const CLEAR_SUCCESS = 'USER::CLEAR_SUCCESS';
+export const CLEAR_ERROR = 'USER::CLEAR_ERROR';
 
 export interface LoginAction {
   type: typeof LOGIN;
@@ -169,4 +170,12 @@ export interface ILogout {
 
 export const logout = () => ({
   type: LOGOUT,
+});
+
+export interface ClearError {
+  type: typeof CLEAR_ERROR;
+}
+
+export const clearError = () => ({
+  type: CLEAR_ERROR,
 });
