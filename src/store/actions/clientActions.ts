@@ -26,6 +26,8 @@ export const SEARCH_BY_ID = 'CLIENTS::SEARCH_BY_ID';
 export const SEARCH_BY_ID_OK = 'CLIENTS::SEARCH_BY_ID_OK';
 export const SEARCH_BY_ID_FAILED = 'CLIENTS::SEARCH_BY_ID_FAILED';
 
+export const UPDATE_SELECTED_CLIENT = 'CLIENTS::UPDATE_SELECTED_CLIENT';
+
 export interface SearchAll {
   type: typeof SEARCH_ALL;
 }
@@ -217,4 +219,14 @@ export interface searchByIdFailed {
 export const searchByIdFailed = (message: string) => ({
   type: SEARCH_BY_ID_FAILED,
   payload: message,
+});
+
+export interface UpdateSelectedClient {
+  type: typeof UPDATE_SELECTED_CLIENT;
+  payload: string;
+}
+
+export const updateSelectedClient = (id: string) => ({
+  type: UPDATE_SELECTED_CLIENT,
+  payload: id,
 });

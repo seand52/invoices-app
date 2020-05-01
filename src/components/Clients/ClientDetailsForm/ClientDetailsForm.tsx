@@ -19,12 +19,13 @@ import {
   getDocumentNumber,
 } from 'selectors/clients';
 import { ClientState } from 'store/reducers/clientsReducer';
+import { Client } from 'api/responses/clients.type';
 
 interface Props {
   createClient: (data: ICreateClient) => void;
   updateClient: (data: ICreateClient, id: string) => void;
   clientState: ClientState;
-  selectedClient: null | string;
+  selectedClient?: Client;
 }
 const ClientDetailsForm = ({
   createClient,
@@ -32,8 +33,6 @@ const ClientDetailsForm = ({
   clientState,
   selectedClient,
 }: Props) => {
-  const clients = clientState.clients.items;
-  const client = clients.find(item => item.id.toString() === selectedClient);
   const {
     register,
     handleSubmit,
@@ -46,8 +45,8 @@ const ClientDetailsForm = ({
   });
   useEffect(() => {
     register({ name: 'documentType' });
-    if (client) {
-      setValue('documentType', getDocumentType(client));
+    if (selectedClient) {
+      setValue('documentType', getDocumentType(selectedClient));
     }
   }, []);
 
@@ -57,10 +56,10 @@ const ClientDetailsForm = ({
       setError('documentType', 'required', 'Document Type is required');
       return;
     }
-    if (!client) {
+    if (!selectedClient) {
       createClient(data);
     } else {
-      updateClient(data, client.id.toString());
+      updateClient(data, selectedClient.id.toString());
     }
   };
 
@@ -70,7 +69,7 @@ const ClientDetailsForm = ({
       <h1>Please fill in the clients details</h1>
       <div className={styles.form_items}>
         <TextField
-          defaultValue={client && client.name}
+          defaultValue={selectedClient && selectedClient.name}
           error={errors['name'] ? true : false}
           helperText={errors['name'] ? errors['name'].message : null}
           inputRef={register}
@@ -80,7 +79,7 @@ const ClientDetailsForm = ({
           variant='outlined'
         />
         <TextField
-          defaultValue={client && client.shopName}
+          defaultValue={selectedClient && selectedClient.shopName}
           inputRef={register}
           error={errors['shopName'] ? true : false}
           helperText={errors['shopName'] ? errors['shopName'].message : null}
@@ -90,7 +89,7 @@ const ClientDetailsForm = ({
           variant='outlined'
         />
         <TextField
-          defaultValue={client && client.address}
+          defaultValue={selectedClient && selectedClient.address}
           inputRef={register}
           error={errors['address'] ? true : false}
           helperText={errors['address'] ? errors['address'].message : null}
@@ -100,7 +99,7 @@ const ClientDetailsForm = ({
           variant='outlined'
         />
         <TextField
-          defaultValue={client && client.city}
+          defaultValue={selectedClient && selectedClient.city}
           inputRef={register}
           error={errors['city'] ? true : false}
           helperText={errors['city'] ? errors['city'].message : null}
@@ -110,7 +109,7 @@ const ClientDetailsForm = ({
           variant='outlined'
         />
         <TextField
-          defaultValue={client && client.province}
+          defaultValue={selectedClient && selectedClient.province}
           inputRef={register}
           error={errors['province'] ? true : false}
           helperText={errors['province'] ? errors['province'].message : null}
@@ -120,7 +119,7 @@ const ClientDetailsForm = ({
           variant='outlined'
         />
         <TextField
-          defaultValue={client && client.postcode}
+          defaultValue={selectedClient && selectedClient.postcode}
           inputRef={register}
           error={errors['postcode'] ? true : false}
           helperText={errors['postcode'] ? errors['postcode'].message : null}
@@ -134,7 +133,7 @@ const ClientDetailsForm = ({
             <Select
               className={styles.select}
               variant='outlined'
-              defaultValue={getDocumentType(client) || ''}
+              defaultValue={getDocumentType(selectedClient) || ''}
               labelId='demo-customized-select-label'
               error={errors['documentType'] ? true : false}
               inputRef={register}
@@ -149,7 +148,7 @@ const ClientDetailsForm = ({
 
             <TextField
               style={{ marginTop: 0, marginBottom: 0, maxHeight: '56px' }}
-              defaultValue={client && getDocumentNumber(client)}
+              defaultValue={selectedClient && getDocumentNumber(selectedClient)}
               inputRef={register}
               error={errors['documentNum'] ? true : false}
               helperText={
@@ -168,7 +167,7 @@ const ClientDetailsForm = ({
           ) : null}
         </FormControl>
         <TextField
-          defaultValue={client && client.telephone1}
+          defaultValue={selectedClient && selectedClient.telephone1}
           inputRef={register}
           error={errors['telephone1'] ? true : false}
           helperText={
@@ -180,7 +179,7 @@ const ClientDetailsForm = ({
           variant='outlined'
         />
         <TextField
-          defaultValue={client && client.telephone2}
+          defaultValue={selectedClient && selectedClient.telephone2}
           inputRef={register}
           error={errors['telephone2'] ? true : false}
           helperText={
@@ -192,7 +191,7 @@ const ClientDetailsForm = ({
           variant='outlined'
         />
         <TextField
-          defaultValue={client && client.email}
+          defaultValue={selectedClient && selectedClient.email}
           inputRef={register}
           error={errors['email'] ? true : false}
           helperText={errors['email'] ? errors['email'].message : null}

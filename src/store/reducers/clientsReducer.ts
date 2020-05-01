@@ -46,7 +46,9 @@ type Actions =
   | ClientActions.searchById
   | ClientActions.searchByIdOk
   | ClientActions.searchByIdFailed
-  | ClientActions.ResetError;
+  | ClientActions.ResetError
+  | ClientActions.UpdateSelectedClient;
+
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
     case ClientActions.SEARCH_ALL:
@@ -163,6 +165,14 @@ export const reducer = (state = initialState, action: Actions) => {
         loading: false,
         success: false,
         error: ErrorTypes.CLIENT_LOAD,
+      };
+    case ClientActions.UPDATE_SELECTED_CLIENT:
+      const newSelectedClient = state.clients.items.find(
+        item => item.id.toString() === action.payload,
+      );
+      return {
+        ...state,
+        selectedClient: newSelectedClient,
       };
 
     default:

@@ -9,6 +9,7 @@ import {
   searchById,
   resetError,
   resetSuccess,
+  updateSelectedClient,
 } from 'store/actions/clientActions';
 import { connect } from 'react-redux';
 import { ClientState } from 'store/reducers/clientsReducer';
@@ -40,6 +41,7 @@ interface Props {
   searchById: (id: string) => void;
   searchAllInvoices: ({ url: string }) => void;
   searchAllSalesOrders: ({ url: string }) => void;
+  updateClient: (id) => void;
   resetError: () => void;
   resetSuccess: () => void;
 }
@@ -81,6 +83,7 @@ export const ClientInfo = ({
   salesOrderState,
   resetError,
   resetSuccess,
+  updateClient,
 }: Props) => {
   const [tab, setTab] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -100,8 +103,10 @@ export const ClientInfo = ({
           title: 'Success!',
           text: `Client updated correctly`,
         }),
-      );
-      resetSuccess();
+      ).then(() => {
+        resetSuccess();
+        window.location.reload();
+      });
     }
   }, [clientState.success, resetSuccess]);
 
@@ -197,7 +202,9 @@ export const ClientInfo = ({
                       open={showModal}
                       closeModal={() => setShowModal(false)}
                     >
-                      <ClientDetailsForm selectedClient={clientId} />
+                      <ClientDetailsForm
+                        selectedClient={clientState.selectedClient}
+                      />
                     </SimpleModal>
                   )}
                 </>
@@ -252,6 +259,7 @@ const mapDispatchToProps = dispatch => {
     searchAllSalesOrders: name => dispatch(searchAllSalesOrders(name)),
     resetError: () => dispatch(resetError()),
     resetSuccess: () => dispatch(resetSuccess()),
+    updateClient: id => dispatch(updateSelectedClient(id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ClientInfo);
