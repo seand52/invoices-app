@@ -268,7 +268,6 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
   };
 
   const isSelected = (id: string) => selected.indexOf(id) !== -1;
-  console.log(tableHeader);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -368,7 +367,6 @@ function OverviewTable<T extends TableOptions, P extends TableHeadOptions>({
                           </TableCell>
                         );
                       }
-                      console.log('item is link', item);
                       return (
                         <TableCell key={item.id} padding='none' align='left'>
                           {item.currency ? (

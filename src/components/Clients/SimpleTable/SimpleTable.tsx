@@ -146,9 +146,7 @@ export default function SimpleTable({
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    console.log('hola');
-  };
+  ) => {};
 
   const handleAction = (e, id) => {
     const action = e.target.value;

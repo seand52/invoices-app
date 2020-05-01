@@ -18,7 +18,6 @@ type RadarChartProps = {
 };
 
 const RadarChartComponent = ({ data }: RadarChartProps) => {
-  console.log(data);
   if (!data.length) {
     return <h2>No data was found for this client yet</h2>;
   }

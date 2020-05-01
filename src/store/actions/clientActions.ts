@@ -27,6 +27,7 @@ export const SEARCH_BY_ID_OK = 'CLIENTS::SEARCH_BY_ID_OK';
 export const SEARCH_BY_ID_FAILED = 'CLIENTS::SEARCH_BY_ID_FAILED';
 
 export const UPDATE_SELECTED_CLIENT = 'CLIENTS::UPDATE_SELECTED_CLIENT';
+export const RESET_DASHBOARD = 'RESET_DASHBOARD';
 
 export interface SearchAll {
   type: typeof SEARCH_ALL;
@@ -229,4 +230,12 @@ export interface UpdateSelectedClient {
 export const updateSelectedClient = (id: string) => ({
   type: UPDATE_SELECTED_CLIENT,
   payload: id,
+});
+
+export interface ResetDashboard {
+  type: typeof RESET_DASHBOARD;
+}
+
+export const resetDashboard = () => ({
+  type: RESET_DASHBOARD,
 });

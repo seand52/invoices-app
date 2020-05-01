@@ -10,12 +10,9 @@ export default function SpendData({ barChartData }: Props) {
   const [year, setSelectedYear] = useState('TOTAL');
   const years = Object.keys(barChartData).map(key => key);
   const noSales = Object.keys(barChartData).length <= 1;
-  console.log(barChartData);
   if (noSales) {
     return <h2>There is no data for this client yet</h2>;
   }
-  console.log(barChartData);
-  console.log(year);
   return (
     <div>
       <ButtonGroup size='large' color='primary' aria-label='Spend data years'>

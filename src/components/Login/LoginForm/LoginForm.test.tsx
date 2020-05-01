@@ -30,7 +30,6 @@ test('should call onSubmit with correct data', async () => {
   const password = container.querySelector('input[name="password"]');
   const form = container.querySelector('form');
   const submitBtn = container.querySelector('button');
-  console.log(submitBtn);
   if (username && password) {
     username.value = 'newguy';
     password.value = 'aaaaaa';
