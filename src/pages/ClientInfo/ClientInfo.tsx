@@ -10,6 +10,7 @@ import {
   resetError,
   resetSuccess,
   updateSelectedClient,
+  resetDashboard,
 } from 'store/actions/clientActions';
 import { connect } from 'react-redux';
 import { ClientState } from 'store/reducers/clientsReducer';
@@ -42,7 +43,7 @@ interface Props {
   searchAllInvoices: ({ url: string }) => void;
   searchAllSalesOrders: ({ url: string }) => void;
   updateClient: (id) => void;
-  resetError: () => void;
+  resetDashboard: () => void;
   resetSuccess: () => void;
 }
 
@@ -81,7 +82,7 @@ export const ClientInfo = ({
   searchAllInvoices,
   searchAllSalesOrders,
   salesOrderState,
-  resetError,
+  resetDashboard,
   resetSuccess,
   updateClient,
 }: Props) => {
@@ -90,7 +91,7 @@ export const ClientInfo = ({
   useEffect(() => {
     searchById(clientId);
     return () => {
-      resetError();
+      resetDashboard();
     };
   }, [clientId, searchById, resetError]);
 
@@ -114,25 +115,25 @@ export const ClientInfo = ({
     setTab(newValue);
     if (newValue === TabsOptions.INVOICES) {
       searchAllInvoices({
-        url: `${process.env.REACT_APP_API_URL}/invoices?page=1&limit=15&clientName=${clientState.selectedClient.name}`,
+        url: `${process.env.REACT_APP_API_URL}/invoices?page=1&limit=15&clientId=${clientState.selectedClient.id}`,
       });
     }
     if (newValue === TabsOptions.SALES_ORDERS) {
       searchAllSalesOrders({
-        url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=15&clientName=${clientState.selectedClient.name}`,
+        url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=15&clientId=${clientState.selectedClient.id}`,
       });
     }
   };
 
   const searchMoreInvoices = page => {
     searchAllInvoices({
-      url: `${process.env.REACT_APP_API_URL}/invoices?page=${page}&limit=15&clientName=${clientState.selectedClient.name}`,
+      url: `${process.env.REACT_APP_API_URL}/invoices?page=${page}&limit=15&clientId=${clientState.selectedClient.id}`,
     });
   };
 
   const searchMoreSalesOrders = page => {
     searchAllInvoices({
-      url: `${process.env.REACT_APP_API_URL}/invoices?page=${page}&limit=15&clientName=${clientState.selectedClient.name}`,
+      url: `${process.env.REACT_APP_API_URL}/invoices?page=${page}&limit=15&clientId=${clientState.selectedClient.id}`,
     });
   };
 
@@ -257,7 +258,7 @@ const mapDispatchToProps = dispatch => {
     searchById: id => dispatch(searchById(id)),
     searchAllInvoices: name => dispatch(searchAll(name)),
     searchAllSalesOrders: name => dispatch(searchAllSalesOrders(name)),
-    resetError: () => dispatch(resetError()),
+    resetDashboard: () => dispatch(resetDashboard()),
     resetSuccess: () => dispatch(resetSuccess()),
     updateClient: id => dispatch(updateSelectedClient(id)),
   };

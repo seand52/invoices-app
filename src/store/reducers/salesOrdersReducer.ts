@@ -1,5 +1,6 @@
 import * as SalesOrderActions from '../actions/SalesOrderActions';
 import * as InvoiceFormActions from '../actions/invoiceFormActions';
+import * as ClientActions from '../actions/clientActions';
 import {
   SalesOrdersPaginated,
   FullSalesOrderDetails,
@@ -51,7 +52,8 @@ type Actions =
   | SalesOrderActions.TransformToInvoice
   | SalesOrderActions.TransformToInvoiceOk
   | SalesOrderActions.TransformToInvoiceFailed
-  | InvoiceFormActions.ClearInvoice;
+  | InvoiceFormActions.ClearInvoice
+  | ClientActions.ResetDashboard;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -205,6 +207,11 @@ export const reducer = (state = initialState, action: Actions) => {
     case InvoiceFormActions.CLEAR_INVOICE:
       return {
         ...initialState,
+      };
+    case ClientActions.RESET_DASHBOARD:
+      return {
+        ...state,
+        salesOrders: {},
       };
 
     default:

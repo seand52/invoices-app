@@ -47,7 +47,8 @@ type Actions =
   | ClientActions.searchByIdOk
   | ClientActions.searchByIdFailed
   | ClientActions.ResetError
-  | ClientActions.UpdateSelectedClient;
+  | ClientActions.UpdateSelectedClient
+  | ClientActions.ResetDashboard;
 
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
@@ -173,6 +174,15 @@ export const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         selectedClient: newSelectedClient,
+      };
+    case ClientActions.RESET_DASHBOARD:
+      return {
+        ...state,
+        formError: null,
+        error: null,
+        selectedClient: {},
+        spendData: {},
+        popularProducts: [],
       };
 
     default:
