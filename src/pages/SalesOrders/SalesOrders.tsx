@@ -21,6 +21,7 @@ import { getInvoiceState } from 'selectors/invoices';
 import { InvoiceState } from 'store/reducers/invoicesReducer';
 import { downloadSalesOrder, downloadInvoice } from 'helpers/makeDownloadLink';
 import { useSetNavigation } from 'hooks/useSetNavigation';
+import { resetDashboard } from 'store/actions/clientActions';
 
 interface Props {
   path: string;
@@ -29,6 +30,7 @@ interface Props {
   deleteSalesOrder: (id: string) => void;
   resetSuccess: () => void;
   transformToInvoice: (id) => void;
+  resetSalesOrders: () => void;
   salesOrderState: SalesOrderState;
   invoiceState: InvoiceState;
 }
@@ -116,6 +118,7 @@ const SalesOrders = ({
   deleteSalesOrder: deleteSalesOrderAction,
   transformToInvoice: transformToInvoiceAction,
   invoiceState,
+  resetSalesOrders,
 }: Props) => {
   useSetNavigation('salesOrders');
   const [localState, localDispatch] = useReducer(reducer, initialState);
@@ -123,6 +126,9 @@ const SalesOrders = ({
     searchAll({
       url: `${process.env.REACT_APP_API_URL}/sales-orders?page=1&limit=15`,
     });
+    return () => {
+      resetSalesOrders();
+    };
   }, []);
 
   useEffect(() => {
@@ -288,6 +294,7 @@ const mapDispatchToProps = dispatch => {
     deleteSalesOrder: id => dispatch(deleteSalesOrder(id)),
     transformToInvoice: id => dispatch(transformToInvoice(id)),
     resetSuccess: () => dispatch(resetSuccess()),
+    resetSalesOrders: () => dispatch(resetDashboard()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SalesOrders);

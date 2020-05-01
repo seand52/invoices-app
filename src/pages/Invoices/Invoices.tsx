@@ -19,6 +19,7 @@ import { navigate } from '@reach/router';
 import { InvoicesPaginated } from 'api/responses/invoices.type';
 import { useSetNavigation } from 'hooks/useSetNavigation';
 import { downloadInvoice } from 'helpers/makeDownloadLink';
+import { resetDashboard } from 'store/actions/clientActions';
 
 interface Props {
   path: string;
@@ -26,6 +27,7 @@ interface Props {
   searchOne: (id) => void;
   deleteInvoice: (id: string) => void;
   resetSuccess: () => void;
+  resetInvoices: () => void;
   invoiceState: InvoiceState;
 }
 
@@ -109,6 +111,7 @@ const Invoices = ({
   invoiceState,
   resetSuccess,
   deleteInvoice: deleteInvoiceAction,
+  resetInvoices,
 }: Props) => {
   useSetNavigation('invoices');
   const [localState, localDispatch] = useReducer(reducer, initialState);
@@ -116,6 +119,9 @@ const Invoices = ({
     searchAll({
       url: `${process.env.REACT_APP_API_URL}/invoices?page=1&limit=15`,
     });
+    return () => {
+      resetInvoices();
+    };
   }, []);
 
   useEffect(() => {
@@ -255,6 +261,7 @@ const mapDispatchToProps = dispatch => {
     searchOne: id => dispatch(searchOne(id)),
     deleteInvoice: id => dispatch(deleteInvoice(id)),
     resetSuccess: () => dispatch(resetSuccess()),
+    resetInvoices: () => dispatch(resetDashboard()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Invoices);
