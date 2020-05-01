@@ -14,6 +14,7 @@ import SalesOrders from 'pages/SalesOrders/SalesOrders';
 import NewSalesOrder from 'components/SalesOrders/NewSalesOrder/NewSalesOrder';
 import EditSalesOrder from 'components/SalesOrders/EditSalesOrder/EditSalesOrder';
 import BusinessInfo from 'pages/BusinessInfo/BusinessInfo';
+import ClientInfo from 'pages/ClientInfo/ClientInfo';
 
 const App: React.FC = () => {
   return (
@@ -39,6 +40,7 @@ const App: React.FC = () => {
         />
 
         <PrivateRoute path='/business-info' component={BusinessInfo} />
+        <PrivateRoute path='/client/:clientId' component={ClientInfo} />
       </Router>
     </div>
   );

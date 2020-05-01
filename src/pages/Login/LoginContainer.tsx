@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import useFormBuilder from 'hooks/useFormBuilder';
 
@@ -6,18 +6,21 @@ import LoginForm from 'components/Login/LoginForm/LoginForm';
 import { ILoginFields } from 'forms/formValidations/authentication';
 
 import styles from './LoginContainer.module.scss';
-import { login } from 'store/actions/userActions';
+import { login, clearError } from 'store/actions/userActions';
 import { connect } from 'react-redux';
 import { getUserState } from 'selectors/userSelectors';
 import { UserState } from 'store/reducers/userReducer';
 import { navigate } from '@reach/router';
+import useClearError from 'hooks/useClearError';
 
 interface Props {
   path: string;
   login: (data: ILoginFields) => void;
+  clearError: () => void;
   user: UserState;
 }
-const LoginContainer = ({ path, login, user }: Props) => {
+const LoginContainer = ({ path, login, user, clearError }: Props) => {
+  useClearError();
   const { register, handleSubmit, errors } = useFormBuilder({
     key: 'loginValidationFields',
   });
@@ -53,6 +56,7 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     login: (data: ILoginFields) => dispatch(login(data)),
+    clearError: () => dispatch(clearError()),
   };
 };
 

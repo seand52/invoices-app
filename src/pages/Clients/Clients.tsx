@@ -44,6 +44,7 @@ export interface HeadCell {
   disablePadding: boolean;
   id: keyof Data;
   label: string;
+  isLink?: boolean;
   numeric: boolean;
 }
 
@@ -53,6 +54,7 @@ const headCells: HeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: 'Name',
+    isLink: true,
   },
   { id: 'email', numeric: false, disablePadding: true, label: 'Email' },
   {
@@ -198,6 +200,16 @@ const Clients = ({
     navigate('sales-order/new');
   };
 
+  const getSelectedClient = () => {
+    if (!localState.selectedClientId) {
+      return undefined;
+    }
+    const selectedClientId = localState.selectedClientId;
+    const client = clientState.clients.items.find(
+      item => item.id.toString() === selectedClientId,
+    );
+    return client;
+  };
   return (
     <div>
       <Layout
@@ -227,7 +239,7 @@ const Clients = ({
         open={localState.showModal}
         closeModal={() => localDispatch({ type: 'TOGGLE_MODAL' })}
       >
-        <ClientDetailsForm selectedClient={localState.selectedClientId} />
+        <ClientDetailsForm selectedClient={getSelectedClient()} />
       </SimpleModal>
     </div>
   );

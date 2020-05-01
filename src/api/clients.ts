@@ -62,3 +62,36 @@ export const searchClientsByName = (name: string): Promise<Client[]> => {
     { auth: true },
   );
 };
+
+export const searchById = (id: string): Promise<Client> => {
+  return request(
+    {
+      method: 'GET',
+      useBaseUrl: true,
+      url: `/clients/${id}`,
+    },
+    { auth: true },
+  );
+};
+
+export const getSpendData = (id: string): Promise<Client> => {
+  return request(
+    {
+      method: 'GET',
+      useBaseUrl: true,
+      url: `/clients/${id}/invoices/spend`,
+    },
+    { auth: true },
+  );
+};
+
+export const getPopularProducts = (id: string): Promise<Client> => {
+  return request(
+    {
+      method: 'GET',
+      useBaseUrl: true,
+      url: `/clients/${id}/products`,
+    },
+    { auth: true },
+  );
+};

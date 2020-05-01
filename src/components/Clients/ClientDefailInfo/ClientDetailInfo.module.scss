@@ -1,0 +1,12 @@
+.details {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+
+  & p {
+    flex: 0 50%;
+    & span {
+      font-weight: bold;
+    }
+  }
+}

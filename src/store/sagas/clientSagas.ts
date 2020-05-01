@@ -55,12 +55,29 @@ function* updateClient({ payload }: any) {
   }
 }
 
+function* getClientById({ payload }: any) {
+  const id = payload;
+  try {
+    const [info, spendData, popularProducts] = yield all([
+      api.searchById(id),
+      api.getSpendData(id),
+      api.getPopularProducts(id),
+    ]);
+    yield put(
+      ClientActions.searchByIdOk({ data: info, spendData, popularProducts }),
+    );
+  } catch (err) {
+    yield put(ClientActions.searchByIdFailed(err.message));
+  }
+}
+
 function* sagas() {
   return all([
     yield takeLatest(ClientActions.SEARCH_ALL, searchClients),
     yield takeLatest(ClientActions.DELETE, deleteClient),
     yield takeLatest(ClientActions.NEW_CLIENT, createClient),
     yield takeLatest(ClientActions.UPDATE_CLIENT, updateClient),
+    yield takeLatest(ClientActions.SEARCH_BY_ID, getClientById),
   ]);
 }
 

@@ -46,6 +46,7 @@ export interface InvoicesHeadCell {
   numeric: boolean;
   nested?: { key: 'client'; property: string }[];
   currency?: boolean;
+  isLink?: boolean;
 }
 
 const headCells: InvoicesHeadCell[] = [
@@ -60,6 +61,7 @@ const headCells: InvoicesHeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: 'Client',
+    isLink: true,
     nested: [{ key: 'client', property: 'name' }],
   },
   {

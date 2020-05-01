@@ -1,10 +1,22 @@
 import * as ClientActions from '../actions/clientActions';
-import { ClientsPaginated } from 'api/responses/clients.type';
+import { ClientsPaginated, Client } from 'api/responses/clients.type';
 import Swal from 'sweetalert2';
 import { alertProp } from 'utils/swal';
+import { ErrorTypes } from 'pages/ClientInfo/ClientInfo';
+import { PopularProducts } from 'components/Charts/RadarChart/RadarChart';
 
+export interface ChartData {
+  name: string;
+  spend: number;
+}
+export interface SpendData {
+  [key: number]: ChartData[];
+}
 export const initialState = {
   clients: {} as ClientsPaginated,
+  selectedClient: {} as Client,
+  spendData: {} as SpendData,
+  popularProducts: [] as PopularProducts,
   loading: false as boolean,
   error: null as string | null,
   formLoading: false as boolean,
@@ -31,7 +43,12 @@ type Actions =
   | ClientActions.UpdateClientOk
   | ClientActions.UpdateClientFailed
   | ClientActions.SearchByName
-  | ClientActions.ResetError;
+  | ClientActions.searchById
+  | ClientActions.searchByIdOk
+  | ClientActions.searchByIdFailed
+  | ClientActions.ResetError
+  | ClientActions.UpdateSelectedClient;
+
 export const reducer = (state = initialState, action: Actions) => {
   switch (action.type) {
     case ClientActions.SEARCH_ALL:
@@ -127,6 +144,35 @@ export const reducer = (state = initialState, action: Actions) => {
       return {
         ...state,
         formError: null,
+        error: null,
+      };
+    case ClientActions.SEARCH_BY_ID:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ClientActions.SEARCH_BY_ID_OK:
+      return {
+        ...state,
+        loading: false,
+        selectedClient: action.payload.clientInfo,
+        spendData: action.payload.spendData,
+        popularProducts: action.payload.popularProducts,
+      };
+    case ClientActions.SEARCH_BY_ID_FAILED:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: ErrorTypes.CLIENT_LOAD,
+      };
+    case ClientActions.UPDATE_SELECTED_CLIENT:
+      const newSelectedClient = state.clients.items.find(
+        item => item.id.toString() === action.payload,
+      );
+      return {
+        ...state,
+        selectedClient: newSelectedClient,
       };
 
     default:
