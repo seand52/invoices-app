@@ -252,7 +252,7 @@ export default function InvoiceDetailsForm({
                       label='Number'
                       defaultValue={row.quantity}
                       className={styles.quantity}
-                      type='number'
+                      type='tel'
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -269,7 +269,7 @@ export default function InvoiceDetailsForm({
                         onSelectCustomProduct('price', e.target.value, row.uuid)
                       }
                       className={styles.quantity}
-                      type='number'
+                      type='tel'
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -291,10 +291,10 @@ export default function InvoiceDetailsForm({
                           // ) / 100,
                         )
                       }
-                      name='discount'
+                      name='tel'
                       label='Disc. %'
                       variant='outlined'
-                      type='number'
+                      type='tel'
                     />
                   </TableCell>
                   <TableCell align='left'>
