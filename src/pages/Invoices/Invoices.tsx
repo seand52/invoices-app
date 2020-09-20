@@ -188,7 +188,7 @@ const Invoices = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/invoices?page=${newPage}&limit=${invoiceState.invoices.rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/invoices?page=${newPage}&limit=${invoiceState.invoices.rowsPerPage}&clientName=${localState.search}`,
     });
   };
 
@@ -201,7 +201,7 @@ const Invoices = ({
         invoiceState.invoices.currentPage > newPageCount
           ? newPageCount
           : invoiceState.invoices.currentPage
-      }&limit=${rowsPerPage}`,
+        }&limit=${rowsPerPage}&clientName=${localState.search}`,
     });
   };
 

@@ -203,7 +203,7 @@ const SalesOrders = ({
 
   const onNextPage = newPage => {
     searchAll({
-      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=${newPage}&limit=${salesOrderState.salesOrders.rowsPerPage}`,
+      url: `${process.env.REACT_APP_API_URL}/sales-orders?page=${newPage}&limit=${salesOrderState.salesOrders.rowsPerPage}&clientName=${localState.search}`,
     });
   };
 
@@ -216,7 +216,7 @@ const SalesOrders = ({
         salesOrderState.salesOrders.currentPage > newPageCount
           ? newPageCount
           : salesOrderState.salesOrders.currentPage
-      }&limit=${rowsPerPage}`,
+        }&limit=${rowsPerPage}&clientName=${localState.search}`,
     });
   };
 
